@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Circle</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .loader {
+            border: 12px solid #f3f3f3; /* Light grey */
+            border-top: 12px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 100px; /* Larger size */
+            height: 100px; /* Larger size */
+            animation: spin 2s linear infinite;
+            position: relative;
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #3498db; /* Blue */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loading-text">Loading</div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            var formData = {{ data | tojson | safe }};
+            // Make an AJAX request to the /get_LLM_response route, passing the data
+            $.ajax({
+                url: '/get_LLM_response',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href = '/review?data=' + encodeURIComponent(JSON.stringify(response));
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr);
+                },
+                complete: function(xhr, status) {
+                    console.log(status);
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
