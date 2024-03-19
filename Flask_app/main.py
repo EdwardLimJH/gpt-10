@@ -8,6 +8,7 @@ from blueprints.send_email.send_email import send_email_bp
 
 
 app = Flask(__name__)
+app.secret_key = "gpt-10_A+For everyone!!"
 app.register_blueprint(index_bp)
 app.register_blueprint(loading_bp)
 app.register_blueprint(review_bp)
