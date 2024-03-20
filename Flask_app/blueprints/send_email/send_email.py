@@ -3,6 +3,24 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+import os
+
+def delete_directory(directory_path):
+    try:
+        # Iterate over all files and subdirectories in the directory
+        for root, dirs, files in os.walk(directory_path, topdown=False):
+            for name in files:
+                # Remove files
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                # Remove subdirectories
+                os.rmdir(os.path.join(root, name))
+        
+        # Remove the top-level directory itself
+        os.rmdir(directory_path)
+        print(f"Directory '{directory_path}' and its contents deleted successfully")
+    except OSError as e:
+        print(f"Error deleting directory '{directory_path}': {e}")
 
 
 send_email_bp = Blueprint('send_email', __name__)
@@ -37,5 +55,7 @@ def send_email():
         smtp.starttls()
         smtp.login(smtp_username, smtp_password)
         smtp.send_message(msg)
+    
+    delete_directory("./temp/") # Not sure if i should put this here
 
     return "Email sent successfully"
