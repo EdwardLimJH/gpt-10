@@ -42,28 +42,6 @@
         <div class="loader"></div>
         <div class="loading-text">Loading</div>
     </div>
-    <script>
-        $(document).ready(function() {
-            var formData = {{ data | tojson | safe }};
-            // Make an AJAX request to the /get_LLM_response route, passing the data
-            $.ajax({
-                url: '/get_LLM_response',
-                type: 'POST',
-                data: JSON.stringify(formData),
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function(response) {
-                    window.location.href = '/review?data=' + encodeURIComponent(JSON.stringify(response));
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr);
-                },
-                complete: function(xhr, status) {
-                    console.log(status);
-                }
-            });
-        });
-    </script>
     
 </body>
 </html>
