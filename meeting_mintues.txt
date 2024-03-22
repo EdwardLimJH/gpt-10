@@ -270,3 +270,1768 @@ Yeah, I can see the.
 
 [Ben_CH] 22:18:59
 I think. Yeah.
+
+[Eugene_YJ] 22:19:00
+Yes, I'm sorry to cut in them. It's like an automated follow-up is possible to just each other participant had their own database.
+
+[Eugene_YJ] 22:19:08
+With the line and the task. Let me just keep depending today, right?
+
+[Ryan_Edward] 22:19:16
+But we need the users to continuously. See whether they have complete.
+
+[Eugene_YJ] 22:19:24
+Yeah. Yes.
+
+[Ryan_Edward] 22:19:25
+Right? Or we just blindly send email. I mean we could do that.
+
+[Eugene_YJ] 22:19:34
+Just, for, one, the, the, the, features.
+
+[Ryan_Edward] 22:19:40
+Yeah.
+
+[Hannah Nga] 22:19:43
+I don't think we, the reminders are spring button.
+
+[Ryan_Edward] 22:19:49
+Actually, when I said the meeting thing to the pro, I think you satisfied with the simple bit. So if we add like the translation, the Sentiment and I feel like that's already like
+
+[Ryan_Edward] 22:20:05
+Okay. Yes.
+
+[Hannah Nga] 22:20:05
+Gwenova
+
+[Ryan_Edward] 22:20:13
+But.
+
+[Jeremy_PH] 22:20:13
+What's the sentiment and then he's for sorry.
+
+[Chan Yi Ru Micole] 22:20:13
+Oh.
+
+[Ryan_Edward] 22:20:16
+So it's to, wait, currently by wrong, it's just to order the different actionable based on the most original on top.
+
+[Jeremy_PH] 22:20:25
+Okay.
+
+[Hannah Nga] 22:20:25
+Priority allocation.
+
+[Jeremy_PH] 22:20:27
+Okay.
+
+[Ryan_Edward] 22:20:31
+No, for the, sentiment analysis is within one user, right?
+
+[Hannah Nga] 22:20:37
+That one doesn't have to be decided right now.
+
+[Ryan_Edward] 22:20:41
+Oh, okay, yes.
+
+[Ryan_Edward] 22:20:46
+So,
+
+[Hannah Nga] 22:20:48
+Does anyone have questions about the? Pipeline.
+
+[Chan Yi Ru Micole] 22:20:56
+No, everything looks good.
+
+[Hannah Nga] 22:20:58
+Okay, we just need to in all of the features. That you just talked about first and then go submit the this weekend.
+
+[Ryan_Edward] 22:21:05
+So.
+
+[Chan Yi Ru Micole] 22:21:05
+Yeah.
+
+[Ryan_Edward] 22:21:08
+Oh, this is correct, right? The confirm features. Are we please?
+
+[Chan Yi Ru Micole] 22:21:09
+Hmm.
+
+[Ben_CH] 22:21:11
+Hmm.
+
+[Hannah Nga] 22:21:16
+The personalized action plan we want to include it.
+
+[Ryan_Edward] 22:21:19
+Yes, Yeah, so how do you, how do I do it?
+
+[Hannah Nga] 22:21:22
+Okay.
+
+[Hannah Nga] 22:21:33
+Do I?
+
+[Ryan_Edward] 22:21:35
+You wanted to do it like
+
+[Ryan_Edward] 22:21:39
+Independent task or like
+
+[Ryan_Edward] 22:21:43
+After one task, then you move another task.
+
+[Ryan_Edward] 22:21:50
+By the output from the personalized to the list, then we show it into the I'll just see the prioritization.
+
+[Ryan_Edward] 22:21:58
+You know, or we treated. Okay.
+
+[Chan Yi Ru Micole] 22:22:02
+Hmm. Oh.
+
+[Jeremy_PH] 22:22:07
+You mean like speak up.
+
+[Hannah Nga] 22:22:08
+That's a good question. Oh, okay, okay, I know I know. Okay, one way we can do it is like in one section of the upward there's a overview of All the tasks and then we can have another prompt like 1 one more problem that ask the ln to extract the the task.
+
+[Hannah Nga] 22:22:37
+And then they just edit through the output. And then for that one.
+
+[Hannah Nga] 22:22:48
+Another query to do the priority application. Yeah. Okay.
+
+[Ryan_Edward] 22:22:52
+We're all sorry, can you? You, you know, VP, I'm trying to do it.
+
+[Jeremy_PH] 22:22:53
+Are they lost?
+
+[Hannah Nga] 22:22:58
+Oh
+
+[Ryan_Edward] 22:22:58
+So after I generate the minutes then we split 2 users. Is it?
+
+[Hannah Nga] 22:23:05
+But what do you mean by January minutes?
+
+[Ryan_Edward] 22:23:08
+Right.
+
+[Ryan_Edward] 22:23:11
+Connie, I just say like, provide a summary of the within minutes. Then what other action of those?
+
+[Ryan_Edward] 22:23:17
+Of the meeting. I just contact both as the meeting meetings. Yeah, but if you want, we can bring this down even more.
+
+[Ryan_Edward] 22:23:26
+So we can. But you don't do individual steps. Right. Step one.
+
+[Hannah Nga] 22:23:30
+Yeah, that's why I would do.
+
+[Ryan_Edward] 22:23:32
+Okay, so
+
+[Ryan_Edward] 22:23:38
+Oh, in one problem or in different
+
+[Hannah Nga] 22:23:43
+Devon can be chain of thought.
+
+[Ryan_Edward] 22:23:45
+Oh, chain off.
+
+[Jeremy_PH] 22:23:48
+In normal. Bye.
+
+[Ryan_Edward] 22:23:51
+Okay. So one.
+
+[Ryan_Edward] 22:23:56
+Let me just.
+
+[Ryan_Edward] 22:24:00
+Once again, adding multiple, but generate.
+
+[Hannah Nga] 22:24:04
+Okay, I think we I know I know Sentiment analysis would come right at the end.
+
+[Ryan_Edward] 22:24:10
+Yes, correct. Channel.
+
+[Hannah Nga] 22:24:14
+Yeah. So, okay, we don't have to decide exactly how it will work. In court yet.
+
+[Ryan_Edward] 22:24:22
+Yeah.
+
+[Hannah Nga] 22:24:23
+Cause that one we can. Like traw in aerodrome breeze. Right now we can just like vaguely draw it out.
+
+[Hannah Nga] 22:24:30
+So if you know what accounts first then then security.
+
+[Ryan_Edward] 22:24:34
+Okay, so general.
+
+[Ryan_Edward] 22:24:38
+Okay.
+
+[Hannah Nga] 22:24:43
+Then the person personalized
+
+[Ryan_Edward] 22:24:45
+Yeah.
+
+[Ben_CH] 22:25:03
+With the each user run sentiment and SS to determine priority.
+
+[Ryan_Edward] 22:25:09
+Yes, I guess.
+
+[Ryan_Edward] 22:25:13
+In third
+
+[Hannah Nga] 22:25:13
+It's just like 4. All of the the action of both and the task list. You just input that again and then ask it to.
+
+[Ryan_Edward] 22:25:25
+Right
+
+[Hannah Nga] 22:25:26
+Yeah, yeah, yeah.
+
+[Ryan_Edward] 22:25:34
+Something like that. Thank you.
+
+[Ryan_Edward] 22:25:44
+Once this wedding.
+
+[Ryan_Edward] 22:25:48
+That's how I still do this.
+
+[Ryan_Edward] 22:26:05
+And actionable.
+
+[Jeremy_PH] 22:26:14
+And also the language translation will be from the start until end, right? Denver.
+
+[Ryan_Edward] 22:26:21
+Yeah, I think.
+
+[Hannah Nga] 22:26:21
+No, language translation will be right in. Like we have the output in English and then if the person doesn't want English, then we just translate the whole thing.
+
+[Jeremy_PH] 22:26:27
+Okay.
+
+[Hannah Nga] 22:26:32
+So is much simpler that way.
+
+[Jeremy_PH] 22:26:36
+That means
+
+[Ryan_Edward] 22:26:37
+After the look flow of all these then
+
+[Ryan_Edward] 22:26:42
+Awesome. There you just go to this bar.
+
+[Hannah Nga] 22:26:42
+And then translate it to Transluor.
+
+[Hannah Nga] 22:26:47
+Because if not, then we will need separate problems for everything, like in different languages. There's a lot more work.
+
+[Chan Yi Ru Micole] 22:26:52
+Hmm.
+
+[Ryan_Edward] 22:26:54
+Yeah.
+
+[Hannah Nga] 22:26:55
+And what API calls.
+
+[Ryan_Edward] 22:26:57
+I mean.
+
+[Hannah Nga] 22:27:01
+Yeah, but is for the, you must be realistic
+
+[Ryan_Edward] 22:27:11
+Thank you.
+
+[Ryan_Edward] 22:27:36
+Something like that. All right.
+
+[Ryan_Edward] 22:27:42
+Or the multiple language experience.
+
+[Hannah Nga] 22:27:54
+Yeah
+
+[Hannah Nga] 22:27:58
+Yeah, that's okay, that's okay.
+
+[Ryan_Edward] 22:28:08
+I was thinking I'll just
+
+[Chan Yi Ru Micole] 22:28:09
+What's the arrows at the bottom for? Oh.
+
+[Jeremy_PH] 22:28:12
+I just created 2.
+
+[Ryan_Edward] 22:28:15
+Copy and face, you know.
+
+[Jeremy_PH] 22:28:15
+Okay, 3 thing. Yes, based upon them. Yeah. Oh sorry, I remove.
+
+[Chan Yi Ru Micole] 22:28:20
+Okay.
+
+[Jeremy_PH] 22:28:22
+I remove.
+
+[Ryan_Edward] 22:28:24
+I was thinking just.
+
+[Chan Yi Ru Micole] 22:28:28
+Oh, okay, okay.
+
+[Jeremy_PH] 22:28:53
+The language translation.
+
+[Hannah Nga] 22:28:53
+Okay, that is basically, yeah.
+
+[Ryan_Edward] 22:28:55
+Yeah.
+
+[Jeremy_PH] 22:28:56
+It's only It's only for meeting minutes.
+
+[Hannah Nga] 22:29:01
+Knows for everything. That's why we're doing it at the end.
+
+[Jeremy_PH] 22:29:02
+So everything.
+
+[Jeremy_PH] 22:29:07
+How to do everything.
+
+[Hannah Nga] 22:29:10
+Cause you have the, you basically have. The output that you want is just that is in English. So we just.
+
+[Hannah Nga] 22:29:17
+Ask the LM translate this entire thing into Spanish. Chinese, yeah. Instead of having it.
+
+[Ryan_Edward] 22:29:21
+Chinese. No.
+
+[Jeremy_PH] 22:29:23
+Hmm. Okay.
+
+[Hannah Nga] 22:29:28
+Having our problems in Chinese. Or Like I do another step to make sure that the responses are in Chinese every step.
+
+[Jeremy_PH] 22:29:36
+Yeah.
+
+[Hannah Nga] 22:29:40
+That's too much for.
+
+[Jeremy_PH] 22:29:40
+Hmm, okay, yeah, I think they will. No, the only thing is maybe in my head token, the the input a lot.
+
+[Jeremy_PH] 22:29:48
+Everything together but we can try because yeah you.
+
+[Hannah Nga] 22:29:52
+No, like you will, it won't hit the token in me because This would be like a separate API call.
+
+[Jeremy_PH] 22:29:56
+Okay.
+
+[Hannah Nga] 22:30:00
+And it would and the input would The input number of tokens would be the almost the same as the the outputs of the the previous few calls.
+
+[Hannah Nga] 22:30:16
+For for one person for Emerson.
+
+[Ryan_Edward] 22:30:23
+Okay, We do ship part of things.
+
+[Chan Yi Ru Micole] 22:30:29
+Yeah.
+
+[Ryan_Edward] 22:30:32
+Yeah, if the thing is okay, then we can. Release that.
+
+[Chan Yi Ru Micole] 22:30:35
+Okay.
+
+[Hannah Nga] 22:30:39
+Are there any more questions?
+
+[Ryan_Edward] 22:30:45
+So we sticking to the just send in Laura, no need to do the checkbook.
+
+[Chan Yi Ru Micole] 22:30:56
+Yeah, I think it's fine.
+
+[Ryan_Edward] 22:30:57
+Okay, Ken.
+
+[Ryan_Edward] 22:31:14
+Nothing.
+
+[Hannah Nga] 22:31:25
+Okay, can we do the, bottle distribution now?
+
+[Chan Yi Ru Micole] 22:31:29
+Hmm.
+
+[Ryan_Edward] 22:31:30
+Well, that's
+
+[Ryan_Edward] 22:31:49
+And
+
+[Ryan_Edward] 22:32:02
+Yeah, so there are a few rules that, Hannah has proposed. So.
+
+[Ryan_Edward] 22:32:07
+Oh, there's from engineers. Then, deploying the application on We And front end, and the end.
+
+[Ryan_Edward] 22:32:20
+Is there anything that, let me stop?
+
+[Ryan_Edward] 22:32:25
+And.
+
+[Chan Yi Ru Micole] 22:32:26
+I don't think so. I think it's fine, but maybe we want to decide on like the distribution of everything.
+
+[Ryan_Edward] 22:32:34
+Yeah, so how many? How many packs for each?
+
+[Chan Yi Ru Micole] 22:32:34
+Nice.
+
+[Chan Yi Ru Micole] 22:32:39
+Yeah.
+
+[Ben_CH] 22:32:40
+We need to, might take up. I don't know.
+
+[Chan Yi Ru Micole] 22:32:49
+Yeah. Like the sentiment analysis, all these is like kind of separate. From yeah maybe we can get 2 people or even 3.
+
+[Ben_CH] 22:32:50
+I think back.
+
+[Ben_CH] 22:32:57
+Yeah, it's another ticket engineering.
+
+[Eugene_YJ] 22:33:06
+I mean, it makes sense for we building multiple rules also.
+
+[Hannah Nga] 22:33:08
+Yeah, that's okay too. Because I think the deployment stuff is just a one-time thing, right?
+
+[Chan Yi Ru Micole] 22:33:10
+Hmm.
+
+[Chan Yi Ru Micole] 22:33:15
+Hmm.
+
+[Ryan_Edward] 22:33:15
+Yeah.
+
+[Ryan_Edward] 22:33:20
+I don't mind taking multiple schools. I want to pasta finish this then can do the buttons.
+
+[Hannah Nga] 22:33:25
+Yeah, me too. I think. I can contribute on most of the from engineering because I have experience in like the summarization for.
+
+[Hannah Nga] 22:33:37
+For this time off. I mean for for this use case.
+
+[Chan Yi Ru Micole] 22:33:42
+Okay.
+
+[Ryan_Edward] 22:33:45
+Okay, that's how we've still deployed. But. I tried for DSA 3 1 1.
+
+[Eugene_YJ] 22:33:45
+Well.
+
+[Ryan_Edward] 22:33:52
+I managed to doctorize my app. And upload. We, EC 2 instance, but I couldn't.
+
+[Ryan_Edward] 22:33:59
+Connect with IP address of the local host.
+
+[Ryan_Edward] 22:34:03
+So I So, Sorry, that was it.
+
+[Chan Yi Ru Micole] 22:34:04
+One
+
+[Ryan_Edward] 22:34:11
+Yeah. Does anyone want to do funding?
+
+[Eugene_YJ] 22:34:17
+Let me Yeah.
+
+[Chan Yi Ru Micole] 22:34:19
+I don't mind but I think I need to do it somewhere else or so like maybe I do both front end plus back in.
+
+[Ryan_Edward] 22:34:19
+Oh.
+
+[Eugene_YJ] 22:34:27
+No.
+
+[Chan Yi Ru Micole] 22:34:30
+Not really, but my front end experience was me like the very basic one like So, I think.
+
+[Eugene_YJ] 22:34:39
+Can I don't. I want try to do something different, but if no one else can do finance, I'll do that.
+
+[Chan Yi Ru Micole] 22:34:39
+You know.
+
+[Ryan_Edward] 22:34:39
+Alright.
+
+[Ben_CH] 22:34:48
+What does that?
+
+[Eugene_YJ] 22:34:51
+Make sure you have to do the whole.
+
+[Ben_CH] 22:34:54
+Wow.
+
+[Hannah Nga] 22:34:56
+That one we, we still don't really know because, when I I think we're not that good at front end, so I think we can just do the minimum.
+
+[Hannah Nga] 22:35:07
+Like. Oh website where you just input the code file, I mean, the transcript. Audio files and then or the emails and language preferences.
+
+[Eugene_YJ] 22:35:07
+It was just.
+
+[Hannah Nga] 22:35:19
+You just hit a button and then.
+
+[Chan Yi Ru Micole] 22:35:23
+Oh, okay, then the one I think can maybe like something like a dash app or something like super simple one.
+
+[Ryan_Edward] 22:35:29
+Yeah, simple candy.
+
+[Hannah Nga] 22:35:30
+Yeah, it can it can be simple as long as it looks good enough that someone that that doesn't know how it works will be impressed.
+
+[Chan Yi Ru Micole] 22:35:30
+Yeah.
+
+[Chan Yi Ru Micole] 22:35:39
+Okay, but my friend, IS, like basic of the basic, like, a website, but it's functional.
+
+[Ryan_Edward] 22:35:45
+It's okay. Thank you. I think the
+
+[Ben_CH] 22:35:47
+Okay.
+
+[Hannah Nga] 22:35:48
+I think you can download a template from somewhere on honestly.
+
+[Chan Yi Ru Micole] 22:35:49
+Yeah, I can. I can go and figure that out.
+
+[Ryan_Edward] 22:35:54
+Apart from so got recommend his hips to all ways But it's, Okay, no fun.
+
+[Hannah Nga] 22:35:54
+Okay.
+
+[Chan Yi Ru Micole] 22:35:58
+Oh yeah, yeah, yeah.
+
+[Chan Yi Ru Micole] 22:36:02
+Can, okay, I'll go and figure that out. If someone can.
+
+[Eugene_YJ] 22:36:04
+So, What, I'm, using.
+
+[Ryan_Edward] 22:36:06
+Oh
+
+[Chan Yi Ru Micole] 22:36:09
+What was it again? That he's too white with?
+
+[Eugene_YJ] 22:36:09
+Okay.
+
+[Ryan_Edward] 22:36:12
+WAVE W.
+
+[Eugene_YJ] 22:36:14
+Okay
+
+[Chan Yi Ru Micole] 22:36:14
+Okay, I go in such.
+
+[Ryan_Edward] 22:36:16
+Oh, it's not we can just use that. Dashlas and Bolan.
+
+[Eugene_YJ] 22:36:21
+I mean.
+
+[Chan Yi Ru Micole] 22:36:21
+Okay. And sure.
+
+[Ryan_Edward] 22:36:23
+Yeah, it's easier for you.
+
+[Chan Yi Ru Micole] 22:36:26
+Wait, I thought Ping out did front end, for 3 1 one. Sorry, what's his name now?
+
+[Hannah Nga] 22:36:33
+Yeah, technically Jeremy and I both did it. But I think you did want to be.
+
+[Ben_CH] 22:36:34
+That means.
+
+[Eugene_YJ] 22:36:34
+Okay.
+
+[Chan Yi Ru Micole] 22:36:38
+Oh.
+
+[Jeremy_PH] 22:36:43
+I, not really interested.
+
+[Ryan_Edward] 22:36:43
+Oh my god, guys. Are we guys?
+
+[Eugene_YJ] 22:36:45
+Yes.
+
+[Ben_CH] 22:36:46
+You're on China, Jeremy.
+
+[Chan Yi Ru Micole] 22:36:49
+You realize you forgot what?
+
+[Ryan_Edward] 22:36:50
+I call the meeting. And I mean, let me record one.
+
+[Chan Yi Ru Micole] 22:36:52
+Oh no!
+
+[Chan Yi Ru Micole] 22:36:55
+We but oh but the captions cannot cannot download
+
+[Hannah Nga] 22:36:56
+Then maybe can all use that.
+
+[Ryan_Edward] 22:36:58
+No, the, the caption, the captions, the separate directions can. Just the audio will stop from
+
+[Chan Yi Ru Micole] 22:37:01
+Okay, the audio, oh no. Okay, but I'm sure we'll be having a lot of meetings so We can.
+
+[Hannah Nga] 22:37:04
+Are you?
+
+[Ryan_Edward] 22:37:05
+Sorry, guys.
+
+[Ryan_Edward] 22:37:10
+Yeah, we can.
+
+[Chan Yi Ru Micole] 22:37:11
+I mean, with the DSA 4 2 6 years, so we can go and ask them if we can record their meetings also.
+
+[Hannah Nga] 22:37:15
+Oh yeah.
+
+[Chan Yi Ru Micole] 22:37:16
+I mean, our own groups meetings for this.
+
+[Hannah Nga] 22:37:19
+Yeah, yeah, we can.
+
+[Ryan_Edward] 22:37:20
+Good.
+
+[Jeremy_PH] 22:37:26
+Which part is the sentiment another season?
+
+[Ben_CH] 22:37:30
+Let's see that.
+
+[Hannah Nga] 22:37:31
+Prom. Huh?
+
+[Chan Yi Ru Micole] 22:37:31
+Okay, and I always prom.
+
+[Jeremy_PH] 22:37:32
+What?
+
+[Ryan_Edward] 22:37:34
+Hannah, you were thinking of using prom to do that right instead of.
+
+[Hannah Nga] 22:37:38
+I was thinking I was a, but if you want to use a Another NLP model, they can also, but I feel like What's the point?
+
+[Ryan_Edward] 22:37:48
+Yeah, so essentially our whole pipeline will just be using So everything, so, in these 3 boxes, it will be done.
+
+[Chan Yi Ru Micole] 22:37:49
+Oh, cool.
+
+[Jeremy_PH] 22:37:54
+Okay.
+
+[Ryan_Edward] 22:37:59
+But she's using different problems.
+
+[Chan Yi Ru Micole] 22:38:01
+I see, okay.
+
+[Ryan_Edward] 22:38:02
+So first one will be like, and please generate a summary of the meeting and actual voice of the meeting.
+
+[Jeremy_PH] 22:38:03
+Okay.
+
+[Ryan_Edward] 22:38:08
+Second one will be please speak the meeting. This is actually, into for each user. The last one is please ring.
+
+[Chan Yi Ru Micole] 22:38:08
+Hmm.
+
+[Ryan_Edward] 22:38:17
+This on urgency or something.
+
+[Chan Yi Ru Micole] 22:38:20
+Hmm. Hey, you stop the meeting, the recording.
+
+[Ryan_Edward] 22:38:22
+Oh shit.
+
+[Ryan_Edward] 22:38:26
+I can't got no space.
+
+[Chan Yi Ru Micole] 22:38:27
+Oh no.
+
+[Eugene_YJ] 22:38:28
+Oh, no.
+
+[Jeremy_PH] 22:38:28
+Oh.
+
+[Ryan_Edward] 22:38:29
+Good. You want to wake up to the end.
+
+[Ben_CH] 22:38:30
+Cloud, I think.
+
+[Eugene_YJ] 22:38:35
+Hey, you want me to do it?
+
+[Ben_CH] 22:38:36
+Yeah.
+
+[Eugene_YJ] 22:38:39
+I can do it from here.
+
+[Ryan_Edward] 22:38:40
+Oh, okay, okay. I'll just let have our call. Let's see.
+
+[Hannah Nga] 22:38:46
+My combat space or should be okay.
+
+[Ryan_Edward] 22:38:48
+Thank you.
+
+[Jeremy_PH] 22:38:51
+Yeah, I interested in. 10, and, and, But fun and. Bye, funny and I know very Thailand but in finance I got use a very basic stream.
+
+[Jeremy_PH] 22:39:06
+Yes, Ola.
+
+[Chan Yi Ru Micole] 22:39:10
+Okay, I think it is the simple one I can do it for the front end.
+
+[Ryan_Edward] 22:39:10
+Okay.
+
+[Ryan_Edward] 22:39:14
+I can do with my call so like no one else interest.
+
+[Chan Yi Ru Micole] 22:39:18
+If I need help, then I ask that. Should be 5. Okay, Ken, I just help.
+
+[Eugene_YJ] 22:39:23
+If you.
+
+[Ryan_Edward] 22:39:23
+Yeah. Okay.
+
+[Eugene_YJ] 22:39:26
+It's.
+
+[Chan Yi Ru Micole] 22:39:30
+I can, I don't mind helping for the sentiment unless this language power. So I hope I never used I never tried the prom stuff.
+
+[Chan Yi Ru Micole] 22:39:37
+I don't mind learning from you.
+
+[Hannah Nga] 22:39:38
+Oh yeah, sure. I think every step you should like meet up just to share with everybody else what we did and how we did it.
+
+[Chan Yi Ru Micole] 22:39:42
+Hmm.
+
+[Chan Yi Ru Micole] 22:39:50
+Yes, okay.
+
+[Ryan_Edward] 22:39:57
+Okay. For the band but I can create whichever you classify that, packaging it to.
+
+[Hannah Nga] 22:40:08
+Does that consider back in?
+
+[Hannah Nga] 22:40:14
+Oh, okay. Okay, yeah, yes, thank you.
+
+[Chan Yi Ru Micole] 22:40:16
+Yeah.
+
+[Ryan_Edward] 22:40:18
+Yeah, then maybe, just. It goes working on no front end, right? Hello.
+
+[Hannah Nga] 22:40:26
+Okay, baby. Let's write this down. Who is doing bad? So.
+
+[Chan Yi Ru Micole] 22:40:26
+Hmm.
+
+[Hannah Nga] 22:40:35
+Oh, Pinghau didn't answer the, the poll.
+
+[Jeremy_PH] 22:40:38
+Oh, I did. I just need from engineer.
+
+[Hannah Nga] 22:40:43
+Oh, okay, okay.
+
+[Jeremy_PH] 22:40:44
+But I don't mind, and also I seen like I can try to help even though I also No, great.
+
+[Ryan_Edward] 22:40:50
+I just.
+
+[Chan Yi Ru Micole] 22:41:04
+Oh, also like side note, like I tried to run the H 20 rack playground thing and the data the document injection for me only took like 4 min
+
+[Hannah Nga] 22:41:14
+Yeah, it's fixed now. Yes, yes, yes, it, it was for me. I think they changed their app a lot.
+
+[Ryan_Edward] 22:41:15
+It speaks all right.
+
+[Chan Yi Ru Micole] 22:41:15
+Oh.
+
+[Chan Yi Ru Micole] 22:41:19
+Yeah, yeah, it works like the whole thing works.
+
+[Ryan_Edward] 22:41:19
+Guys.
+
+[Hannah Nga] 22:41:22
+Like overnight they changed overnight.
+
+[Ryan_Edward] 22:41:24
+Guys, let me complete the project now. Can we complete the project now? Please. Please, it to 2 h and he wants to load the gas.
+
+[Chan Yi Ru Micole] 22:41:24
+Oh my god, it's, it's, it's no good.
+
+[Hannah Nga] 22:41:29
+We could.
+
+[Chan Yi Ru Micole] 22:41:31
+Yeah.
+
+[Hannah Nga] 22:41:34
+Yeah, no, like overnight it didn't yeah Do hours.
+
+[Chan Yi Ru Micole] 22:41:35
+Oh my gosh.
+
+[Ryan_Edward] 22:41:35
+And, at, 4, 6, GC, washed up. Cool.
+
+[Chan Yi Ru Micole] 22:41:38
+Sheep, I tried it out. I knew it was like I was like, wow, this, so efficient.
+
+[Ryan_Edward] 22:41:40
+Yeah.
+
+[Chan Yi Ru Micole] 22:41:43
+They're not into their outlook then like the email come out like all the meeting is like, are we done?
+
+[Ryan_Edward] 22:41:48
+Yeah
+
+[Ben_CH] 22:41:49
+Yeah, for the input data that is video audio and Thanks.
+
+[Ryan_Edward] 22:41:54
+Video can I think you say text. And uncle audio can.
+
+[Ben_CH] 22:41:57
+Excellent. Excellent audio.
+
+[Ryan_Edward] 22:42:01
+Yeah.
+
+[Ryan_Edward] 22:42:05
+I think Transcripts.
+
+[Ryan_Edward] 22:42:10
+Yeah, audio will be a plus. So. Think he's not expecting much.
+
+[Chan Yi Ru Micole] 22:42:13
+Hmm.
+
+[Chan Yi Ru Micole] 22:42:19
+Okay.
+
+[Ryan_Edward] 22:42:28
+Essentially, B is from engineering law. And.
+
+[Hannah Nga] 22:42:33
+Noah, it's not primary, it's different. So, pre and post processing.
+
+[Ben_CH] 22:42:35
+In the
+
+[Ryan_Edward] 22:42:42
+Good. Okay, okay.
+
+[Hannah Nga] 22:42:44
+Yeah. And. Or the It is, if it's necessary. And like.
+
+[Ben_CH] 22:42:48
+One
+
+[Ryan_Edward] 22:42:50
+Chunking is automatic. Okay, yeah, and all the
+
+[Ryan_Edward] 22:42:58
+The stopboards, the feeder words. Yeah.
+
+[Hannah Nga] 22:42:58
+Creating the overall pipeline like you know. No problem engineer is just talking with the L and DC.
+
+[Ryan_Edward] 22:43:06
+Okay, okay. No need
+
+[Ben_CH] 22:43:07
+Do we need to evaluate? Oh yeah, okay.
+
+[Hannah Nga] 22:43:09
+No.
+
+[Ryan_Edward] 22:43:12
+The model is not. Good. Yes.
+
+[Hannah Nga] 22:43:12
+They are not, greater on accuracy at all.
+
+[Chan Yi Ru Micole] 22:43:16
+Yeah, you see accuracy is not important.
+
+[Ben_CH] 22:43:20
+Right.
+
+[Hannah Nga] 22:43:20
+Which means you can say nonsense, honestly.
+
+[Chan Yi Ru Micole] 22:43:23
+Yeah.
+
+[Ryan_Edward] 22:43:23
+Yes, that's why I have Kenny. You see the meeting, talking about Exxon.
+
+[Chan Yi Ru Micole] 22:43:28
+Is actually okay? Like, like, like it looks okay, but I never go and look at the input at all.
+
+[Ryan_Edward] 22:43:30
+No.
+
+[Chan Yi Ru Micole] 22:43:35
+Is it rubbish? Is it to do with eggs?
+
+[Ryan_Edward] 22:43:37
+I never read the whole meeting.
+
+[Hannah Nga] 22:43:38
+Yes, it's about it's like the science experiment you try to drop the 8 without a breaking.
+
+[Chan Yi Ru Micole] 22:43:43
+Yeah, I was so confused. Okay, but I think I think it's fine. I mean, it's an
+
+[Ryan_Edward] 22:43:46
+Hmm. Yes.
+
+[Ryan_Edward] 22:43:57
+Okay, so, shall we set the Expectations and the next meeting.
+
+[Chan Yi Ru Micole] 22:44:04
+Yes, I what to do by the next meeting.
+
+[Ben_CH] 22:44:05
+Yeah.
+
+[Ryan_Edward] 22:44:10
+Okay, so I think first I will create the, I, I created the, I'll just say, Right, so, Send me all.
+
+[Ryan_Edward] 22:44:23
+Then everyone can start developing.
+
+[Chan Yi Ru Micole] 22:44:25
+I think this part of the meeting recording is quite important. So try to like in and see your words.
+
+[Hannah Nga] 22:44:32
+Yeah.
+
+[Chan Yi Ru Micole] 22:44:33
+I'm looking at the caption.
+
+[Ryan_Edward] 22:44:38
+Okay, so And I go and.
+
+[Hannah Nga] 22:44:38
+Okay, so
+
+[Hannah Nga] 22:44:43
+It will. Everybody do the GitHub.
+
+[Chan Yi Ru Micole] 22:44:51
+Ryan.
+
+[Ryan_Edward] 22:44:51
+Yes, Ryan, where do we?
+
+[Hannah Nga] 22:44:53
+Oh yes, right.
+
+[Hannah Nga] 22:44:59
+Oh, what else?
+
+[Hannah Nga] 22:45:04
+Let me think. Okay, Nicole and
+
+[Chan Yi Ru Micole] 22:45:10
+Eugene.
+
+[Hannah Nga] 22:45:10
+Eugene, yes, can. Test out the Research gate? Is Amazon easy to Yeah, see how I see how it works
+
+[Hannah Nga] 22:45:26
+You can also try to come out with a very basic front and in the face.
+
+[Eugene_YJ] 22:45:31
+The.
+
+[Chan Yi Ru Micole] 22:45:32
+Yes.
+
+[Ryan_Edward] 22:45:32
+Yeah. Hi, I feel like, maybe we can post bought a walking close first to main branch.
+
+[Ryan_Edward] 22:45:42
+Like we have a simple app that's very bad. So that maybe I can test on the deployment.
+
+[Chan Yi Ru Micole] 22:45:47
+Sure.
+
+[Ryan_Edward] 22:45:48
+Then from then on, you're brunch up and then you'll continue the bit development. So.
+
+[Ryan_Edward] 22:45:53
+Your separate fuse.
+
+[Chan Yi Ru Micole] 22:45:57
+Okay, so we were on the bare bones model and try to push it out by the next meeting.
+
+[Ryan_Edward] 22:46:04
+Yep.
+
+[Ryan_Edward] 22:46:08
+So our next meeting, when are you free?
+
+[Chan Yi Ru Micole] 22:46:15
+Next week.
+
+[Eugene_YJ] 22:46:18
+Here you can just pull again on the web, right?
+
+[Ryan_Edward] 22:46:22
+Yeah, we can do that again.
+
+[Chan Yi Ru Micole] 22:46:22
+Yeah.
+
+[Ben_CH] 22:46:27
+Okay.
+
+[Ryan_Edward] 22:46:31
+I don't say I just want get these done as soon as possible.
+
+[Chan Yi Ru Micole] 22:46:52
+Hey.
+
+[Hannah Nga] 22:46:52
+Okay, we can create like a google.so that everyone can. Like, what? But they are doing.
+
+[Hannah Nga] 22:47:03
+Is, does this sound good? Okay.
+
+[Chan Yi Ru Micole] 22:47:07
+Yeah, sure.
+
+[Ben_CH] 22:47:07
+Yeah.
+
+[Hannah Nga] 22:47:09
+Okay.
+
+[Ryan_Edward] 22:47:14
+Yeah, she called once more thing for the Bye. Do you want to like standardize the colors or anything?
+
+[Ryan_Edward] 22:47:23
+Like Papo is phone.
+
+[Chan Yi Ru Micole] 22:47:24
+I didn't understand. Yeah, what the blue and the green men.
+
+[Ryan_Edward] 22:47:30
+So I thought like Green will be like finalized output by I don't know where it's open open for
+
+[Chan Yi Ru Micole] 22:47:34
+Oh, okay. Then maybe we just write on in the legend that is finalized output.
+
+[Ryan_Edward] 22:47:43
+Yeah, I'm not sure that could be. Nice, fork. So then that diamond is diamond is when there's a logic branch.
+
+[Chan Yi Ru Micole] 22:47:55
+Hmm.
+
+[Ryan_Edward] 22:47:57
+But the blue and then the red API and then the We do problem there, I still don't want to color them.
+
+[Chan Yi Ru Micole] 22:48:03
+Hmm.
+
+[Ryan_Edward] 22:48:06
+If anyone got suggestions of That was just make all the So, Yeah, for this for the preliminary outputs what colors should they be?
+
+[Chan Yi Ru Micole] 22:48:08
+I think can just add the green one first because the one is
+
+[Chan Yi Ru Micole] 22:48:13
+Alright.
+
+[Chan Yi Ru Micole] 22:48:24
+Hmm. And you what? Oh.
+
+[Chan Yi Ru Micole] 22:48:33
+As in the preliminary apple is different from the restor is a new category, right? Maybe put it or something.
+
+[Ryan_Edward] 22:48:39
+Yeah. Okay, I will put it as which one are you referring to?
+
+[Chan Yi Ru Micole] 22:48:43
+Hmm.
+
+[Chan Yi Ru Micole] 22:48:56
+The generated meeting, in language preference one shouldn't be a finalized output hall.
+
+[Hannah Nga] 22:49:05
+But why? Why not?
+
+[Chan Yi Ru Micole] 22:49:07
+Right, the multiple 3 green ones like because like the user is not receiving that right away it is Yeah, okay.
+
+[Ryan_Edward] 22:49:16
+They are there. So if they
+
+[Hannah Nga] 22:49:17
+They are there.
+
+[Ryan_Edward] 22:49:28
+For the submission is over in your right we just save this as a We did. I'm not sure Hannah can you advice on this?
+
+[Chan Yi Ru Micole] 22:49:33
+Okay.
+
+[Hannah Nga] 22:49:38
+Oh, which part?
+
+[Ryan_Edward] 22:49:39
+How can we save this and.
+
+[Chan Yi Ru Micole] 22:49:45
+I think he doesn't really care. Our image should be fine. He says send by email, huh?
+
+[Hannah Nga] 22:49:49
+Guy Mish.
+
+[Hannah Nga] 22:49:52
+Yeah, it was just an image. You can, select. But you, yeah, you select the, the diagram and then you.
+
+[Hannah Nga] 22:50:03
+You downloaded some Yeah, yeah, yeah.
+
+[Ryan_Edward] 22:50:04
+Hey, I can download selection.
+
+[Ryan_Edward] 22:50:08
+Yeah, Yeah.
+
+[Ryan_Edward] 22:50:27
+Okay, yeah, yeah, Nothing else for the background. Do you want to meet again to finalize or in terms?
+
+[Ryan_Edward] 22:50:38
+So I'm in what we have.
+
+[Chan Yi Ru Micole] 22:50:42
+I think in some meet what we have.
+
+[Ryan_Edward] 22:50:44
+Okay.
+
+[Jeremy_PH] 22:50:49
+Yup, good.
+
+[Ryan_Edward] 22:50:57
+And now we want to revert some of the things.
+
+[Ryan_Edward] 22:51:01
+I know you'll see you want it to ID.
+
+[Hannah Nga] 22:51:07
+I think this is okay already.
+
+[Ryan_Edward] 22:51:10
+Okay.
+
+[Hannah Nga] 22:51:14
+Oh, on the right side, the generate the meeting minutes. Are we gonna keep, okay, so on on the right side, the generate the meeting minutes.
+
+[Hannah Nga] 22:51:23
+Are we gonna keep it?
+
+[Hannah Nga] 22:51:25
+It is good now.
+
+[Ryan_Edward] 22:51:43
+Yeah, editing.
+
+[Hannah Nga] 22:51:59
+Okay, so anything else?
+
+[Ryan_Edward] 22:52:02
+You can go one round.
+
+[Ryan_Edward] 22:52:05
+And
+
+[Chan Yi Ru Micole] 22:52:05
+Oh, sorry, yeah, let me just check the for the output for the front end. So the input like I will have 3 sections, one for file input, which is audio, PPD or PDF.
+
+[Chan Yi Ru Micole] 22:52:16
+Then after that, like text input, which is select the language and email, then I will output the output section will be meeting minute summary.
+
+[Chan Yi Ru Micole] 22:52:25
+Like your personal.
+
+[Chan Yi Ru Micole] 22:52:28
+All action and all action, Then meeting minute summary or actionable and then Would there be like a check whether they want to?
+
+[Chan Yi Ru Micole] 22:52:40
+1, 2, 2, sentiment analysis, or is it like compulsory? Like you know I mean I when I press run Like does everything come out?
+
+[Ryan_Edward] 22:52:45
+Yeah.
+
+[Ryan_Edward] 22:52:49
+Yeah, I was thinking like for What users will see will be the green portions. So user first, So as a user, he will he will, he will be on a home page, which can upload files.
+
+[Chan Yi Ru Micole] 22:52:55
+Okay. Okay.
+
+[Ryan_Edward] 22:53:04
+And then he must he must click a few languages and input all the users email. After he submit, he will load then the next page will just show all the generated meeting.
+
+[Chan Yi Ru Micole] 22:53:04
+Thanks.
+
+[Chan Yi Ru Micole] 22:53:08
+Hmm. Okay. Okay. Okay.
+
+[Ryan_Edward] 22:53:14
+Then after that for each one they can choose to accept. Then. After that, that if the accept then we can just save and send to.
+
+[Chan Yi Ru Micole] 22:53:18
+Okay
+
+[Chan Yi Ru Micole] 22:53:21
+Okay.
+
+[Chan Yi Ru Micole] 22:53:26
+Okay, can then if okay yes
+
+[Ryan_Edward] 22:53:27
+Does that make sense?
+
+[Jeremy_PH] 22:53:32
+Only the ID is edit wire.
+
+[Chan Yi Ru Micole] 22:53:36
+Manual edit right or like the need to do it again
+
+[Ryan_Edward] 22:53:40
+Yeah, I left. East, honest efforts I was thinking of just He was a, I thought to extend the functionality to ask the RM to regenerate.
+
+[Ryan_Edward] 22:53:53
+Do you want to include that or you want to?
+
+[Ryan_Edward] 22:53:57
+So, this talk.
+
+[Jeremy_PH] 22:54:01
+Is to meet generator to do this.
+
+[Ryan_Edward] 22:54:03
+Regenerate the whole meeting meeting
+
+[Ryan_Edward] 22:54:09
+Oh, maybe we can, we can have the user to indicate which portion. Do you want to edit?
+
+[Ryan_Edward] 22:54:16
+They want the R to regenerate. But that would be a bit more work I guess.
+
+[Chan Yi Ru Micole] 22:54:37
+I think that we can decide a bit later, right? We just try out first.
+
+[Ryan_Edward] 22:54:44
+Hmm. Yeah. The The actual program can deviate a bit from the
+
+[Chan Yi Ru Micole] 22:54:45
+Oh
+
+[Chan Yi Ru Micole] 22:54:49
+Okay. Okay, thanks.
+
+[Ryan_Edward] 22:54:52
+The proposed plan. Yeah.
+
+[Ben_CH] 22:54:52
+Okay.
+
+[Jeremy_PH] 22:54:54
+Okay.
+
+[Chan Yi Ru Micole] 22:54:58
+Okay. Oh
+
+[Ryan_Edward] 22:54:59
+When I asked you was in the context of adding stuff.
+
+[Chan Yi Ru Micole] 22:55:09
+Okay.
+
+[Chan Yi Ru Micole] 22:55:14
+Okay. Yeah.
+
+[Ryan_Edward] 22:55:27
+I okay if I make the create new collection and upload user files to
+
+[Ryan_Edward] 22:55:35
+This pink color then the legend will just be
+
+[Ryan_Edward] 22:55:41
+H to all AI API calls.
+
+[Chan Yi Ru Micole] 22:55:44
+Hmm.
+
+[Chan Yi Ru Micole] 22:55:49
+Thank you.
+
+[Chan Yi Ru Micole] 22:55:59
+Yeah.
+
+[Chan Yi Ru Micole] 22:56:04
+Okay.
+
+[Ryan_Edward] 22:56:09
+Thing is green
+
+[Ryan_Edward] 22:56:46
+Don't. Let's see.
+
+[Jeremy_PH] 22:56:49
+Nice.
+
+[Ryan_Edward] 22:57:14
+I'm, you can.
+
+[Ryan_Edward] 22:57:23
+Actually, if you want, and.
+
+[Ryan_Edward] 22:57:30
+Oh, the other one to rush it.
+
+[Chan Yi Ru Micole] 22:57:38
+I think it looks okay.
+
+[Chan Yi Ru Micole] 22:57:50
+Okay. So then off.
+
+[Ryan_Edward] 22:57:58
+Yeah, I'm looking on.
+
+[Ryan_Edward] 22:58:02
+I'm gonna shift the legend to the last cell.
+
+[Ryan_Edward] 22:58:09
+They are moving.
+
+[Ryan_Edward] 22:58:16
+Is this okay?
+
+[Chan Yi Ru Micole] 22:58:16
+Yes.
+
+[Chan Yi Ru Micole] 22:58:25
+Yeah, again, I think good already.
+
+[Chan Yi Ru Micole] 22:58:28
+Can.
+
+[Ryan_Edward] 22:58:31
+Go on to straighten the lines. And I need help with this.
+
+[Hannah Nga] 22:58:36
+The lines.
+
+[Ryan_Edward] 22:58:37
+So sorry.
+
+[Chan Yi Ru Micole] 22:58:38
+Okay.
+
+[Hannah Nga] 22:58:40
+Okay
+
+[Chan Yi Ru Micole] 22:58:41
+Yeah, Thank you.
+
+[Ryan_Edward] 22:58:45
+Yeah. You cannot have separate lines. You must connect to the same top. You know, so I don't know.
+
+[Hannah Nga] 22:58:45
+Which part is a
+
+[Chan Yi Ru Micole] 22:58:51
+Yeah, Is a cake! Also.
+
+[Ryan_Edward] 22:58:55
+Yeah, I, that's why I just, like, oh, hang on, please help me edit this.
+
+[Chan Yi Ru Micole] 22:59:00
+Yeah. We have!
+
+[Ryan_Edward] 22:59:00
+Oh my god, you did it? Well. Okay Okay.
+
+[Hannah Nga] 22:59:02
+I don't know, I don't know. Zaki, is that good now? We're, we're moving, Okay.
+
+[Chan Yi Ru Micole] 22:59:07
+Can do this one and do this one.
+
+[Chan Yi Ru Micole] 22:59:11
+Okay.
+
+[Hannah Nga] 22:59:16
+Okay.
+
+[Hannah Nga] 22:59:18
+And Okay, we
+
+[Ryan_Edward] 22:59:27
+And is it?
+
+[Chan Yi Ru Micole] 22:59:30
+Yeah.
+
+[Chan Yi Ru Micole] 22:59:37
+Okay. I think it's clear. It's very similar to his simple one.
+
+[Ryan_Edward] 22:59:39
+We put our box for the user so that or is it clear enough?
+
+[Ryan_Edward] 22:59:53
+Yeah.
+
+[Ryan_Edward] 22:59:57
+Alright.
+
+[Chan Yi Ru Micole] 22:59:59
+Okay.
+
+[Hannah Nga] 23:00:04
+10, any other lines need to change?
+
+[Ryan_Edward] 23:00:07
+I'm good. Thank you.
+
+[Hannah Nga] 23:00:08
+Yeah.
+
+[Chan Yi Ru Micole] 23:00:09
+It looks very OCD. Oh, it is on the this user one.
+
+[Hannah Nga] 23:00:14
+I was wrong with it.
+
+[Chan Yi Ru Micole] 23:00:15
+No, it's not straight.
+
+[Hannah Nga] 23:00:17
+No, is that a street?
+
+[Ryan_Edward] 23:00:18
+Okay, okay, cause the user has a, it's a, it's a image I based it from somewhere.
+
+[Chan Yi Ru Micole] 23:00:19
+You say.
+
+[Chan Yi Ru Micole] 23:00:24
+Oh, no, I can just do this.
+
+[Ryan_Edward] 23:00:25
+So that's that's the white background.
+
+[Chan Yi Ru Micole] 23:00:28
+Okay, Yay!
+
+[Hannah Nga] 23:00:29
+Okay, it's straight now. Yeah.
+
+[Chan Yi Ru Micole] 23:00:37
+That's good. Is Ryan sending the image?
+
+[Ryan_Edward] 23:00:42
+Yeah, I can send.
+
+[Ryan_Edward] 23:00:47
+Yes, I will.
+
+[Chan Yi Ru Micole] 23:00:50
+Thank you, Ryan.
+
+[Ryan_Edward] 23:00:51
+That means drop the email.
+
+[Ryan_Edward] 23:01:07
+Well, I can share my screen so we all can check if I missed.
+
+[Ryan_Edward] 23:01:43
+Oh, what?
+
+[Chan Yi Ru Micole] 23:02:11
+Maybe can add, do let us know if there's anything that we can improve on or something.
+
+[Ryan_Edward] 23:02:17
+Yeah.
+
+[Chan Yi Ru Micole] 23:02:37
+Yeah. Okay. Yeah.
+
+[Ryan_Edward] 23:02:37
+So, already looks like that for me. Are you okay?
+
+[Hannah Nga] 23:02:48
+Yes, Ken.
+
+[Chan Yi Ru Micole] 23:03:26
+Was he a screenshot? Just make sure it's clear. Maybe you can, copy the whole thing to Canvas and then like.
+
+[Ryan_Edward] 23:03:28
+You looks like this.
+
+[Ryan_Edward] 23:03:38
+Sorry, This is a PNG.
+
+[Chan Yi Ru Micole] 23:03:40
+Maybe I Because it's a bit blur when you like zoom in. Is it like or is it just a screen?
+
+[Chan Yi Ru Micole] 23:03:47
+Cause the one that, Changhong sent on the
+
+[Chan Yi Ru Micole] 23:03:53
+Wait, I try to just Okay.
+
+[Ryan_Edward] 23:03:54
+Yeah.
+
+[Ben_CH] 23:03:56
+Yeah, at D. 30, that's not a double the one.
+
+[Chan Yi Ru Micole] 23:03:59
+Yes. Yes.
+
+[Ryan_Edward] 23:03:59
+I say yes, a PNG or you can see my share screen. Is it okay?
+
+[Chan Yi Ru Micole] 23:04:03
+Yeah. Now if you zoom in is the words blurry if it's not blurry, okay?
+
+[Ben_CH] 23:04:07
+Okay.
+
+[Chan Yi Ru Micole] 23:04:10
+Yeah, I think And Ken, okay. Thank you.
+
+[Ryan_Edward] 23:04:18
+Okay.
+
+[Chan Yi Ru Micole] 23:04:29
+How many of us? Okay.
+
+[Ryan_Edward] 23:04:34
+Good one. I'm glad.
+
+[Ryan_Edward] 23:04:41
+Good.
+
+[Ryan_Edward] 23:04:47
+Okay.
+
+[Ryan_Edward] 23:04:51
+Oh no, I'll touch.
+
+[Jeremy_PH] 23:04:53
+So, above the high.
+
+[Ben_CH] 23:04:53
+Yeah.
+
+[Ryan_Edward] 23:04:57
+Oh both? I. By dragging that in.
+
+[Ryan_Edward] 23:05:07
+Yes.
+
+[Jeremy_PH] 23:05:11
+Yam.
+
+[Ryan_Edward] 23:05:13
+Okay.
+
+[Ryan_Edward] 23:05:17
+Okay. Okay.
+
+[Ben_CH] 23:05:19
+Okay.
+
+[Jeremy_PH] 23:05:20
+Yes.
+
+[Ryan_Edward] 23:05:24
+Yeah.
+
+[Ryan_Edward] 23:05:29
+Okay.
+
+[Ryan_Edward] 23:05:40
+You know? Alright.
+
+[Jeremy_PH] 23:05:41
+Hmm. Thank you.
+
+[Ben_CH] 23:05:41
+Okay.
+
+[Hannah Nga] 23:05:42
+Yep.
+
+[Chan Yi Ru Micole] 23:05:44
+And thank you everyone. Thank you, Ryan, for sending the email to
+
+[Ben_CH] 23:05:45
+Okay.
+
+[Ryan_Edward] 23:05:49
+Good.
+
+[Chan Yi Ru Micole] 23:05:51
+See.
+
+[Ryan_Edward] 23:05:52
+And
+
+[Chan Yi Ru Micole] 23:05:55
+Yeah, I receive the already.
+
+[Ryan_Edward] 23:05:58
+Okay.
+
+[Ben_CH] 23:06:01
+Hmm. Thank you.
+
+[Ryan_Edward] 23:06:02
+Okay. Nice.
+
+[Chan Yi Ru Micole] 23:06:03
+Yes, thank you. Are we done? Okay, great. See you all.
+
+[Jeremy_PH] 23:06:04
+Okay, okay everybody.
+
+[Hannah Nga] 23:06:06
+Yeah, I think we're done.
+
+[Chan Yi Ru Micole] 23:06:10
+Oh, yeah, we just need to fill in the when to meet.
+
+[Ryan_Edward] 23:06:14
+Yeah, but let don't, let me. Download the transcript. Okay
+
+[Chan Yi Ru Micole] 23:06:14
+Yeah, Okay. Okay. Yeah
+
