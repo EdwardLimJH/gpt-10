@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
 
 const Container = styled.div`
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -16,6 +17,13 @@ const Title = styled.h3`
   margin-bottom: 15px;
   font-size: 24px;
   color: #333;
+`;
+
+const Description = styled.p`
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
 `;
 
 const Input = styled.input`
@@ -64,16 +72,15 @@ function StartScreen() {
       return;
     }
 
-    // Assuming you want to do something with the form data here
-    // For now, just log to the console
     console.log({
       attachment,
       language,
       emailAddresses,
     });
+    navigate('/review', { state: { attachment, language, emailAddresses } });
 
-    // navigate("/next-page", { state: { attachment, language, emailAddresses } });
-  };
+};
+
 
   const handleAttachmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -82,6 +89,18 @@ function StartScreen() {
   };
 
   return (
+    <>
+    <br></br>
+    <Container>
+      
+      <Title>Welcome!</Title>
+      <Description>Our Meeting Assistant is designed to ease post-meeting processes by creating summaries, 
+        identifying action items, and emphasizing crucial discussion points automatically. 
+        This tool is crafted to bolster teamwork and increase efficiency during team sessions or 
+        professional meet-ups. Automatically, it dispatches insightful summaries to all attendees via email.
+        </Description>
+    </Container>
+    <br></br>
     <Container>
       <Title>Meeting Minutes Submission</Title>
       <Input type="file" accept=".ppt,.pptx,.pdf,.txt,.mp3,.wav" onChange={handleAttachmentChange} />
@@ -94,6 +113,7 @@ function StartScreen() {
       <Input type="text" value={emailAddresses} onChange={(e) => setEmailAddresses(e.target.value)} placeholder="e.g., example1@mail.com, example2@mail.com" />
       <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
     </Container>
+    </>
   );
 }
 
