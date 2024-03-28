@@ -93,6 +93,7 @@ def get_LLM_response():
     
     print("Starting chat")
     chat_session_id = h2o_client.create_chat_session(h2o_collection_id)
+    session["chat_session_id"] = chat_session_id
     print("Getting meeting summary")
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, SYSTEM_PROMPT)
     print(meeting_summary_response)
@@ -105,7 +106,20 @@ def get_LLM_response():
     print(email_body)
 
     llm_response = {
-        "english": email_body,
-        "chinese": "会议记录准备好了",
+    "Agenda": "Review progress on the project, discuss roadblocks, and plan next steps.",
+    "Meeting Summary": "The meeting started with Eugene introducing the agenda and asking for confirmation from the attendees. Ryan provided an update on completing the research phase and starting the design proposal. Ben shared that the budget allocation has been finalized and submitted for approval. Micole mentioned a minor issue with software integration but believed it could be resolved with more testing. The discussion then moved to potential roadblocks, with Ryan suggesting consulting a design specialist for guidance. Ben was assigned to schedule a meeting with the design specialist. Micole mentioned no immediate issues impacting the timeline. The action plan for the upcoming week included completing the design proposal by Ryan and confirming the meeting with the design specialist by Ben.",
+    "Actionables": [
+        {
+        "Action": "Complete the design proposal",
+        "Deadline": "Wednesday",
+        "Assigned": "Ryan",
+        "Priority": "Medium"
+        },
+        {
+        "Action": "Confirm the meeting with the design specialist",
+        "Deadline": "Thursday",
+        "Assigned": "Ben",
+        "Priority": "High"
+        }]
     } # Placeholder
     return json.dumps(llm_response)
