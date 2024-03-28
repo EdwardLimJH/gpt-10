@@ -6,6 +6,7 @@ import PaymentOptions from "./Screens/PaymentOptions";
 import QRCode from "./Screens/QRCode";
 import AccountDashbaord from "./Screens/AccountDashboard";
 import Review from "./Screens/Review";
+import Preview from "./Screens/Preview";
 import ShoppingCart from "./Screens/ShoppingCart";
 import CustomerDetails from "./Screens/CustomerDetails";
 import { NUSHeader } from "./Utils/SharedComponents";
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<StartScreen />} />
         <Route path="/review" element={<Review />} />
+        <Route path="/preview" element={<Preview />} />
         <Route path="/account-dashboard" element={<AccountDashbaord />} />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
         <Route path="/payment-options" element={<PaymentOptions />} />
