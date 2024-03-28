@@ -11,21 +11,23 @@ interface ReviewProps {
 // Styled Components
 const PageContainer = styled.div`
   display: flex;
-  background-color: #fff;
+  background-color: #f0f0f0;
   padding: 20px;
-  max-width: 1400px; /* Increase max-width for a larger split-screen layout */
+  max-width: 1500px;
   margin: auto;
 `;
+
 const Section = styled.div`
   margin-bottom: 20px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-
 const Column = styled.div`
   flex: 1;
-  padding: 0 20px;
 `;
 
 
@@ -55,40 +57,42 @@ const EditInput = styled.input`
 `;
 
 const SaveButton = styled.button`
-  background-color: #008CBA; /* Blue */
+  background-color: #007bff;
   color: white;
   padding: 10px 15px;
-  margin: 10px 0;
+  margin-right: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
 
   &:hover {
-    background-color: #007B9A;
+    background-color: #0056b3;
   }
 `;
 
 const CancelButton = styled(SaveButton)`
-  background-color: #f44336; /* Red */
+  background-color: #dc3545;
 
   &:hover {
-    background-color: #d32f2f;
+    background-color: #c82333;
   }
 `;
+
 
 const EmailPreview = styled.div`
   background-color: #fff;
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const PreviewHeader = styled.div`
   background-color: #007bff;
   color: #fff;
-  padding: 10px;
-  border-radius: 4px 4px 0 0;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
   margin-bottom: 20px;
 `;
 
@@ -98,6 +102,7 @@ const PreviewSection = styled.div`
 
 const PreviewLabel = styled.h3`
   margin-bottom: 10px;
+  color: #333;
 `;
 
 const PreviewList = styled.ul`
@@ -107,7 +112,9 @@ const PreviewList = styled.ul`
 
 const PreviewItem = styled.li`
   padding: 5px 0;
+  color: #555;
 `;
+
 
 function Review() {
 
@@ -225,15 +232,18 @@ function Review() {
     <PageContainer>
       <Column style={{ flex: 5 }}>
         <Section>
-            <h1>Review Page</h1>
-         {/* Selected Email Addresses Section */}
-         <Section>
+          <h1>Review Page</h1>
+          
+          {/* Selected Email Addresses Section */}
+          <Section>
             <h2>Selected Email Addresses</h2>
             {editMode.emailAddresses ? (
               <>
                 {renderEditableEmailAddresses()}
-                <SaveButton onClick={() => toggleEdit('emailAddresses')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('emailAddresses')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
+                </div>
               </>
             ) : (
               <>
@@ -242,11 +252,15 @@ function Review() {
                     <ListItem key={index}>{email}</ListItem>
                   ))}
                 </List>
-                <SaveButton onClick={() => toggleEdit('emailAddresses')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('emailAddresses')}>Edit</SaveButton>
+                </div>
               </>
             )}
           </Section>
+          
           {/* Meeting Information Section */}
+          <Section>
             <h2>Meeting Information</h2>
             {editMode.meetingInfo ? (
               <InformationContainer>
@@ -254,8 +268,10 @@ function Review() {
                 {renderEditableField(meetingInformation.venue, (e) => handleMeetingInfoChange(e, 'venue'), 'venue')}
                 {renderEditableField(meetingInformation.duration, (e) => handleMeetingInfoChange(e, 'duration'), 'duration')}
                 {renderEditableField(meetingInformation.requestedBy, (e) => handleMeetingInfoChange(e, 'requestedBy'), 'requestedBy')}
-                <SaveButton onClick={() => toggleEdit('meetingInfo')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('meetingInfo')}>Cancel</CancelButton>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('meetingInfo')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('meetingInfo')}>Cancel</CancelButton>
+                </div>
               </InformationContainer>
             ) : (
               <InformationContainer>
@@ -263,21 +279,25 @@ function Review() {
                 <p>Venue: {meetingInformation.venue}</p>
                 <p>Duration: {meetingInformation.duration}</p>
                 <p>Requested by: {meetingInformation.requestedBy}</p>
-                <SaveButton onClick={() => toggleEdit('meetingInfo')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('meetingInfo')}>Edit</SaveButton>
+                </div>
               </InformationContainer>
             )}
           </Section>
           
           {/* Attendees Section */}
           <Section>
-            <h1>Attendees</h1>
+            <h2>Attendees</h2>
             {editMode.attendees ? (
               <>
                 {attendees.map((attendee, index) => (
                   renderEditableField(attendee, (e) => handleAttendeesChange(index, e.target.value), `attendee-${index}`)
                 ))}
-                <SaveButton onClick={() => toggleEdit('attendees')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('attendees')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
+                </div>
               </>
             ) : (
               <>
@@ -286,96 +306,106 @@ function Review() {
                     <ListItem key={index}>{attendee}</ListItem>
                   ))}
                 </List>
-                <SaveButton onClick={() => toggleEdit('attendees')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('attendees')}>Edit</SaveButton>
+                </div>
               </>
             )}
           </Section>
-      
+          
           {/* Selected Language Section */}
           <Section>
-            <h1>Selected Language</h1>
+            <h2>Selected Language</h2>
             {editMode.language ? (
               <>
                 {renderEditableField(language, handleLanguageChange, 'language')}
-                <SaveButton onClick={() => toggleEdit('language')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('language')}>Cancel</CancelButton>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('language')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('language')}>Cancel</CancelButton>
+                </div>
               </>
             ) : (
               <>
                 <p>{language}</p>
-                <SaveButton onClick={() => toggleEdit('language')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('language')}>Edit</SaveButton>
+                </div>
               </>
             )}
           </Section>
-      
+          
           {/* Meeting Purpose Section (Objective & Desired Outcome) */}
           <Section>
-            <h1>Meeting Purpose</h1>
+            <h2>Meeting Purpose</h2>
             {editMode.meetingPurpose ? (
               <>
                 {agenda.map((item, index) => (
                   renderEditableField(item, (e) => handleAgendaChange(index, e.target.value), `agenda-${index}`)
                 ))}
                 {renderEditableField(desiredOutcome, handleDesiredOutcomeChange, 'desiredOutcome')}
-                <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
+                </div>
               </>
             ) : (
               <>
-                <h2>Objective</h2>
+                <h3>Objective</h3>
                 <List>
                   {agenda.map((item, index) => (
                     <ListItem key={index}>{item}</ListItem>
                   ))}
                 </List>
-                <h2>Desired outcome</h2>
+                <h3>Desired Outcome</h3>
                 <p>{desiredOutcome}</p>
-                <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Edit</SaveButton>
+                </div>
               </>
             )}
           </Section>
-      
+          
           {/* Action Items Section (Deliverables & Assignments) */}
           <Section>
-            <h1>Action Items</h1>
+            <h2>Action Items</h2>
             {editMode.actionItems ? (
               <>
-                <h2>Deliverables</h2>
+                <h3>Deliverables</h3>
                 {deliverables.map((item, index) => (
                   renderEditableField(item, (e) => handleDeliverablesChange(index, e.target.value), `deliverable-${index}`)
                 ))}
-                <h2>Assignments</h2>
+                <h3>Assignments</h3>
                 {assignments.map((item, index) => (
                   renderEditableField(item, (e) => handleAssignmentsChange(index, e.target.value), `assignment-${index}`)
-                  ))}
-                <SaveButton onClick={() => toggleEdit('actionItems')}>Save</SaveButton>
-                <CancelButton onClick={() => toggleEdit('actionItems')}>Cancel</CancelButton>
+                ))}
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <SaveButton onClick={() => toggleEdit('actionItems')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('actionItems')}>Cancel</CancelButton>
+                </div>
               </>
             ) : (
               <>
-                <h2>Deliverables</h2>
+                <h3>Deliverables</h3>
                 <List>
                   {deliverables.map((item, index) => (
-                    <ListItem key={`deliverable-view-${index}`}>{item}</ListItem>
+                    <ListItem key={`deliverable-${index}`}>{item}</ListItem>
                   ))}
                 </List>
-                <h2>Assignments</h2>
+                <h3>Assignments</h3>
                 <List>
                   {assignments.map((item, index) => (
-                    <ListItem key={`assignment-view-${index}`}>{item}</ListItem>
+                    <ListItem key={`assignment-${index}`}>{item}</ListItem>
                   ))}
                 </List>
-                <SaveButton onClick={() => toggleEdit('actionItems')}>Edit</SaveButton>
+                <div style={{ textAlign: 'right' }}>
+                  <SaveButton onClick={() => toggleEdit('actionItems')}>Edit</SaveButton>
+                </div>
               </>
             )}
           </Section>
-          {/* Preview Button */}
-          {/* <Section> */}
-          {/* <Link to="/preview" onClick={handlePreviewClick}>
-            <PreviewButton>Preview</PreviewButton>
-          </Link> */}
-          {/* </Section> */}
-    </Column>
+          
+        </Section>
+      </Column>
     <Column style={{ flex: 5 }}>
     {/* Email Preview Section */}
     <Section>
