@@ -41,8 +41,7 @@ def send_email():
 
     from_email = 'gpt10.4213.1@outlook.com'
     # Assume emails are in session["email_list"]
-    # to_email_list = session.get("email_list", None) # get email list from session, # Ensure not None
-    to_email_list = ['gpt10.4213.1@outlook.com','brandonlim1014@gmail.com'] # Placeholder
+    to_email_list = session.get("email_list") # get email list from session, # Ensure not None
 
     # meeting_date = "5/3/2024"
     # subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
