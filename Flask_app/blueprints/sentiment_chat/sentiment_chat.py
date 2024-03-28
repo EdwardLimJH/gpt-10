@@ -2,7 +2,7 @@ from flask import Blueprint, request, session
 import json
 import os
 from h2ogpte import H2OGPTE
-from blueprints.get_LLM_response.prompts import SYSTEM_PROMPT, generate_sentiment_prompt
+from blueprints.get_LLM_response.prompts import MEETING_SYSTEM_PROMPT, generate_sentiment_prompt
 
 H2O_API_KEY = os.getenv("H2O_API_KEY")  
 
@@ -18,22 +18,36 @@ def rag_chat(client, chat_session_id, main_prompt, system_prompt):
         )
         return answer
 
-def prettify_sentiment_reply(sentiment_reply):
-    # Sentiment_reply is a json string
-    # Extract only json portion of sentiment_reply
-    raw_reply = sentiment_reply
-    first_brace_pos = raw_reply.find("{")
-    last_brace_pos = raw_reply.rfind("}")
-    print(raw_reply[first_brace_pos:last_brace_pos+1])
-    data = json.loads(raw_reply[first_brace_pos:last_brace_pos+1])
-    print(data)
+def extract_json_string(full_string): 
+    """Extracts json-like string from LLM response. Outputs str."""
+
+    start_index = full_string.find('{')  # Find the index of the first '{'
+    end_index = full_string.rfind('}')   # Find the index of the last '}'
+    
+    if start_index != -1 and end_index != -1:
+        return full_string[start_index:end_index + 1]
+    else:
+        return None
+    
+def string_like_JSON_to_txt(json_str):
+    """Input: json-like string
+    output: Email body string"""
+    if json_str is None:
+        return "Invalid JSON format. Cannot parse the response."
+
+    # Parse the extracted JSON string
+    try:
+        data = json.loads(json_str)
+    except json.JSONDecodeError:
+        return "Error parsing JSON data."
+
     # Extract information from the parsed data
     agenda = data.get('Agenda', '')
     meeting_summary = data.get('Meeting Summary', '')
     actionables = data.get('Actionables', [])
 
     # Format the post-meeting email
-    email_subject = f"Post-Meeting Summary: {agenda}" # not sure if this is used later?
+    email_subject = f"Post-Meeting Summary: {agenda}"
     email_body = f"Dear Team,\n\nHere's a summary of our recent meeting:\n\nAgenda: {agenda}\n\nMeeting Summary:\n{meeting_summary}\n\nActionables:\n"
     for action in actionables:
         email_body += f"- {action['Action']} (Assigned to: {action['Assigned']}, Deadline: {action['Deadline']}, Priority: {action['Priority']})\n"
@@ -54,7 +68,7 @@ def sentiment_chat():
     chat_session_id = session["chat_session_id"]
     meeting_summary_response = request.args['message']
     sentiment_prompt = generate_sentiment_prompt(meeting_summary_response)
-    sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, SYSTEM_PROMPT)
+    sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, MEETING_SYSTEM_PROMPT)
     print(sentiment_reply.content)
     # email_body = prettify_sentiment_reply(sentiment_reply.content) #Still need double checking
     email_body = {
