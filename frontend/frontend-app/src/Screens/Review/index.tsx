@@ -78,25 +78,36 @@ const CancelButton = styled(SaveButton)`
 `;
 
 const EmailPreview = styled.div`
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 20px;
   border-radius: 4px;
+  border: 1px solid #ccc;
 `;
 
-// const PreviewButton = styled.button`
-//   background-color: #4CAF50; /* Green */
-//   color: white;
-//   padding: 10px 15px;
-//   margin: 10px 0;
-//   border: none;
-//   border-radius: 4px;
-//   cursor: pointer;
-//   font-size: 16px;
+const PreviewHeader = styled.div`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: 20px;
+`;
 
-//   &:hover {
-//     background-color: #45a049;
-//   }
-// `;
+const PreviewSection = styled.div`
+  margin-bottom: 20px;
+`;
+
+const PreviewLabel = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const PreviewList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const PreviewItem = styled.li`
+  padding: 5px 0;
+`;
 
 function Review() {
 
@@ -365,54 +376,66 @@ function Review() {
           </Link> */}
           {/* </Section> */}
     </Column>
-    <Column style={{ flex: 4 }}>
-      <Section>
-        <h1>Email Preview</h1>
-        <EmailPreview>
-          <h2>To:</h2>
-            <List>
-              {emailAddresses.split(', ').map((email, index) => (
-                <ListItem key={index}>{email}</ListItem>
-              ))}
-            </List>
-          <h2>Meeting Information</h2>
-          <InformationContainer>
-            <p>Date and Time: {meetingInformation.dateAndTime}</p>
-            <p>Venue: {meetingInformation.venue}</p>
-            <p>Duration: {meetingInformation.duration}</p>
-            <p>Requested by: {meetingInformation.requestedBy}</p>
-          </InformationContainer>
-          
-          <h2>Attendees</h2>
-          <List>
-            {attendees.map((attendee, index) => (
-              <ListItem key={index}>{attendee}</ListItem>
-            ))}
-          </List>
-          <h2>Selected Language</h2>
-          <p>{language}</p>
-          <h2>Meeting Purpose</h2>
-          <List>
-            {agenda.map((item, index) => (
-              <ListItem key={index}>{item}</ListItem>
-            ))}
-          </List>
-          <p><strong>Desired Outcome:</strong> {desiredOutcome}</p>
-          <h2>Action Items</h2>
-          <h3>Deliverables</h3>
-          <List>
-            {deliverables.map((item, index) => (
-              <ListItem key={`deliverable-${index}`}>{item}</ListItem>
-            ))}
-          </List>
-          <h3>Assignments</h3>
-          <List>
-            {assignments.map((item, index) => (
-              <ListItem key={`assignment-${index}`}>{item}</ListItem>
-            ))}
-          </List>
-        </EmailPreview>
-      </Section>
+    <Column style={{ flex: 5 }}>
+    {/* Email Preview Section */}
+    <Section>
+          <PreviewHeader>Email Preview</PreviewHeader>
+          <EmailPreview>
+            <PreviewSection>
+              <PreviewLabel>To:</PreviewLabel>
+              <PreviewList>
+                {emailAddresses.split(', ').map((email, index) => (
+                  <PreviewItem key={index}>{email}</PreviewItem>
+                ))}
+              </PreviewList>
+            </PreviewSection>
+            <PreviewSection>
+              <PreviewLabel>Meeting Information:</PreviewLabel>
+              <PreviewList>
+                <PreviewItem>Date and Time: {meetingInformation.dateAndTime}</PreviewItem>
+                <PreviewItem>Venue: {meetingInformation.venue}</PreviewItem>
+                <PreviewItem>Duration: {meetingInformation.duration}</PreviewItem>
+                <PreviewItem>Requested by: {meetingInformation.requestedBy}</PreviewItem>
+              </PreviewList>
+            </PreviewSection>
+            <PreviewSection>
+              <PreviewLabel>Attendees:</PreviewLabel>
+              <PreviewList>
+                {attendees.map((attendee, index) => (
+                  <PreviewItem key={index}>{attendee}</PreviewItem>
+                ))}
+              </PreviewList>
+            </PreviewSection>
+            <PreviewSection>
+              <PreviewLabel>Selected Language:</PreviewLabel>
+              <p>{language}</p>
+            </PreviewSection>
+            <PreviewSection>
+              <PreviewLabel>Meeting Purpose:</PreviewLabel>
+              <PreviewList>
+                {agenda.map((item, index) => (
+                  <PreviewItem key={index}>{item}</PreviewItem>
+                ))}
+              </PreviewList>
+              <p>
+                <strong>Desired Outcome:</strong> {desiredOutcome}
+              </p>
+            </PreviewSection>
+            <PreviewSection>
+              <PreviewLabel>Action Items:</PreviewLabel>
+              <PreviewList>
+                {deliverables.map((item, index) => (
+                  <PreviewItem key={`deliverable-${index}`}>{item}</PreviewItem>
+                ))}
+              </PreviewList>
+              <PreviewList>
+                {assignments.map((item, index) => (
+                  <PreviewItem key={`assignment-${index}`}>{item}</PreviewItem>
+                ))}
+              </PreviewList>
+            </PreviewSection>
+          </EmailPreview>
+        </Section>
       </Column>
     </PageContainer>
   );
