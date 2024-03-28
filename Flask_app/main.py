@@ -8,6 +8,7 @@ from blueprints.send_email.send_email import send_email_bp
 from blueprints.delete_folder.delete_folder import delete_folder_bp
 from blueprints.meeting_chat.meeting_chat import meeting_chat_bp
 from blueprints.sentiment_chat.sentiment_chat import sentiment_chat_bp
+from blueprints.translate.translate import translate_chat_bp
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ app.register_blueprint(send_email_bp)
 app.register_blueprint(delete_folder_bp)
 app.register_blueprint(meeting_chat_bp)
 app.register_blueprint(sentiment_chat_bp)
+app.register_blueprint(translate_chat_bp)
 
 if __name__ == "__main__":
     load_dotenv()

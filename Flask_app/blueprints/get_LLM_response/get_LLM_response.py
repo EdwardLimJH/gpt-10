@@ -37,40 +37,6 @@ def _upload_to_collection(files, collection_id, client):
     print(doc_id_list)
     client.ingest_uploads(collection_id, doc_id_list)
 
-# def rag_chat(client, chat_session_id, main_prompt, system_prompt):
-#     with client.connect(chat_session_id) as session:
-#         answer = session.query(
-#             message=main_prompt,
-#             system_prompt=system_prompt,
-#             rag_config={
-#             "rag_type": "rag", # https://h2oai.github.io/h2ogpte/getting_started.html#advanced-controls-for-document-q-a
-#             },
-#             llm="h2oai/h2ogpt-4096-llama2-70b-chat",
-#         )
-#         return answer
-
-# def prettify_sentiment_reply(sentiment_reply):
-#     # Sentiment_reply is a json string
-#     # Extract only json portion of sentiment_reply
-#     raw_reply = sentiment_reply.content
-#     first_brace_pos = raw_reply.find("{")
-#     last_brace_pos = raw_reply.rfind("}")
-#     print(raw_reply[first_brace_pos:last_brace_pos+1])
-#     data = json.loads(raw_reply[first_brace_pos:last_brace_pos+1])
-#     print(data)
-#     # Extract information from the parsed data
-#     agenda = data.get('Agenda', '')
-#     meeting_summary = data.get('Meeting Summary', '')
-#     actionables = data.get('Actionables', [])
-
-#     # Format the post-meeting email
-#     email_subject = f"Post-Meeting Summary: {agenda}" # not sure if this is used later?
-#     email_body = f"Dear Team,\n\nHere's a summary of our recent meeting:\n\nAgenda: {agenda}\n\nMeeting Summary:\n{meeting_summary}\n\nActionables:\n"
-#     for action in actionables:
-#         email_body += f"- {action['Action']} (Assigned to: {action['Assigned']}, Deadline: {action['Deadline']}, Priority: {action['Priority']})\n"
-
-#     email_body += "\nPlease let me know if anything needs clarification or if there are additional action items to add.\n\nBest regards,\n[Your Name]"
-#     return email_body
 
 get_LLM_response_bp = Blueprint('get_LLM_response', __name__)
 
