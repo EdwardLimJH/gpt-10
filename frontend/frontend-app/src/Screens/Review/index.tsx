@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // Define a TypeScript interface for the component props
 interface ReviewProps {
@@ -10,18 +10,24 @@ interface ReviewProps {
 
 // Styled Components
 const PageContainer = styled.div`
+  display: flex;
   background-color: #fff;
   padding: 20px;
-  max-width: 800px;
+  max-width: 1400px; /* Increase max-width for a larger split-screen layout */
   margin: auto;
 `;
-
 const Section = styled.div`
   margin-bottom: 20px;
   padding: 10px;
   background-color: #f9f9f9;
   border-radius: 4px;
 `;
+
+const Column = styled.div`
+  flex: 1;
+  padding: 0 20px;
+`;
+
 
 const InformationContainer = styled.div`
   background-color: #ff0;
@@ -77,22 +83,23 @@ const EmailPreview = styled.div`
   border-radius: 4px;
 `;
 
-const PreviewButton = styled.button`
-  background-color: #4CAF50; /* Green */
-  color: white;
-  padding: 10px 15px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+// const PreviewButton = styled.button`
+//   background-color: #4CAF50; /* Green */
+//   color: white;
+//   padding: 10px 15px;
+//   margin: 10px 0;
+//   border: none;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   font-size: 16px;
 
-  &:hover {
-    background-color: #45a049;
-  }
-`;
+//   &:hover {
+//     background-color: #45a049;
+//   }
+// `;
 
 function Review() {
+
   const location = useLocation();
   const locationState = location.state as ReviewProps;
 
@@ -167,6 +174,20 @@ function Review() {
     setEmailAddresses(e.target.value);
   };
 
+  // const handlePreviewClick = () => {
+  //   const state = {
+  //     meetingInformation,
+  //     emailAddresses,
+  //     attendees,
+  //     language,
+  //     agenda,
+  //     desiredOutcome,
+  //     deliverables,
+  //     assignments
+  //   };
+  //   localStorage.setItem('previewState', JSON.stringify(state));
+  // };
+
   // Rendering editable email addresses field
   const renderEditableEmailAddresses = () => (
     <EditInput
@@ -185,165 +206,175 @@ function Review() {
       onChange={onChange}
     />
   );
+
+
   
   
   return (
     <PageContainer>
+      <Column style={{ flex: 5 }}>
+        <Section>
+            <h1>Review Page</h1>
+         {/* Selected Email Addresses Section */}
+         <Section>
+            <h2>Selected Email Addresses</h2>
+            {editMode.emailAddresses ? (
+              <>
+                {renderEditableEmailAddresses()}
+                <SaveButton onClick={() => toggleEdit('emailAddresses')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <List>
+                  {emailAddresses.split(', ').map((email, index) => (
+                    <ListItem key={index}>{email}</ListItem>
+                  ))}
+                </List>
+                <SaveButton onClick={() => toggleEdit('emailAddresses')}>Edit</SaveButton>
+              </>
+            )}
+          </Section>
+          {/* Meeting Information Section */}
+            <h2>Meeting Information</h2>
+            {editMode.meetingInfo ? (
+              <InformationContainer>
+                {renderEditableField(meetingInformation.dateAndTime, (e) => handleMeetingInfoChange(e, 'dateAndTime'), 'dateAndTime')}
+                {renderEditableField(meetingInformation.venue, (e) => handleMeetingInfoChange(e, 'venue'), 'venue')}
+                {renderEditableField(meetingInformation.duration, (e) => handleMeetingInfoChange(e, 'duration'), 'duration')}
+                {renderEditableField(meetingInformation.requestedBy, (e) => handleMeetingInfoChange(e, 'requestedBy'), 'requestedBy')}
+                <SaveButton onClick={() => toggleEdit('meetingInfo')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('meetingInfo')}>Cancel</CancelButton>
+              </InformationContainer>
+            ) : (
+              <InformationContainer>
+                <p>Date and Time: {meetingInformation.dateAndTime}</p>
+                <p>Venue: {meetingInformation.venue}</p>
+                <p>Duration: {meetingInformation.duration}</p>
+                <p>Requested by: {meetingInformation.requestedBy}</p>
+                <SaveButton onClick={() => toggleEdit('meetingInfo')}>Edit</SaveButton>
+              </InformationContainer>
+            )}
+          </Section>
+          
+          {/* Attendees Section */}
+          <Section>
+            <h1>Attendees</h1>
+            {editMode.attendees ? (
+              <>
+                {attendees.map((attendee, index) => (
+                  renderEditableField(attendee, (e) => handleAttendeesChange(index, e.target.value), `attendee-${index}`)
+                ))}
+                <SaveButton onClick={() => toggleEdit('attendees')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <List>
+                  {attendees.map((attendee, index) => (
+                    <ListItem key={index}>{attendee}</ListItem>
+                  ))}
+                </List>
+                <SaveButton onClick={() => toggleEdit('attendees')}>Edit</SaveButton>
+              </>
+            )}
+          </Section>
+      
+          {/* Selected Language Section */}
+          <Section>
+            <h1>Selected Language</h1>
+            {editMode.language ? (
+              <>
+                {renderEditableField(language, handleLanguageChange, 'language')}
+                <SaveButton onClick={() => toggleEdit('language')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('language')}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <p>{language}</p>
+                <SaveButton onClick={() => toggleEdit('language')}>Edit</SaveButton>
+              </>
+            )}
+          </Section>
+      
+          {/* Meeting Purpose Section (Objective & Desired Outcome) */}
+          <Section>
+            <h1>Meeting Purpose</h1>
+            {editMode.meetingPurpose ? (
+              <>
+                {agenda.map((item, index) => (
+                  renderEditableField(item, (e) => handleAgendaChange(index, e.target.value), `agenda-${index}`)
+                ))}
+                {renderEditableField(desiredOutcome, handleDesiredOutcomeChange, 'desiredOutcome')}
+                <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <h2>Objective</h2>
+                <List>
+                  {agenda.map((item, index) => (
+                    <ListItem key={index}>{item}</ListItem>
+                  ))}
+                </List>
+                <h2>Desired outcome</h2>
+                <p>{desiredOutcome}</p>
+                <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Edit</SaveButton>
+              </>
+            )}
+          </Section>
+      
+          {/* Action Items Section (Deliverables & Assignments) */}
+          <Section>
+            <h1>Action Items</h1>
+            {editMode.actionItems ? (
+              <>
+                <h2>Deliverables</h2>
+                {deliverables.map((item, index) => (
+                  renderEditableField(item, (e) => handleDeliverablesChange(index, e.target.value), `deliverable-${index}`)
+                ))}
+                <h2>Assignments</h2>
+                {assignments.map((item, index) => (
+                  renderEditableField(item, (e) => handleAssignmentsChange(index, e.target.value), `assignment-${index}`)
+                  ))}
+                <SaveButton onClick={() => toggleEdit('actionItems')}>Save</SaveButton>
+                <CancelButton onClick={() => toggleEdit('actionItems')}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <h2>Deliverables</h2>
+                <List>
+                  {deliverables.map((item, index) => (
+                    <ListItem key={`deliverable-view-${index}`}>{item}</ListItem>
+                  ))}
+                </List>
+                <h2>Assignments</h2>
+                <List>
+                  {assignments.map((item, index) => (
+                    <ListItem key={`assignment-view-${index}`}>{item}</ListItem>
+                  ))}
+                </List>
+                <SaveButton onClick={() => toggleEdit('actionItems')}>Edit</SaveButton>
+              </>
+            )}
+          </Section>
+          {/* Preview Button */}
+          {/* <Section> */}
+          {/* <Link to="/preview" onClick={handlePreviewClick}>
+            <PreviewButton>Preview</PreviewButton>
+          </Link> */}
+          {/* </Section> */}
+    </Column>
+    <Column style={{ flex: 4 }}>
       <Section>
-        <h1>Review Page</h1>
-      </Section>
-      {/* Meeting Information Section */}
-      <Section>
-        <h1>Meeting Information</h1>
-        {editMode.meetingInfo ? (
-          <InformationContainer>
-            {renderEditableField(meetingInformation.dateAndTime, (e) => handleMeetingInfoChange(e, 'dateAndTime'), 'dateAndTime')}
-            {renderEditableField(meetingInformation.venue, (e) => handleMeetingInfoChange(e, 'venue'), 'venue')}
-            {renderEditableField(meetingInformation.duration, (e) => handleMeetingInfoChange(e, 'duration'), 'duration')}
-            {renderEditableField(meetingInformation.requestedBy, (e) => handleMeetingInfoChange(e, 'requestedBy'), 'requestedBy')}
-            <SaveButton onClick={() => toggleEdit('meetingInfo')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('meetingInfo')}>Cancel</CancelButton>
-          </InformationContainer>
-        ) : (
-          <InformationContainer>
-            <p>Date and Time: {meetingInformation.dateAndTime}</p>
-            <p>Venue: {meetingInformation.venue}</p>
-            <p>Duration: {meetingInformation.duration}</p>
-            <p>Requested by: {meetingInformation.requestedBy}</p>
-            <SaveButton onClick={() => toggleEdit('meetingInfo')}>Edit</SaveButton>
-          </InformationContainer>
-        )}
-      </Section>
-      {/* Selected Email Addresses Section */}
-      <Section>
-        <h1>Selected Email Addresses</h1>
-        {editMode.emailAddresses ? (
-          <>
-            {renderEditableEmailAddresses()}
-            <SaveButton onClick={() => toggleEdit('emailAddresses')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
-          </>
-        ) : (
-          <>
+        <h1>Email Preview</h1>
+        <EmailPreview>
+          <h2>To:</h2>
             <List>
               {emailAddresses.split(', ').map((email, index) => (
                 <ListItem key={index}>{email}</ListItem>
               ))}
             </List>
-            <SaveButton onClick={() => toggleEdit('emailAddresses')}>Edit</SaveButton>
-          </>
-        )}
-      </Section>
-      {/* Attendees Section */}
-      <Section>
-        <h1>Attendees</h1>
-        {editMode.attendees ? (
-          <>
-            {attendees.map((attendee, index) => (
-              renderEditableField(attendee, (e) => handleAttendeesChange(index, e.target.value), `attendee-${index}`)
-            ))}
-            <SaveButton onClick={() => toggleEdit('attendees')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
-          </>
-        ) : (
-          <>
-            <List>
-              {attendees.map((attendee, index) => (
-                <ListItem key={index}>{attendee}</ListItem>
-              ))}
-            </List>
-            <SaveButton onClick={() => toggleEdit('attendees')}>Edit</SaveButton>
-          </>
-        )}
-      </Section>
-  
-      {/* Selected Language Section */}
-      <Section>
-        <h1>Selected Language</h1>
-        {editMode.language ? (
-          <>
-            {renderEditableField(language, handleLanguageChange, 'language')}
-            <SaveButton onClick={() => toggleEdit('language')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('language')}>Cancel</CancelButton>
-          </>
-        ) : (
-          <>
-            <p>{language}</p>
-            <SaveButton onClick={() => toggleEdit('language')}>Edit</SaveButton>
-          </>
-        )}
-      </Section>
-  
-      {/* Meeting Purpose Section (Objective & Desired Outcome) */}
-      <Section>
-        <h1>Meeting Purpose</h1>
-        {editMode.meetingPurpose ? (
-          <>
-            {agenda.map((item, index) => (
-              renderEditableField(item, (e) => handleAgendaChange(index, e.target.value), `agenda-${index}`)
-            ))}
-            {renderEditableField(desiredOutcome, handleDesiredOutcomeChange, 'desiredOutcome')}
-            <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
-          </>
-        ) : (
-          <>
-            <h2>Objective</h2>
-            <List>
-              {agenda.map((item, index) => (
-                <ListItem key={index}>{item}</ListItem>
-              ))}
-            </List>
-            <h2>Desired outcome</h2>
-            <p>{desiredOutcome}</p>
-            <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Edit</SaveButton>
-          </>
-        )}
-      </Section>
-  
-      {/* Action Items Section (Deliverables & Assignments) */}
-      <Section>
-        <h1>Action Items</h1>
-        {editMode.actionItems ? (
-          <>
-            <h2>Deliverables</h2>
-            {deliverables.map((item, index) => (
-              renderEditableField(item, (e) => handleDeliverablesChange(index, e.target.value), `deliverable-${index}`)
-            ))}
-            <h2>Assignments</h2>
-            {assignments.map((item, index) => (
-              renderEditableField(item, (e) => handleAssignmentsChange(index, e.target.value), `assignment-${index}`)
-              ))}
-            <SaveButton onClick={() => toggleEdit('actionItems')}>Save</SaveButton>
-            <CancelButton onClick={() => toggleEdit('actionItems')}>Cancel</CancelButton>
-          </>
-        ) : (
-          <>
-            <h2>Deliverables</h2>
-            <List>
-              {deliverables.map((item, index) => (
-                <ListItem key={`deliverable-view-${index}`}>{item}</ListItem>
-              ))}
-            </List>
-            <h2>Assignments</h2>
-            <List>
-              {assignments.map((item, index) => (
-                <ListItem key={`assignment-view-${index}`}>{item}</ListItem>
-              ))}
-            </List>
-            <SaveButton onClick={() => toggleEdit('actionItems')}>Edit</SaveButton>
-          </>
-        )}
-      </Section>
-      {/* Preview Button */}
-      <Section>
-        <Link to="/preview"> {/* Link to the Preview page */}
-          <PreviewButton>Preview</PreviewButton>
-        </Link>
-      </Section>
-      <Section>
-        <h1>Email Preview</h1>
-        <EmailPreview>
           <h2>Meeting Information</h2>
           <InformationContainer>
             <p>Date and Time: {meetingInformation.dateAndTime}</p>
@@ -351,12 +382,7 @@ function Review() {
             <p>Duration: {meetingInformation.duration}</p>
             <p>Requested by: {meetingInformation.requestedBy}</p>
           </InformationContainer>
-          <h2>Selected Email Addresses</h2>
-          <List>
-            {emailAddresses.split(', ').map((email, index) => (
-              <ListItem key={index}>{email}</ListItem>
-            ))}
-          </List>
+          
           <h2>Attendees</h2>
           <List>
             {attendees.map((attendee, index) => (
@@ -387,11 +413,12 @@ function Review() {
           </List>
         </EmailPreview>
       </Section>
-
+      </Column>
     </PageContainer>
   );
 }
 
 export default Review;
 
+// TODO: regenerate, send EmailPreview, language
             

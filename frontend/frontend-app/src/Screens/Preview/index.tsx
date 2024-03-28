@@ -1,95 +1,124 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-// Styled Components
-const PageContainer = styled.div`
-  background-color: #fff;
+// Define a TypeScript interface for the page props
+interface PreviewProps {
+  meetingInformation: {
+    dateAndTime: string;
+    duration: string;
+    venue: string;
+    requestedBy: string;
+  };
+  emailAddresses: string;
+  attendees: string[];
+  language: string;
+  agenda: string[];
+  desiredOutcome: string;
+  deliverables: string[];
+  assignments: string[];
+}
+
+// Styled Components for the email preview
+const EmailPreviewContainer = styled.div`
+  background-color: #f4f4f4;
   padding: 20px;
-  max-width: 800px;
+  max-width: 600px;
   margin: auto;
+  font-family: Arial, sans-serif;
 `;
 
-const PreviewContainer = styled.div`
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 4px;
+const Header = styled.h2`
+  color: #333;
 `;
 
-const PreviewHeading = styled.h1`
+const Content = styled.div`
+  background-color: #fff;
+  padding: 15px;
   margin-bottom: 20px;
+  border-radius: 4px;
 `;
 
-const EmailPreview = styled.div`
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 4px;
+const ListItem = styled.li`
+  margin-bottom: 5px;
 `;
 
 function Preview() {
-  // Mock email content for preview
-  const emailContent = `
-    <h2>Meeting Information</h2>
-    <p>Date and Time: 19/3/2024 10:00-12:00</p>
-    <p>Venue: Com 3</p>
-    <p>Duration: 37 mins</p>
-    <p>Requested by: Lim Jun Heng, Edward</p>
-    
-    <h2>Selected Email Addresses</h2>
-    <ul>
-      <li>example1@example.com</li>
-      <li>example2@example.com</li>
-      <li>example3@example.com</li>
-    </ul>
-    
-    <h2>Attendees</h2>
-    <ul>
-      <li>Edward</li>
-      <li>Cheng Hong</li>
-      <li>Hannah</li>
-      <li>Peng Hao</li>
-      <li>Micole</li>
-    </ul>
-    
-    <h2>Selected Language</h2>
-    <p>English</p>
-    
-    <h2>Meeting Purpose</h2>
-    <h3>Objective</h3>
-    <ul>
-      <li>To discuss the development of a chatbot for a software company</li>
-      <li>Discuss budget</li>
-      <li>Review project timeline</li>
-    </ul>
-    <h3>Desired outcome</h3>
-    <p>To outline the key features and functionalities of the chatbot, and to assign tasks to team members for its development</p>
-    
-    <h2>Action Items</h2>
-    <h3>Deliverables</h3>
-    <ul>
-      <li>Develop a chatbot for a software company</li>
-      <li>Include the following features:</li>
-      <li>Summarize meetings</li>
-      <li>Generate meeting minutes</li>
-      <li>Provide translations</li>
-    </ul>
-    <h3>Assignments</h3>
-    <ul>
-      <li>Ryan_Edward: Lead the development of the chatbot</li>
-      <li>Eugene_YJ: Work on the summarization feature</li>
-      <li>Hannah Nga: Work on the generation of meeting minutes</li>
-      <li>Ben_CH: Work on the translation feature</li>
-      <li>Jeremy_PH: Assist with the development of the chatbot</li>
-      <li>Chan Yi Ru Micole: Assist with the development of the chatbot and provide input on the meeting summary feature.</li>
-    </ul>
-  `;
+    const location = useLocation();
+    // Use optional chaining and nullish coalescing to provide default values
+    const state = location.state ?? {};
+    const {
+        meetingInformation = {
+        dateAndTime: 'N/A',
+        duration: 'N/A',
+        venue: 'N/A',
+        requestedBy: 'N/A',
+        },
+        emailAddresses = 'N/A',
+        attendees = [],
+        language = 'N/A',
+        agenda = [],
+        desiredOutcome = 'N/A',
+        deliverables = [],
+        assignments = [],
+    } = state as PreviewProps;
+    // const storedState = localStorage.getItem('previewState');
+    // const state: PreviewProps = storedState ? JSON.parse(storedState) : {};
+
+
 
   return (
-    <PageContainer>
-      <PreviewContainer>
-        <PreviewHeading>Email Preview</PreviewHeading>
-        <EmailPreview dangerouslySetInnerHTML={{ __html: emailContent }} /> {/* Render HTML content */}
-      </PreviewContainer>
-    </PageContainer>
+    <EmailPreviewContainer>
+      <Header>Email Preview</Header>
+      <Content>
+        <p><strong>Meeting Information</strong></p>
+        <p>Date and Time: {meetingInformation.dateAndTime}</p>
+        <p>Venue: {meetingInformation.venue}</p>
+        <p>Duration: {meetingInformation.duration}</p>
+        <p>Requested by: {meetingInformation.requestedBy}</p>
+      </Content>
+      <Content>
+        <p><strong>Selected Email Addresses</strong></p>
+        <p>{emailAddresses}</p>
+      </Content>
+      <Content>
+        <p><strong>Attendees</strong></p>
+        <ul>
+          {attendees.map((attendee, index) => (
+            <ListItem key={index}>{attendee}</ListItem>
+          ))}
+        </ul>
+      </Content>
+      <Content>
+        <p><strong>Selected Language</strong></p>
+        <p>{language}</p>
+      </Content>
+      <Content>
+        <p><strong>Meeting Purpose</strong></p>
+        <p>Objective:</p>
+        <ul>
+          {agenda.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </ul>
+        <p>Desired outcome: {desiredOutcome}</p>
+      </Content>
+      <Content>
+        <p><strong>Action Items</strong></p>
+        <p>Deliverables:</p>
+        <ul>
+          {deliverables.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </ul>
+        <p>Assignments:</p>
+        <ul>
+          {assignments.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </ul>
+      </Content>
+    </EmailPreviewContainer>
   );
 }
 
