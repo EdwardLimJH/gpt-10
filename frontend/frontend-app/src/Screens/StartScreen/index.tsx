@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
 
@@ -62,15 +62,17 @@ const Button = styled.button`
 
 function StartScreen() {
   const navigate = useNavigate();
+  const location = useLocation(); // this hook is used to access the state passed from navigate function
   const [attachment, setAttachment] = useState<File | null>(null);
   const [language, setLanguage] = useState<string>('English');
   const [emailAddresses, setEmailAddresses] = useState<string>('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => { // changed to async
     if (!attachment || !emailAddresses) {
       alert("Please provide an attachment and at least one email address.");
       return;
     }
+
 
     console.log({
       attachment,
@@ -80,6 +82,45 @@ function StartScreen() {
     navigate('/loading', { state: { attachment, language, emailAddresses } });
 
 };
+
+// React front-end (part of: StartScreen.js)
+// use ajax instead of async 
+// const handleSubmit = async () => {
+//   if (!attachment || !emailAddresses) {
+//     alert("Please provide an attachment and at least one email address.");
+//     return;
+//   }
+
+//   const formData = new FormData();
+//   formData.append('file', attachment);  // Append the file
+//   formData.append('language', language);  // Append the selected language
+//   formData.append('emailAddresses', emailAddresses);  // Append the email addresses
+
+// sent to llm response
+
+//   try {
+//     const response = await fetch('http://localhost:5000/upload', { 
+//       method: 'POST',
+//       body: formData,
+//       // Note: when sending FormData, the 'Content-Type' header
+//       // should not be set, allowing the browser to set it with the
+//       // correct boundary. Do not manually set the 'Content-Type'.
+//     });
+
+//     if (response.ok) {
+//       const result = await response.json();
+//       console.log(result.message);  // You can do something with the response message
+//       // Handle success scenario
+//       navigate('/loading', { state: { attachment, language, emailAddresses } });
+//     } else {
+//       throw new Error('Failed to upload');
+//     }
+//   } catch (error) {
+//     console.error('Error caught:', error);
+//     // alert('An error occurred: ' + error.message);
+//   }
+// };
+
 
 
   const handleAttachmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
