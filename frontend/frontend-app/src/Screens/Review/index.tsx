@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Define a TypeScript interface for the component props
 interface ReviewProps {
@@ -32,8 +32,11 @@ const Column = styled.div`
 
 
 const InformationContainer = styled.div`
-  background-color: #ff0;
+  background-color: #FFFFED;
   padding: 10px;
+  &:hover {
+    background-color: #fffacd;
+  }
 `;
 
 const List = styled.ul`
@@ -57,7 +60,7 @@ const EditInput = styled.input`
 `;
 
 const SaveButton = styled.button`
-  background-color: #007bff;
+  background-color: #8AC7DB;
   color: white;
   padding: 10px 15px;
   margin-right: 10px;
@@ -67,7 +70,7 @@ const SaveButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #43A6C6;
   }
 `;
 
@@ -89,7 +92,7 @@ const EmailPreview = styled.div`
 `;
 
 const PreviewHeader = styled.div`
-  background-color: #007bff;
+  background-color: #43A6C6;
   color: #fff;
   padding: 15px;
   border-radius: 8px 8px 0 0;
@@ -115,10 +118,59 @@ const PreviewItem = styled.li`
   color: #555;
 `;
 
+const CustomBullet = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #A9A9A9;
+  margin-right: 8px;
+`;
+
+const ConfirmButton = styled.button`
+  background-color: #43A6C6;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #357d99;
+  }
+`;
+
+const RegenerateButton = styled.button`
+  background-color: #f0ad4e;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: #ec971f;
+  }
+`;
+
+const LanguageButton = styled(ConfirmButton)`
+  background-color: #5bc0de;
+  margin-right: 5px;
+
+  &:hover {
+    background-color: #31b0d5;
+  }
+`;
+
+
 
 function Review() {
 
   const location = useLocation();
+  const navigate = useNavigate();
   const locationState = location.state as ReviewProps;
 
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
@@ -159,6 +211,8 @@ function Review() {
     setEditMode(prevState => ({ ...prevState, [section]: !prevState[section] }));
   };
 
+  const [editedSections, setEditedSections] = useState<{ [key: string]: boolean }>({});
+
   // Handlers for changes in the editable fields
   const handleMeetingInfoChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setMeetingInformation(prevState => ({ ...prevState, [field]: e.target.value }));
@@ -166,10 +220,6 @@ function Review() {
 
   const handleAttendeesChange = (index: number, value: string) => {
     setAttendees(prevAttendees => prevAttendees.map((attendee, i) => i === index ? value : attendee));
-  };
-
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLanguage(e.target.value);
   };
 
   const handleAgendaChange = (index: number, value: string) => {
@@ -192,21 +242,30 @@ function Review() {
     setEmailAddresses(e.target.value);
   };
 
-  // const handlePreviewClick = () => {
-  //   const state = {
-  //     meetingInformation,
-  //     emailAddresses,
-  //     attendees,
-  //     language,
-  //     agenda,
-  //     desiredOutcome,
-  //     deliverables,
-  //     assignments
-  //   };
-  //   localStorage.setItem('previewState', JSON.stringify(state));
-  // };
+  const handleChangeLanguage = () => {
+    // Example: Prompt the user to enter a new language
+    const newLanguage = prompt('Enter new language (e.g., English, Spanish):');
+    if (newLanguage) {
+      setLanguage(newLanguage); // Update the language state
+    }
+  };
 
-  // Rendering editable email addresses field
+  const handleSave = (section: string) => {
+    toggleEdit(section); // Toggle edit mode
+    setEditedSections(prevState => ({
+      ...prevState,
+      [section]: true // Mark the section as edited
+    }));
+  
+    // Set a timeout to reset the highlight state for this section after 10 seconds
+    setTimeout(() => {
+      setEditedSections(prevState => ({
+        ...prevState,
+        [section]: false // Reset the edited state for the section
+      }));
+    }, 10000); // 10000 milliseconds = 10 seconds
+  };
+
   const renderEditableEmailAddresses = () => (
     <EditInput
       type="text"
@@ -215,7 +274,6 @@ function Review() {
     />
   );
   
-  // Rendering editable fields
   const renderEditableField = (value: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, key: string) => (
     <EditInput
       key={key}
@@ -237,11 +295,12 @@ function Review() {
           {/* Selected Email Addresses Section */}
           <Section>
             <h2>Selected Email Addresses</h2>
+            <InformationContainer>
             {editMode.emailAddresses ? (
               <>
                 {renderEditableEmailAddresses()}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('emailAddresses')}>Save</SaveButton>
+                  <SaveButton onClick={() => handleSave('emailAddresses')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
                 </div>
               </>
@@ -253,10 +312,11 @@ function Review() {
                   ))}
                 </List>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('emailAddresses')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('emailAddresses')}>Edit</SaveButton>
                 </div>
               </>
             )}
+            </InformationContainer>
           </Section>
           
           {/* Meeting Information Section */}
@@ -269,7 +329,7 @@ function Review() {
                 {renderEditableField(meetingInformation.duration, (e) => handleMeetingInfoChange(e, 'duration'), 'duration')}
                 {renderEditableField(meetingInformation.requestedBy, (e) => handleMeetingInfoChange(e, 'requestedBy'), 'requestedBy')}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('meetingInfo')}>Save</SaveButton>
+                  <SaveButton onClick={() => handleSave('meetingInfo')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('meetingInfo')}>Cancel</CancelButton>
                 </div>
               </InformationContainer>
@@ -280,7 +340,7 @@ function Review() {
                 <p>Duration: {meetingInformation.duration}</p>
                 <p>Requested by: {meetingInformation.requestedBy}</p>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('meetingInfo')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('meetingInfo')}>Edit</SaveButton>
                 </div>
               </InformationContainer>
             )}
@@ -289,13 +349,14 @@ function Review() {
           {/* Attendees Section */}
           <Section>
             <h2>Attendees</h2>
+            <InformationContainer>
             {editMode.attendees ? (
               <>
                 {attendees.map((attendee, index) => (
                   renderEditableField(attendee, (e) => handleAttendeesChange(index, e.target.value), `attendee-${index}`)
                 ))}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('attendees')}>Save</SaveButton>
+                  <SaveButton onClick={() => handleSave('attendees')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
                 </div>
               </>
@@ -303,40 +364,23 @@ function Review() {
               <>
                 <List>
                   {attendees.map((attendee, index) => (
-                    <ListItem key={index}>{attendee}</ListItem>
+                    <ListItem key={index}>
+                      <CustomBullet /> {attendee}
+                    </ListItem>
                   ))}
                 </List>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('attendees')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('attendees')}>Edit</SaveButton>
                 </div>
               </>
             )}
-          </Section>
-          
-          {/* Selected Language Section */}
-          <Section>
-            <h2>Selected Language</h2>
-            {editMode.language ? (
-              <>
-                {renderEditableField(language, handleLanguageChange, 'language')}
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('language')}>Save</SaveButton>
-                  <CancelButton onClick={() => toggleEdit('language')}>Cancel</CancelButton>
-                </div>
-              </>
-            ) : (
-              <>
-                <p>{language}</p>
-                <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('language')}>Edit</SaveButton>
-                </div>
-              </>
-            )}
+          </InformationContainer>
           </Section>
           
           {/* Meeting Purpose Section (Objective & Desired Outcome) */}
           <Section>
             <h2>Meeting Purpose</h2>
+            <InformationContainer>
             {editMode.meetingPurpose ? (
               <>
                 {agenda.map((item, index) => (
@@ -344,7 +388,7 @@ function Review() {
                 ))}
                 {renderEditableField(desiredOutcome, handleDesiredOutcomeChange, 'desiredOutcome')}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Save</SaveButton>
+                  <SaveButton onClick={() => handleSave('meetingPurpose')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
                 </div>
               </>
@@ -353,21 +397,27 @@ function Review() {
                 <h3>Objective</h3>
                 <List>
                   {agenda.map((item, index) => (
-                    <ListItem key={index}>{item}</ListItem>
+                    <ListItem key={index}>
+                      <CustomBullet /> {item}
+                    </ListItem>
                   ))}
                 </List>
                 <h3>Desired Outcome</h3>
-                <p>{desiredOutcome}</p>
+                <p>
+                  <CustomBullet /> {desiredOutcome}
+                </p>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('meetingPurpose')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('meetingPurpose')}>Edit</SaveButton>
                 </div>
               </>
             )}
+            </InformationContainer>
           </Section>
           
           {/* Action Items Section (Deliverables & Assignments) */}
           <Section>
-            <h2>Action Items</h2>
+          <h2>Action Items</h2>
+          <InformationContainer>
             {editMode.actionItems ? (
               <>
                 <h3>Deliverables</h3>
@@ -379,7 +429,7 @@ function Review() {
                   renderEditableField(item, (e) => handleAssignmentsChange(index, e.target.value), `assignment-${index}`)
                 ))}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => toggleEdit('actionItems')}>Save</SaveButton>
+                  <SaveButton onClick={() => handleSave('actionItems')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('actionItems')}>Cancel</CancelButton>
                 </div>
               </>
@@ -388,20 +438,26 @@ function Review() {
                 <h3>Deliverables</h3>
                 <List>
                   {deliverables.map((item, index) => (
-                    <ListItem key={`deliverable-${index}`}>{item}</ListItem>
+                    <ListItem key={`deliverable-${index}`}>
+                      <CustomBullet />{item}
+                    </ListItem>
                   ))}
                 </List>
                 <h3>Assignments</h3>
                 <List>
                   {assignments.map((item, index) => (
-                    <ListItem key={`assignment-${index}`}>{item}</ListItem>
+                    <ListItem key={`assignment-${index}`}>
+                      <CustomBullet />{item}
+                    </ListItem>
                   ))}
                 </List>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => toggleEdit('actionItems')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('actionItems')}>Edit</SaveButton>
                 </div>
               </>
             )}
+          </InformationContainer>
+
           </Section>
           
         </Section>
@@ -411,7 +467,7 @@ function Review() {
     <Section>
           <PreviewHeader>Email Preview</PreviewHeader>
           <EmailPreview>
-            <PreviewSection>
+            <PreviewSection style={{ backgroundColor: editedSections.emailAddresses ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>To:</PreviewLabel>
               <PreviewList>
                 {emailAddresses.split(', ').map((email, index) => (
@@ -419,7 +475,7 @@ function Review() {
                 ))}
               </PreviewList>
             </PreviewSection>
-            <PreviewSection>
+            <PreviewSection style={{ backgroundColor: editedSections.meetingInfo ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>Meeting Information:</PreviewLabel>
               <PreviewList>
                 <PreviewItem>Date and Time: {meetingInformation.dateAndTime}</PreviewItem>
@@ -428,7 +484,7 @@ function Review() {
                 <PreviewItem>Requested by: {meetingInformation.requestedBy}</PreviewItem>
               </PreviewList>
             </PreviewSection>
-            <PreviewSection>
+            <PreviewSection style={{ backgroundColor: editedSections.attendees ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>Attendees:</PreviewLabel>
               <PreviewList>
                 {attendees.map((attendee, index) => (
@@ -436,11 +492,7 @@ function Review() {
                 ))}
               </PreviewList>
             </PreviewSection>
-            <PreviewSection>
-              <PreviewLabel>Selected Language:</PreviewLabel>
-              <p>{language}</p>
-            </PreviewSection>
-            <PreviewSection>
+            <PreviewSection style={{ backgroundColor: editedSections.meetingPurpose ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>Meeting Purpose:</PreviewLabel>
               <PreviewList>
                 {agenda.map((item, index) => (
@@ -451,7 +503,7 @@ function Review() {
                 <strong>Desired Outcome:</strong> {desiredOutcome}
               </p>
             </PreviewSection>
-            <PreviewSection>
+            <PreviewSection  style={{ backgroundColor: editedSections.actionItems ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>Action Items:</PreviewLabel>
               <PreviewList>
                 {deliverables.map((item, index) => (
@@ -465,6 +517,17 @@ function Review() {
               </PreviewList>
             </PreviewSection>
           </EmailPreview>
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <RegenerateButton onClick={() => navigate('/loading', { state: { emailAddresses, meetingInformation, attendees, language, agenda, desiredOutcome, deliverables, assignments } })}>
+              Regenerate LLM
+            </RegenerateButton>
+            <LanguageButton onClick={handleChangeLanguage}>
+              Change Language
+            </LanguageButton>
+            <ConfirmButton onClick={() => navigate('/confirmation')}>
+              Confirm and Send to Email
+            </ConfirmButton>
+          </div>
         </Section>
       </Column>
     </PageContainer>
@@ -474,4 +537,3 @@ function Review() {
 export default Review;
 
 // TODO: regenerate, send EmailPreview, language
-            

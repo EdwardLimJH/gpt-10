@@ -77,7 +77,7 @@ function StartScreen() {
       language,
       emailAddresses,
     });
-    navigate('/review', { state: { attachment, language, emailAddresses } });
+    navigate('/loading', { state: { attachment, language, emailAddresses } });
 
 };
 
