@@ -6,13 +6,34 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
 
+def string_like_JSON_to_txt(data):
+    """Input: dictionary 
+    output: Email body string"""
+    # Extract information from the parsed data
+    agenda = data.get('Agenda', '')
+    meeting_summary = data.get('Meeting Summary', '')
+    actionables = data.get('Actionables', [])
+
+    # Format the post-meeting email
+    email_subject = f"Post-Meeting Summary: {agenda}"
+    email_body = f"Dear Team,\n\nHere's a summary of our recent meeting:\n\nAgenda: {agenda}\n\nMeeting Summary:\n{meeting_summary}\n\nActionables:\n"
+    for action in actionables:
+        email_body += f"- {action['Action']} (Assigned to: {action['Assigned']}, Deadline: {action['Deadline']}, Priority: {action['Priority']})\n"
+
+    email_body += "\nPlease let me know if anything needs clarification or if there are additional action items to add.\n\nBest regards,\n[Your Name]"
+    return email_body
+
+
 send_email_bp = Blueprint('send_email', __name__)
 
 @send_email_bp.route('/send_email', methods=['POST'])
 def send_email():
     json_response = request.json
-    email_body = json_response.get("email_body")
-    email_title = json_response.get("email_title")
+    # email_body = json_response.get("email_body")
+    # email_title = json_response.get("email_title")
+    email_body = string_like_JSON_to_txt(json_response)
+    email_title = "Temporary placeholder"
+    print(email_body)
 
     # handle translation here
     emails_dict = {"english":email_body}
