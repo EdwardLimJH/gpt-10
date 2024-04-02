@@ -69,7 +69,8 @@ def sentiment_chat():
     meeting_summary_response = request.args['message']
     sentiment_prompt = generate_sentiment_prompt(meeting_summary_response)
     sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, MEETING_SYSTEM_PROMPT)
-    json_string = extract_json_string(sentiment_reply.content)
-    email_body = string_like_JSON_to_txt(json_string)
-    print(email_body)
-    return json.dumps(email_body)
+    json_string = extract_json_string(sentiment_reply.content) 
+    # email_body = string_like_JSON_to_txt(json_string)
+    # print(email_body)
+    # return json.dumps(email_body)
+    return json.dumps(json_string)
