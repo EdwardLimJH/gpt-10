@@ -25,12 +25,12 @@ function LoadingPage() {
       return;
     }
 
-    // Simulate a loading process
-    const timer = setTimeout(() => {
-      navigate('/review', { state });
-    }, 2000); // Adjust the time as necessary
+    // // Simulate a loading process
+    // const timer = setTimeout(() => {
+    //   navigate('/review', { state });
+    // }, 2000); // Adjust the time as necessary
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, [navigate, state]);
 
   return (

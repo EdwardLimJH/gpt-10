@@ -2,10 +2,23 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+
 // Define a TypeScript interface for the component props
+interface Actionable {
+  Action: string;
+  Deadline: string;
+  Assigned: string;
+  Priority: string;
+}
+
 interface ReviewProps {
   language?: string;
-  emailAddresses?: string;
+  email_list?: string;
+  attachment?: File;
+  // result?: string;
+  agenda?: string;
+  meetingSummary?: string;
+  actionables?: Actionable[]; // Ensure this matches the JSON structure
 }
 
 // Styled Components
@@ -174,7 +187,9 @@ function Review() {
   const locationState = location.state as ReviewProps;
 
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
-  const [emailAddresses, setEmailAddresses] = useState(locationState.emailAddresses ?? '');
+  const [email_list, setEmailAddresses] = useState(locationState.email_list ?? '');
+  const [attachment, setAttachment] = useState<File | null>(locationState.attachment ?? null);
+
 
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
@@ -184,12 +199,16 @@ function Review() {
   });
   const [attendees, setAttendees] = useState(['Edward', 'Cheng Hong', 'Hannah', 'Peng Hao', 'Micole']);
   const [language, setLanguage] = useState(locationState.language ?? '');
-  const [agenda, setAgenda] = useState([
-    'To discuss the development of a chatbot for a software company',
-    'Discuss budget',
-    'Review project timeline'
-  ]);
-  const [desiredOutcome, setDesiredOutcome] = useState('To outline the key features and functionalities of the chatbot, and to assign tasks to team members for its development');
+
+  const [agenda, setAgenda] = useState(locationState.agenda ? locationState.agenda.split(", ") : []);
+  // const [agenda, setAgenda] = useState([
+  //   'To discuss the development of a chatbot for a software company',
+  //   'Discuss budget',
+  //   'Review project timeline'
+  // ]);
+
+  const [meetingSummary, setDesiredOutcome] = useState(locationState.meetingSummary ?? '');
+  // const [desiredOutcome, setDesiredOutcome] = useState('To outline the key features and functionalities of the chatbot, and to assign tasks to team members for its development');
   const [deliverables, setDeliverables] = useState([
     'Develop a chatbot for a software company',
     'Include the following features:',
@@ -197,14 +216,64 @@ function Review() {
     'Generate meeting minutes',
     'Provide translations'
   ]);
-  const [assignments, setAssignments] = useState([
-    'Ryan_Edward: Lead the development of the chatbot',
-    'Eugene_YJ: Work on the summarization feature',
-    'Hannah Nga: Work on the generation of meeting minutes',
-    'Ben_CH: Work on the translation feature',
-    'Jeremy_PH: Assist with the development of the chatbot',
-    'Chan Yi Ru Micole: Assist with the development of the chatbot and provide input on the meeting summary feature.'
-  ]);
+
+  const [assignments, setAssignments] = useState<string[]>(() => {
+    // If actionables is defined, map over it to create an array of strings
+    return locationState.actionables
+      ? locationState.actionables.map(a => `${a.Assigned}: ${a.Action}`)
+      : []; // Default to an empty array if actionables is undefined
+  });
+  // const [assignments, setAssignments] = useState([
+  //   'Ryan_Edward: Lead the development of the chatbot',
+  //   'Eugene_YJ: Work on the summarization feature',
+  //   'Hannah Nga: Work on the generation of meeting minutes',
+  //   'Ben_CH: Work on the translation feature',
+  //   'Jeremy_PH: Assist with the development of the chatbot',
+  //   'Chan Yi Ru Micole: Assist with the development of the chatbot and provide input on the meeting summary feature.'
+  // ]);
+
+
+  const handleSubmit = () => {
+    if (!attachment || !email_list) {
+      alert("Please provide an attachment and at least one email address.");
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('file', attachment); // Append the file
+    formData.append('language', language); // Append the selected language
+    formData.append('email_list', email_list); // Append the email addresses
+  
+    // Navigate to the loading page immediately
+    navigate('/loading', { state: { attachment, language, email_list } });
+  
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:5000/get_LLM_response', true);
+  
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const result = JSON.parse(xhr.responseText);
+        console.log(result.message);
+        // Parse the JSON string into a JavaScript object
+        const meetingData = JSON.parse(result);
+  
+        // Now you can extract any part of the parsed object
+        const agenda = meetingData.Agenda;
+        const meetingSummary = meetingData['Meeting Summary'];
+        const actionables = meetingData.Actionables;
+        // Navigate to the review page when the request is successful
+        navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list } });
+      } else {
+        console.error('Error caught:', xhr.statusText);
+      }
+    };
+  
+    xhr.onerror = () => {
+      console.error('An error occurred during the transaction');
+    };
+  
+    xhr.send(formData);
+  };
 
   // Function to handle edit mode toggle
   const toggleEdit = (section: string) => {
@@ -235,7 +304,7 @@ function Review() {
   };
   
   const handleAssignmentsChange = (index: number, value: string) => {
-  setAssignments(prevAssignments => prevAssignments.map((item, i) => i === index ? value : item));
+    setAssignments((prevAssignments) => prevAssignments.map((item, i) => i === index ? value : item));
   };
 
   const handleEmailAddressesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -269,7 +338,7 @@ function Review() {
   const renderEditableEmailAddresses = () => (
     <EditInput
       type="text"
-      value={emailAddresses}
+      value={email_list}
       onChange={handleEmailAddressesChange}
     />
   );
@@ -296,23 +365,23 @@ function Review() {
           <Section>
             <h2>Selected Email Addresses</h2>
             <InformationContainer>
-            {editMode.emailAddresses ? (
+            {editMode.email_list ? (
               <>
                 {renderEditableEmailAddresses()}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => handleSave('emailAddresses')}>Save</SaveButton>
-                  <CancelButton onClick={() => toggleEdit('emailAddresses')}>Cancel</CancelButton>
+                  <SaveButton onClick={() => handleSave('email_list')}>Save</SaveButton>
+                  <CancelButton onClick={() => toggleEdit('email_list')}>Cancel</CancelButton>
                 </div>
               </>
             ) : (
               <>
                 <List>
-                  {emailAddresses.split(', ').map((email, index) => (
+                  {email_list.split(', ').map((email, index) => (
                     <ListItem key={index}>{email}</ListItem>
                   ))}
                 </List>
                 <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => handleSave('emailAddresses')}>Edit</SaveButton>
+                  <SaveButton onClick={() => handleSave('email_list')}>Edit</SaveButton>
                 </div>
               </>
             )}
@@ -386,7 +455,7 @@ function Review() {
                 {agenda.map((item, index) => (
                   renderEditableField(item, (e) => handleAgendaChange(index, e.target.value), `agenda-${index}`)
                 ))}
-                {renderEditableField(desiredOutcome, handleDesiredOutcomeChange, 'desiredOutcome')}
+                {renderEditableField(meetingSummary, handleDesiredOutcomeChange, 'meetingSummary')}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <SaveButton onClick={() => handleSave('meetingPurpose')}>Save</SaveButton>
                   <CancelButton onClick={() => toggleEdit('meetingPurpose')}>Cancel</CancelButton>
@@ -402,9 +471,9 @@ function Review() {
                     </ListItem>
                   ))}
                 </List>
-                <h3>Desired Outcome</h3>
+                <h3>Meeting Summary</h3>
                 <p>
-                  <CustomBullet /> {desiredOutcome}
+                  <CustomBullet /> {meetingSummary}
                 </p>
                 <div style={{ textAlign: 'right' }}>
                   <SaveButton onClick={() => handleSave('meetingPurpose')}>Edit</SaveButton>
@@ -467,10 +536,10 @@ function Review() {
     <Section>
           <PreviewHeader>Email Preview</PreviewHeader>
           <EmailPreview>
-            <PreviewSection style={{ backgroundColor: editedSections.emailAddresses ? '#d4edda' : 'transparent' }}>
+            <PreviewSection style={{ backgroundColor: editedSections.email_list ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>To:</PreviewLabel>
               <PreviewList>
-                {emailAddresses.split(', ').map((email, index) => (
+                {email_list.split(', ').map((email, index) => (
                   <PreviewItem key={index}>{email}</PreviewItem>
                 ))}
               </PreviewList>
@@ -500,7 +569,7 @@ function Review() {
                 ))}
               </PreviewList>
               <p>
-                <strong>Desired Outcome:</strong> {desiredOutcome}
+                <strong>Meeting Minutes:</strong> {meetingSummary}
               </p>
             </PreviewSection>
             <PreviewSection  style={{ backgroundColor: editedSections.actionItems ? '#d4edda' : 'transparent' }}>
@@ -518,7 +587,10 @@ function Review() {
             </PreviewSection>
           </EmailPreview>
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <RegenerateButton onClick={() => navigate('/loading', { state: { emailAddresses, meetingInformation, attendees, language, agenda, desiredOutcome, deliverables, assignments } })}>
+            {/* <RegenerateButton onClick={() => navigate('/loading', { state: { email_list, meetingInformation, attendees, language, agenda, meetingSummary, deliverables, assignments } })}>
+              Regenerate LLM
+            </RegenerateButton> */}
+            <RegenerateButton onClick={handleSubmit}>
               Regenerate LLM
             </RegenerateButton>
             <LanguageButton onClick={handleChangeLanguage}>

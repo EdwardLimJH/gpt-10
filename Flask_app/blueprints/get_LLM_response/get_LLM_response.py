@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session, url_for, redirect
-import os
+import os, json
 from h2ogpte import H2OGPTE
 
 H2O_API_KEY = os.getenv("H2O_API_KEY")  
@@ -59,4 +59,43 @@ def get_LLM_response():
     chat_session_id = h2o_client.create_chat_session(h2o_collection_id)
     session["chat_session_id"] = chat_session_id
     print("Redirecting to meeting_chat now")
-    return redirect(url_for("meeting_chat.meeting_chat"))
+    # return redirect(url_for("meeting_chat.meeting_chat"))
+    resp = """
+    {
+        "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
+        "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
+        "Actionables": [
+            {
+                "Action": "Complete design proposal",
+                "Deadline": "Wednesday",
+                "Assigned": "Ryan_Edward",
+                "Priority": "High"
+            },
+            {
+                "Action": "Confirm meeting with design specialist",
+                "Deadline": "Thursday",
+                "Assigned": "Ben_CH",
+                "Priority": "Medium"
+            },
+            {
+                "Action": "Resolve integration issue",
+                "Deadline": "Friday",
+                "Assigned": "Chan Yi Ru Micole",
+                "Priority": "High"
+            },
+            {
+                "Action": "Share progress document",
+                "Deadline": "After the meeting",
+                "Assigned": "Ryan_Edward",
+                "Priority": "Low"
+            },
+            {
+                "Action": "Send out meeting details",
+                "Deadline": "Thursday",
+                "Assigned": "Ben_CH",
+                "Priority": "Medium"
+            }
+        ]
+    }
+    """
+    return json.dumps(resp)

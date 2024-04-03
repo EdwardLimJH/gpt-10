@@ -65,26 +65,27 @@ function StartScreen() {
   const location = useLocation(); // this hook is used to access the state passed from navigate function
   const [attachment, setAttachment] = useState<File | null>(null);
   const [language, setLanguage] = useState<string>('English');
-  const [emailAddresses, setEmailAddresses] = useState<string>('');
+  const [email_list, setEmailAddresses] = useState<string>('');
 
-  const handleSubmit = async () => { // changed to async
-    if (!attachment || !emailAddresses) {
-      alert("Please provide an attachment and at least one email address.");
-      return;
-    }
+//   const handleSubmit = async () => { // changed to async
+//     if (!attachment || !emailAddresses) {
+//       alert("Please provide an attachment and at least one email address.");
+//       return;
+//     }
 
 
-    console.log({
-      attachment,
-      language,
-      emailAddresses,
-    });
-    navigate('/loading', { state: { attachment, language, emailAddresses } });
+//     console.log({
+//       attachment,
+//       language,
+//       emailAddresses,
+//     });
+//     navigate('/loading', { state: { attachment, language, emailAddresses } });
 
-};
+// };
 
 // React front-end (part of: StartScreen.js)
 // use ajax instead of async 
+// sent to llm response
 // const handleSubmit = async () => {
 //   if (!attachment || !emailAddresses) {
 //     alert("Please provide an attachment and at least one email address.");
@@ -94,12 +95,12 @@ function StartScreen() {
 //   const formData = new FormData();
 //   formData.append('file', attachment);  // Append the file
 //   formData.append('language', language);  // Append the selected language
-//   formData.append('emailAddresses', emailAddresses);  // Append the email addresses
+//   formData.append('email_list', emailAddresses);  // Append the email addresses
 
-// sent to llm response
+
 
 //   try {
-//     const response = await fetch('http://localhost:5000/upload', { 
+//     const response = await fetch('http://localhost:5000/get_LLM_response', { 
 //       method: 'POST',
 //       body: formData,
 //       // Note: when sending FormData, the 'Content-Type' header
@@ -121,6 +122,47 @@ function StartScreen() {
 //   }
 // };
 
+const handleSubmit = () => {
+  if (!attachment || !email_list) {
+    alert("Please provide an attachment and at least one email address.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', attachment); // Append the file
+  formData.append('language', language); // Append the selected language
+  formData.append('email_list', email_list); // Append the email addresses
+
+  // Navigate to the loading page immediately
+  navigate('/loading', { state: { attachment, language, email_list } });
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:5000/get_LLM_response', true);
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      const result = JSON.parse(xhr.responseText);
+      console.log(result.message);
+      // Parse the JSON string into a JavaScript object
+      const meetingData = JSON.parse(result);
+
+      // Now you can extract any part of the parsed object
+      const agenda = meetingData.Agenda;
+      const meetingSummary = meetingData['Meeting Summary'];
+      const actionables = meetingData.Actionables;
+      // Navigate to the review page when the request is successful
+      navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list } });
+    } else {
+      console.error('Error caught:', xhr.statusText);
+    }
+  };
+
+  xhr.onerror = () => {
+    console.error('An error occurred during the transaction');
+  };
+
+  xhr.send(formData);
+};
 
 
   const handleAttachmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +193,7 @@ function StartScreen() {
         <option value="French">French</option>
         {/* Add more languages as options here */}
       </Select>
-      <Input type="text" value={emailAddresses} onChange={(e) => setEmailAddresses(e.target.value)} placeholder="e.g., example1@mail.com, example2@mail.com" />
+      <Input type="text" value={email_list} onChange={(e) => setEmailAddresses(e.target.value)} placeholder="e.g., example1@mail.com, example2@mail.com" />
       <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
     </Container>
     </>

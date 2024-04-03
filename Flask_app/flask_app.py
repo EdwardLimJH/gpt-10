@@ -1,8 +1,13 @@
 from flask import Flask, request, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
+from blueprints.get_LLM_response.get_LLM_response import get_LLM_response_bp
+from dotenv import load_dotenv
+
 import os, json
 
 app = Flask(__name__, static_folder='build')
+app.secret_key = "gpt-10_A+For everyone!!"
+app.register_blueprint(get_LLM_response_bp)
 upload_directory = 'uploads'  # Define a directory name for uploads
 data_file = 'data.jsonl'  # Define the name of the JSON Lines file
 
@@ -48,5 +53,6 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
+    load_dotenv()
     app.run(debug=True)
 
