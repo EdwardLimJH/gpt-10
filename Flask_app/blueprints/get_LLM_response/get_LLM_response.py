@@ -71,7 +71,7 @@ get_LLM_response_bp = Blueprint('get_LLM_response', __name__)
 @get_LLM_response_bp.route('/get_LLM_response', methods=['POST'])
 def get_LLM_response():
     print("Hiii im at get_LLM_response_bp")
-    form_data = request.form.to_dict()
+    form_data = request.form
     print(form_data)
     file_data = request.files.getlist('file')
     # file_data = request.files.to_dict()
