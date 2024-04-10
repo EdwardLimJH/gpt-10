@@ -29,6 +29,8 @@ send_email_bp = Blueprint('send_email', __name__)
 @send_email_bp.route('/send_email', methods=['POST'])
 def send_email():
     json_response = request.json
+    if not json_response:
+        return "Bad request, JSON data is missing", 400
     # email_body = json_response.get("email_body")
     # email_title = json_response.get("email_title")
     email_body = string_like_JSON_to_txt(json_response)
@@ -37,7 +39,8 @@ def send_email():
 
     # handle translation here
     emails_dict = {"english":email_body}
-    language_preferences = session["language_preferences"]
+    # language_preferences = session["language_preferences"]
+    language_preferences = json_response.get("language_preferences", ["english"])
     for language in language_preferences:
         if language.lower() not in emails_dict:
             print(language)
@@ -62,7 +65,14 @@ def send_email():
 
     from_email = 'gpt10.4213.1@outlook.com'
     # Assume emails are in session["email_list"]
-    to_email_list = session.get("email_list") # get email list from session, # Ensure not None
+    # to_email_list = session.get("email_list") # get email list from session, # Ensure not None
+    to_email_list = json_response.get("email_list", [])
+    if not to_email_list:
+        return "Bad request, email list is missing", 400
+
+    # Ensure it's a list, if it comes as a string, convert it to a list
+    if isinstance(to_email_list, str):
+        to_email_list = to_email_list.split(', ')
 
     # meeting_date = "5/3/2024"
     # subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
@@ -78,4 +88,4 @@ def send_email():
         smtp.login(smtp_username, smtp_password)
         smtp.send_message(msg)
 
-    return "Email sent successfully"
+    return "Email sent successfully", 200

@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)
+CORS(app, supports_credentials=True, resources={r'/send_email': {'origins': 'http://localhost:3000'}})
 app.secret_key = "gpt-10_A+For everyone!!"
 app.register_blueprint(index_bp)
 app.register_blueprint(loading_bp)
