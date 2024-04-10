@@ -139,7 +139,11 @@ def get_LLM_response():
         ]
     }
     """
-    return json.dumps(resp)
+    resp_dic = json.loads(resp)
+    resp_dic["doc_id_list"] = doc_id_list
+    resp_dic["collection_id"] = h2o_collection_id
+    resp_dic["chat_session_id"] = chat_session_id
+    return json.dumps(resp_dic)
     print("Getting initial meeting response")
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)
 
