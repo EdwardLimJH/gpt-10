@@ -200,14 +200,11 @@ function Review() {
   const [attendees, setAttendees] = useState(['Edward', 'Cheng Hong', 'Hannah', 'Peng Hao', 'Micole']);
   const [language, setLanguage] = useState(locationState.language ?? '');
 
-  const [agenda, setAgenda] = useState(locationState.agenda ? locationState.agenda.split(", ") : []);
-  // const [agenda, setAgenda] = useState([
-  //   'To discuss the development of a chatbot for a software company',
-  //   'Discuss budget',
-  //   'Review project timeline'
-  // ]);
+  // const [agenda, setAgenda] = useState(locationState.agenda ? locationState.agenda.split(", ") : []);
+  const [agenda, setAgenda] = useState<string[]>(locationState.agenda?.split(", ") || []);
 
-  const [meetingSummary, setDesiredOutcome] = useState(locationState.meetingSummary ?? '');
+  const [meetingSummary, setDesiredOutcome] = useState<string>(locationState.meetingSummary ?? '');
+
   // const [desiredOutcome, setDesiredOutcome] = useState('To outline the key features and functionalities of the chatbot, and to assign tasks to team members for its development');
   const [deliverables, setDeliverables] = useState([
     'Develop a chatbot for a software company',
@@ -218,11 +215,12 @@ function Review() {
   ]);
 
   const [assignments, setAssignments] = useState<string[]>(() => {
-    // If actionables is defined, map over it to create an array of strings
+    // If actionables is defined, map over it to create an array of strings in the required format
     return locationState.actionables
-      ? locationState.actionables.map(a => `${a.Assigned}: ${a.Action}`)
+      ? locationState.actionables.map(a => `${a.Assigned}: ${a.Action} (${a.Priority}, ${a.Deadline})`)
       : []; // Default to an empty array if actionables is undefined
   });
+  
   // const [assignments, setAssignments] = useState([
   //   'Ryan_Edward: Lead the development of the chatbot',
   //   'Eugene_YJ: Work on the summarization feature',
@@ -232,6 +230,58 @@ function Review() {
   //   'Chan Yi Ru Micole: Assist with the development of the chatbot and provide input on the meeting summary feature.'
   // ]);
 
+  const sendEmail = () => {
+    // Validate that necessary information is available
+    if (!email_list || !language) {
+      alert("Please provide at least one email address and select a language.");
+      return;
+    }
+  
+    // Extract actionables from locationState with correct typing
+    const actionablesData: Actionable[] = locationState.actionables ?? [];
+  
+    // Prepare the data to be sent, including language_preferences
+    const jsonPayload = {
+      'Agenda': agenda.join(", "),
+      'Meeting Summary': meetingSummary,
+      'Actionables': actionablesData,
+      'language_preferences': [language], // assuming language is a string, if it's an array just assign it
+      'email_list': email_list.split(', ') // assuming email_list is a comma-separated string
+    };
+  
+    // Convert object to string for sending as JSON in AJAX request
+    const jsonData = JSON.stringify(jsonPayload);
+  
+    // Navigate to the loading page immediately
+    navigate('/loading', { state: { attachment, language, email_list } });
+  
+    // Make the AJAX request to the server
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:5000/send_email', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+  
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        // Navigate to a confirmation page or show a success message
+        console.log('Email sent successfully');
+        navigate('/confirmation');
+      } else {
+        // Handle any errors here
+        console.error('Error caught:', xhr.statusText);
+        // Optionally, navigate back to the review page or show error feedback
+      }
+    };
+  
+    xhr.onerror = () => {
+      console.error('An error occurred during the transaction');
+      // Optionally, navigate back to the review page or show error feedback
+    };
+  
+    // Send the request with the payload
+    xhr.send(jsonData);
+  };
+  
+  
 
   const handleSubmit = () => {
     if (!attachment || !email_list) {
@@ -596,7 +646,7 @@ function Review() {
             <LanguageButton onClick={handleChangeLanguage}>
               Change Language
             </LanguageButton>
-            <ConfirmButton onClick={() => navigate('/confirmation')}>
+            <ConfirmButton onClick={sendEmail}>
               Confirm and Send to Email
             </ConfirmButton>
           </div>

@@ -1,0 +1,13 @@
+/* Add this to your CSS file */
+.high-priority {
+    color: red;
+  }
+  
+  .medium-priority {
+    color: orange;
+  }
+  
+  .low-priority {
+    color: green;
+  }
+  
