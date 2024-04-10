@@ -4,7 +4,7 @@ import os
 from h2ogpte import H2OGPTE
 from blueprints.get_LLM_response.prompts import MEETING_SYSTEM_PROMPT, MAIN_PROMPT, generate_sentiment_prompt
 
-H2O_API_KEY = os.getenv("H2O_API_KEY")  
+H2O_API_KEY = os.getenv("H2O_API_KEY")
 
 
 def rag_chat(client, chat_session_id, main_prompt, system_prompt):
