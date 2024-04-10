@@ -66,12 +66,47 @@ def meeting_chat():
         address='https://h2ogpte.genai.h2o.ai',
         api_key= H2O_API_KEY,
     )
-    print("Here are the cookies")
-    # print(request.cookies)
-    print("Here is the session info")
-    # print(session)
     chat_session_id = session["chat_session_id"]
-    # print("Getting initial meeting response")
+    print("Getting initial meeting response")
+    # resp = """
+    # {
+    #     "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
+    #     "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
+    #     "Actionables": [
+    #         {
+    #             "Action": "Complete design proposal",
+    #             "Deadline": "Wednesday",
+    #             "Assigned": "Ryan_Edward",
+    #             "Priority": "High"
+    #         },
+    #         {
+    #             "Action": "Confirm meeting with design specialist",
+    #             "Deadline": "Thursday",
+    #             "Assigned": "Ben_CH",
+    #             "Priority": "Medium"
+    #         },
+    #         {
+    #             "Action": "Resolve integration issue",
+    #             "Deadline": "Friday",
+    #             "Assigned": "Chan Yi Ru Micole",
+    #             "Priority": "High"
+    #         },
+    #         {
+    #             "Action": "Share progress document",
+    #             "Deadline": "After the meeting",
+    #             "Assigned": "Ryan_Edward",
+    #             "Priority": "Low"
+    #         },
+    #         {
+    #             "Action": "Send out meeting details",
+    #             "Deadline": "Thursday",
+    #             "Assigned": "Ben_CH",
+    #             "Priority": "Medium"
+    #         }
+    #     ]
+    # }
+    # """
+    # return jsonify(json.loads(resp))
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)
 
     print("Getting sentiment response")
@@ -79,43 +114,4 @@ def meeting_chat():
     sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, MEETING_SYSTEM_PROMPT)
 
     json_string = extract_json_string(sentiment_reply.content) 
-#     json_string = """
-# {
-#     "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
-#     "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
-#     "Actionables": [
-#         {
-#             "Action": "Complete design proposal",
-#             "Deadline": "Wednesday",
-#             "Assigned": "Ryan_Edward",
-#             "Priority": "High"
-#         },
-#         {
-#             "Action": "Confirm meeting with design specialist",
-#             "Deadline": "Thursday",
-#             "Assigned": "Ben_CH",
-#             "Priority": "Medium"
-#         },
-#         {
-#             "Action": "Resolve integration issue",
-#             "Deadline": "Friday",
-#             "Assigned": "Chan Yi Ru Micole",
-#             "Priority": "High"
-#         },
-#         {
-#             "Action": "Share progress document",
-#             "Deadline": "After the meeting",
-#             "Assigned": "Ryan_Edward",
-#             "Priority": "Low"
-#         },
-#         {
-#             "Action": "Send out meeting details",
-#             "Deadline": "Thursday",
-#             "Assigned": "Ben_CH",
-#             "Priority": "Medium"
-#         }
-#     ]
-# }
-# """
-#     # print(json.loads(json_string))
     return jsonify(json.loads(json_string))

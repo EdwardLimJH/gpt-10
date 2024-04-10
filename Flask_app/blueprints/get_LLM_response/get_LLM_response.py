@@ -53,6 +53,7 @@ def _upload_to_collection(files, collection_id, client):
             doc_id_list.append(doc_id)
     print(doc_id_list)
     client.ingest_uploads(collection_id, doc_id_list)
+    return doc_id_list
 
 def extract_json_string(full_string): 
     """Extracts json-like string from LLM response. Outputs str."""
@@ -88,28 +89,66 @@ def get_LLM_response():
 
     h2o_collection_id, h2o_client = _create_collection()
     print("Tryna upload to collection")
-    _upload_to_collection(file_data, h2o_collection_id, h2o_client)
+    doc_id_list = _upload_to_collection(file_data, h2o_collection_id, h2o_client)
     print("done uploading")
     processed_data = _temp_process_data(form_data)
-    session["language_preferences"] = processed_data["language_preferences"]
-    session["email_list"] = processed_data["email_list"]
+    # session["language_preferences"] = processed_data["language_preferences"]
+    # session["email_list"] = processed_data["email_list"]
     
-    print("Starting chat")
+    
     chat_session_id = h2o_client.create_chat_session(h2o_collection_id)
+    session["doc_id_list"] = doc_id_list
+    session["collection_id"] = h2o_collection_id
     session["chat_session_id"] = chat_session_id
-    print("Redirecting to meeting_chat now")
-    # meeting_chat_response =  requests.get("http://localhost:5000/meeting_chat", cookies=request.cookies)
-    # print(meeting_chat_response)
+
+    resp = """
+    {
+        "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
+        "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
+        "Actionables": [
+            {
+                "Action": "Complete design proposal",
+                "Deadline": "Wednesday",
+                "Assigned": "Ryan_Edward",
+                "Priority": "High"
+            },
+            {
+                "Action": "Confirm meeting with design specialist",
+                "Deadline": "Thursday",
+                "Assigned": "Ben_CH",
+                "Priority": "Medium"
+            },
+            {
+                "Action": "Resolve integration issue",
+                "Deadline": "Friday",
+                "Assigned": "Chan Yi Ru Micole",
+                "Priority": "High"
+            },
+            {
+                "Action": "Share progress document",
+                "Deadline": "After the meeting",
+                "Assigned": "Ryan_Edward",
+                "Priority": "Low"
+            },
+            {
+                "Action": "Send out meeting details",
+                "Deadline": "Thursday",
+                "Assigned": "Ben_CH",
+                "Priority": "Medium"
+            }
+        ]
+    }
+    """
+    return json.dumps(resp)
+    print("Getting initial meeting response")
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)
 
     print("Getting sentiment response")
     sentiment_prompt = generate_sentiment_prompt(meeting_summary_response.content)
+    print(sentiment_prompt)
     sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, MEETING_SYSTEM_PROMPT)
 
     json_string = extract_json_string(sentiment_reply.content) 
-
-    # print("trying the .content")
-    # print(meeting_chat_response.content)
-    # return json.dumps(json_string)
+    return json.dumps(json_string)
     return jsonify(json.loads(json_string))
     
