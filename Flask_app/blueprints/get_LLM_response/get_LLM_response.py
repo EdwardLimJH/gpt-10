@@ -6,7 +6,7 @@ import requests
 from io import BufferedReader
 from blueprints.get_LLM_response.prompts import MEETING_SYSTEM_PROMPT, MAIN_PROMPT, generate_sentiment_prompt
 
-H2O_API_KEY = os.getenv("H2O_API_KEY")  
+H2O_API_KEY = os.getenv("H2O_API_KEY")
 
 
 def rag_chat(client, chat_session_id, main_prompt, system_prompt):
@@ -143,6 +143,7 @@ def get_LLM_response():
     resp_dic["doc_id_list"] = doc_id_list
     resp_dic["collection_id"] = h2o_collection_id
     resp_dic["chat_session_id"] = chat_session_id
+    print(resp_dic)
     return json.dumps(resp_dic)
     print("Getting initial meeting response")
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)

@@ -141,17 +141,21 @@ const handleSubmit = () => {
 
   xhr.onload = () => {
     if (xhr.status === 200) {
+      // Assume the responseText is a JSON string and parse it
       const result = JSON.parse(xhr.responseText);
       console.log(result.message);
-      // Parse the JSON string into a JavaScript object
-      const meetingData = JSON.parse(result);
-
-      // Now you can extract any part of the parsed object
-      const agenda = meetingData.Agenda;
-      const meetingSummary = meetingData['Meeting Summary'];
-      const actionables = meetingData.Actionables;
+      
+      // No need to parse result again if it's already a JavaScript object
+      // Directly use the result object to extract data
+      const agenda = result.Agenda;
+      const meetingSummary = result['Meeting Summary'];
+      const actionables = result.Actionables;
+      const doc_id_list = result.doc_id_list;
+      const collection_id = result.collection;
+      const chat_session_id = result.chat_session_id;
+      
       // Navigate to the review page when the request is successful
-      navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list } });
+      navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list, doc_id_list, collection_id, chat_session_id } });
     } else {
       console.error('Error caught:', xhr.statusText);
     }

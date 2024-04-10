@@ -19,6 +19,9 @@ interface ReviewProps {
   agenda?: string;
   meetingSummary?: string;
   actionables?: Actionable[]; // Ensure this matches the JSON structure
+  doc_id_list?: string[];
+  collection_id?: string;
+  chat_session_id?: string;
 }
 
 // Styled Components
@@ -189,7 +192,10 @@ function Review() {
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
   const [email_list, setEmailAddresses] = useState(locationState.email_list ?? '');
   const [attachment, setAttachment] = useState<File | null>(locationState.attachment ?? null);
-
+  const [docIdList, setDocIdList] = useState<string[]>(locationState.doc_id_list ?? []);
+  const [collectionId, setCollectionId] = useState<string>(locationState.collection_id ?? '');
+  const [chatSessionId, setChatSessionId] = useState<string>(locationState.chat_session_id ?? '');
+  
 
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
@@ -255,7 +261,10 @@ function Review() {
       'Actionables': actionablesData,
       'language_preferences': language, // assuming language is a string, if it's an array just assign it
       'email_list': email_list.split(', '), // assuming email_list is a comma-separated string
-      'Requested by': meetingInformation.requestedBy // Include the Requested by information
+      'Requested by': meetingInformation.requestedBy, // Include the Requested by information
+      'doc_id_list': docIdList,
+      'collection_id': collectionId,
+      'chat_session_id': chatSessionId,
     };
   
     // Convert object to string for sending as JSON in AJAX request
@@ -290,51 +299,116 @@ function Review() {
     xhr.send(jsonData);
   };
   
-  
-
   const handleSubmit = () => {
     if (!attachment || !email_list) {
       alert("Please provide an attachment and at least one email address.");
       return;
     }
   
-    const formData = new FormData();
-    formData.append('file', attachment); // Append the file
-    // formData.append('language', language); // Append the selected language
-    language.forEach((lang) => formData.append('language', lang)); 
-    formData.append('email_list', email_list); // Append the email addresses
+    // You would need to retrieve and set the state for agenda, meetingSummary, 
+    // actionables, and meetingInformation somewhere in your code.
   
-    // Navigate to the loading page immediately
+    // Create the JSON payload to send
+    const jsonPayload = {
+      'file': attachment, // This assumes that the server can handle a file in JSON, which is unusual
+      'language': Array.isArray(language) ? language : [language], // Ensure language is an array
+      'email_list': email_list.split(', '), // Split the emails into an array
+      'agenda': agenda, // Set this state from your component
+      'meetingSummary': meetingSummary, // Set this state from your component
+      'actionables': assignments, // This should be the array of actionable items
+      'doc_id_list': docIdList, // Set this state from your component
+      'collection_id': collectionId, // Set this state from your component
+      'chat_session_id': chatSessionId, // Set this state from your component
+    };
+  
+    const jsonData = JSON.stringify(jsonPayload);
+  
     navigate('/loading', { state: { attachment, language, email_list } });
   
+    // AJAX request setup
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:5000/get_LLM_response', true);
+    xhr.open('GET', 'http://localhost:5000/meeting_chat', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
   
     xhr.onload = () => {
       if (xhr.status === 200) {
-        const result = JSON.parse(xhr.responseText);
-        console.log(result.message);
-        // Parse the JSON string into a JavaScript object
-        const meetingData = JSON.parse(result);
-  
-        // Now you can extract any part of the parsed object
-        const agenda = meetingData.Agenda;
-        const meetingSummary = meetingData['Meeting Summary'];
-        const actionables = meetingData.Actionables;
-        // Navigate to the review page when the request is successful
-        navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list } });
+        console.log('Chat processed successfully');
+        const response = JSON.parse(xhr.responseText);
+        // Here you would handle the response and extract the information needed to navigate or update state
+        navigate('/review', { state: { ...response, attachment, language, email_list } });
       } else {
         console.error('Error caught:', xhr.statusText);
+        // Handle any errors here
       }
     };
   
     xhr.onerror = () => {
       console.error('An error occurred during the transaction');
+      // Handle the error
     };
   
-    xhr.send(formData);
+    xhr.send(jsonData); // Send the JSON payload
   };
+    
 
+  // const handleSubmit = () => {
+  //   if (!attachment || !email_list) {
+  //     alert("Please provide an attachment and at least one email address.");
+  //     return;
+  //   }
+  
+  //   const formData = new FormData();
+  //   formData.append('file', attachment); // Append the file
+  //   // Assuming 'language' is an array of selected languages
+  //   language.forEach((lang) => formData.append('language', lang)); 
+  //   formData.append('email_list', email_list); // Append the email addresses
+  
+  //   // Navigate to the loading page immediately
+  //   navigate('/loading', { state: { attachment, language, email_list } });
+  
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open('POST', 'http://localhost:5000/get_LLM_response', true);
+  
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) {
+  //       // Assume xhr.responseText contains the JSON string
+  //       const result = JSON.parse(xhr.responseText);
+  //       console.log(result.message);
+        
+  //       // Directly use the result object which is now a JavaScript object
+  //       // No need to parse again as in previous wrong code
+  //       const agenda = result.Agenda;
+  //       const meetingSummary = result['Meeting Summary'];
+  //       const actionables = result.Actionables;
+        
+  //       // Navigate to the review page when the request is successful
+  //       navigate('/review', { 
+  //         state: { 
+  //           agenda, 
+  //           meetingSummary, 
+  //           actionables, 
+  //           attachment, 
+  //           language, 
+  //           email_list, 
+  //           // Assuming docIdList, collectionId, and chatSessionId are also part of the state
+  //           // They need to be defined and set in your component for this to work
+  //           docIdList, 
+  //           collectionId, 
+  //           chatSessionId 
+  //         } 
+  //       });
+  //     } else {
+  //       console.error('Error caught:', xhr.statusText);
+  //     }
+  //   };
+  
+  //   xhr.onerror = () => {
+  //     console.error('An error occurred during the transaction');
+  //   };
+  
+  //   xhr.send(formData);
+  // };
+  
   // Function to handle edit mode toggle
   const toggleEdit = (section: string) => {
     setEditMode(prevState => ({ ...prevState, [section]: !prevState[section] }));
@@ -366,6 +440,23 @@ function Review() {
   const handleEmailAddressesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailAddresses(e.target.value);
   };
+
+  const handleAttachmentChange = (attachment: File | null) => {
+    setAttachment(attachment);
+  };
+  
+  const handleDocIdListChange = (docIdList: string[]) => {
+    setDocIdList(docIdList);
+  };
+  
+  const handleCollectionIdChange = (collectionId: string) => {
+    setCollectionId(collectionId);
+  };
+  
+  const handleChatSessionIdChange = (chatSessionId: string) => {
+    setChatSessionId(chatSessionId);
+  };
+  
 
 // Improved addLanguage function with proper TypeScript typing
 const addLanguage = (newLanguages: string[]) => {
