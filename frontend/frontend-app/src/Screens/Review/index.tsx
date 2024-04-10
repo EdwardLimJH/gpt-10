@@ -193,10 +193,10 @@ function Review() {
   const [email_list, setEmailAddresses] = useState(locationState.email_list ?? '');
   const [attachment, setAttachment] = useState<File | null>(locationState.attachment ?? null);
   const [docIdList, setDocIdList] = useState<string[]>(locationState.doc_id_list ?? []);
-  const [collectionId, setCollectionId] = useState<string>(locationState.collection_id ?? '');
+  const [collectionId, setCollectionId] = useState<string>(locationState.collection_id ?? 'dsf');
   const [chatSessionId, setChatSessionId] = useState<string>(locationState.chat_session_id ?? '');
   const [meetingRequester, setMeetingRequester] = useState<string>(locationState.meetingRequester ?? '');
-  
+
 
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
@@ -252,7 +252,7 @@ function Review() {
     };
 
     const jsonData = JSON.stringify(jsonPayload);
-
+    console.log(jsonPayload);
     navigate('/loading', { state: { attachment, language, email_list } });
   
     const xhr = new XMLHttpRequest();

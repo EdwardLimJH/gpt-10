@@ -97,7 +97,7 @@ const handleSubmit = () => {
       const meetingSummary = result['Meeting Summary'];
       const actionables = result.Actionables;
       const doc_id_list = result.doc_id_list;
-      const collection_id = result.collection;
+      const collection_id = result.collection_id;
       const chat_session_id = result.chat_session_id;
       
       // Navigate to the review page when the request is successful
