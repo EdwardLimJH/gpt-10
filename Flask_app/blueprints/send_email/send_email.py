@@ -29,6 +29,8 @@ send_email_bp = Blueprint('send_email', __name__)
 
 @send_email_bp.route('/send_email', methods=['POST'])
 def send_email():
+    print("Session info at send_email/")
+    print(session)
     json_response = request.json
     if not json_response:
         return "Bad request, JSON data is missing", 400
@@ -37,11 +39,16 @@ def send_email():
     email_body = string_like_JSON_to_txt(json_response)
     email_title = "Temporary placeholder"
     print(email_body)
-
+    # to_email_list = session.get("email_list")
+    # language_preferences = session["language_preferences"]
+    print("Hiii im at sendemail")
+    form_data = request.form
+    print(form_data)
     # handle translation here
     emails_dict = {"english":email_body}
     # language_preferences = session["language_preferences"]
     language_preferences = json_response.get("language_preferences", ["english"])
+
     for language in language_preferences:
         if language.lower() not in emails_dict:
             print(language)
@@ -67,6 +74,7 @@ def send_email():
     from_email = 'gpt10.4213.1@outlook.com'
     # Assume emails are in session["email_list"]
     # to_email_list = session.get("email_list") # get email list from session, # Ensure not None
+
     to_email_list = json_response.get("email_list", [])
     if not to_email_list:
         return "Bad request, email list is missing", 400
@@ -74,19 +82,19 @@ def send_email():
     # Ensure it's a list, if it comes as a string, convert it to a list
     if isinstance(to_email_list, str):
         to_email_list = to_email_list.split(', ')
-
     # meeting_date = "5/3/2024"
     # subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
-    subject = email_title
-    msg = MIMEMultipart()
-    msg['From'] = from_email
-    msg['To'] = ", ".join(to_email_list) # send to multiple users
-    msg['Subject'] = subject
-    msg.attach(MIMEText(email_body))
+    # subject = email_title
+    # msg = MIMEMultipart()
+    # msg['From'] = from_email
+    # msg['To'] = ", ".join(to_email_list) # send to multiple users
+    # msg['Subject'] = subject
+    # msg.attach(MIMEText(email_body))
 
-    with smtplib.SMTP(smtp_server, smtp_port) as smtp:
-        smtp.starttls()
-        smtp.login(smtp_username, smtp_password)
-        smtp.send_message(msg)
-
+    # with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+    #     smtp.starttls()
+    #     smtp.login(smtp_username, smtp_password)
+    #     smtp.send_message(msg)
+    requests.delete("http://localhost:5000/delete_folder", cookies=request.cookies)
     return "Email sent successfully", 200
+
