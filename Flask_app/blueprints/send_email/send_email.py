@@ -13,6 +13,7 @@ def string_like_JSON_to_txt(data):
     agenda = data.get('Agenda', '')
     meeting_summary = data.get('Meeting Summary', '')
     actionables = data.get('Actionables', [])
+    requested_by = data.get('Requested by', '[Your Name]')  # Default to '[Your Name]' if not provided
 
     # Format the post-meeting email
     email_subject = f"Post-Meeting Summary: {agenda}"
@@ -20,7 +21,7 @@ def string_like_JSON_to_txt(data):
     for action in actionables:
         email_body += f"- {action['Action']} (Assigned to: {action['Assigned']}, Deadline: {action['Deadline']}, Priority: {action['Priority']})\n"
 
-    email_body += "\nPlease let me know if anything needs clarification or if there are additional action items to add.\n\nBest regards,\n[Your Name]"
+    email_body += f"\nPlease let me know if anything needs clarification or if there are additional action items to add.\n\nBest regards,\n{requested_by}"
     return email_body
 
 

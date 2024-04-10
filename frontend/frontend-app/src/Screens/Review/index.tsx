@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -193,12 +193,29 @@ function Review() {
 
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
-    duration: '37 mins',
-    venue: 'Com 3',
-    requestedBy: 'Lim Jun Heng, Edward',
+    requestedBy: 'Please fill this in',
   });
-  const [attendees, setAttendees] = useState(['Edward', 'Cheng Hong', 'Hannah', 'Peng Hao', 'Micole']);
-  const [language, setLanguage] = useState(locationState.language ?? '');
+
+  useEffect(() => {
+    if (attachment) {
+      // Convert lastModified to a Date object
+      const lastModifiedDate = new Date(attachment.lastModified);
+
+      // Format the date as you need it for your application
+      // Example: '19/3/2024 10:00-12:00'
+      const formattedDate = `${lastModifiedDate.getDate()}/${
+        lastModifiedDate.getMonth() + 1
+      }/${lastModifiedDate.getFullYear()} ${lastModifiedDate.getHours()}:${lastModifiedDate.getMinutes()}`;
+
+      // Update the meetingInformation state
+      setMeetingInformation((prevInfo) => ({
+        ...prevInfo,
+        dateAndTime: formattedDate,
+      }));
+    }
+  }, [attachment]);
+  const [language, setLanguages] = useState<string[]>(locationState.language ? [locationState.language] : []);
+
 
   // const [agenda, setAgenda] = useState(locationState.agenda ? locationState.agenda.split(", ") : []);
   const [agenda, setAgenda] = useState<string[]>(locationState.agenda?.split(", ") || []);
@@ -220,15 +237,6 @@ function Review() {
       ? locationState.actionables.map(a => `${a.Assigned}: ${a.Action} (${a.Priority}, ${a.Deadline})`)
       : []; // Default to an empty array if actionables is undefined
   });
-  
-  // const [assignments, setAssignments] = useState([
-  //   'Ryan_Edward: Lead the development of the chatbot',
-  //   'Eugene_YJ: Work on the summarization feature',
-  //   'Hannah Nga: Work on the generation of meeting minutes',
-  //   'Ben_CH: Work on the translation feature',
-  //   'Jeremy_PH: Assist with the development of the chatbot',
-  //   'Chan Yi Ru Micole: Assist with the development of the chatbot and provide input on the meeting summary feature.'
-  // ]);
 
   const sendEmail = () => {
     // Validate that necessary information is available
@@ -245,8 +253,9 @@ function Review() {
       'Agenda': agenda.join(", "),
       'Meeting Summary': meetingSummary,
       'Actionables': actionablesData,
-      'language_preferences': [language], // assuming language is a string, if it's an array just assign it
-      'email_list': email_list.split(', ') // assuming email_list is a comma-separated string
+      'language_preferences': language, // assuming language is a string, if it's an array just assign it
+      'email_list': email_list.split(', '), // assuming email_list is a comma-separated string
+      'Requested by': meetingInformation.requestedBy // Include the Requested by information
     };
   
     // Convert object to string for sending as JSON in AJAX request
@@ -291,7 +300,8 @@ function Review() {
   
     const formData = new FormData();
     formData.append('file', attachment); // Append the file
-    formData.append('language', language); // Append the selected language
+    // formData.append('language', language); // Append the selected language
+    language.forEach((lang) => formData.append('language', lang)); 
     formData.append('email_list', email_list); // Append the email addresses
   
     // Navigate to the loading page immediately
@@ -337,10 +347,6 @@ function Review() {
     setMeetingInformation(prevState => ({ ...prevState, [field]: e.target.value }));
   };
 
-  const handleAttendeesChange = (index: number, value: string) => {
-    setAttendees(prevAttendees => prevAttendees.map((attendee, i) => i === index ? value : attendee));
-  };
-
   const handleAgendaChange = (index: number, value: string) => {
     setAgenda(prevAgenda => prevAgenda.map((item, i) => i === index ? value :item));
   };
@@ -361,13 +367,27 @@ function Review() {
     setEmailAddresses(e.target.value);
   };
 
-  const handleChangeLanguage = () => {
-    // Example: Prompt the user to enter a new language
-    const newLanguage = prompt('Enter new language (e.g., English, Spanish):');
-    if (newLanguage) {
-      setLanguage(newLanguage); // Update the language state
-    }
-  };
+// Improved addLanguage function with proper TypeScript typing
+const addLanguage = (newLanguages: string[]) => {
+  setLanguages((prevLanguages) => {
+    // Combine the previous and new languages, and remove duplicates
+    const updatedLanguages = new Set([...prevLanguages, ...newLanguages]);
+    return Array.from(updatedLanguages);
+  });
+};
+
+const handleChangeLanguage = () => {
+  // Prompt the user to enter new languages, separated by commas
+  const userInput = prompt('Enter new languages (e.g., English, Spanish), separated by commas:');
+  if (userInput) {
+    // Split the string by commas, trim whitespace, and filter out any empty strings
+    const newLanguages = userInput.split(',')
+                                  .map(lang => lang.trim())
+                                  .filter(lang => lang !== '');
+    addLanguage(newLanguages);
+  }
+};
+
 
   const handleSave = (section: string) => {
     toggleEdit(section); // Toggle edit mode
@@ -444,8 +464,6 @@ function Review() {
             {editMode.meetingInfo ? (
               <InformationContainer>
                 {renderEditableField(meetingInformation.dateAndTime, (e) => handleMeetingInfoChange(e, 'dateAndTime'), 'dateAndTime')}
-                {renderEditableField(meetingInformation.venue, (e) => handleMeetingInfoChange(e, 'venue'), 'venue')}
-                {renderEditableField(meetingInformation.duration, (e) => handleMeetingInfoChange(e, 'duration'), 'duration')}
                 {renderEditableField(meetingInformation.requestedBy, (e) => handleMeetingInfoChange(e, 'requestedBy'), 'requestedBy')}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <SaveButton onClick={() => handleSave('meetingInfo')}>Save</SaveButton>
@@ -455,8 +473,6 @@ function Review() {
             ) : (
               <InformationContainer>
                 <p>Date and Time: {meetingInformation.dateAndTime}</p>
-                <p>Venue: {meetingInformation.venue}</p>
-                <p>Duration: {meetingInformation.duration}</p>
                 <p>Requested by: {meetingInformation.requestedBy}</p>
                 <div style={{ textAlign: 'right' }}>
                   <SaveButton onClick={() => handleSave('meetingInfo')}>Edit</SaveButton>
@@ -465,36 +481,6 @@ function Review() {
             )}
           </Section>
           
-          {/* Attendees Section */}
-          <Section>
-            <h2>Attendees</h2>
-            <InformationContainer>
-            {editMode.attendees ? (
-              <>
-                {attendees.map((attendee, index) => (
-                  renderEditableField(attendee, (e) => handleAttendeesChange(index, e.target.value), `attendee-${index}`)
-                ))}
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SaveButton onClick={() => handleSave('attendees')}>Save</SaveButton>
-                  <CancelButton onClick={() => toggleEdit('attendees')}>Cancel</CancelButton>
-                </div>
-              </>
-            ) : (
-              <>
-                <List>
-                  {attendees.map((attendee, index) => (
-                    <ListItem key={index}>
-                      <CustomBullet /> {attendee}
-                    </ListItem>
-                  ))}
-                </List>
-                <div style={{ textAlign: 'right' }}>
-                  <SaveButton onClick={() => handleSave('attendees')}>Edit</SaveButton>
-                </div>
-              </>
-            )}
-          </InformationContainer>
-          </Section>
           
           {/* Meeting Purpose Section (Objective & Desired Outcome) */}
           <Section>
@@ -598,17 +584,7 @@ function Review() {
               <PreviewLabel>Meeting Information:</PreviewLabel>
               <PreviewList>
                 <PreviewItem>Date and Time: {meetingInformation.dateAndTime}</PreviewItem>
-                <PreviewItem>Venue: {meetingInformation.venue}</PreviewItem>
-                <PreviewItem>Duration: {meetingInformation.duration}</PreviewItem>
                 <PreviewItem>Requested by: {meetingInformation.requestedBy}</PreviewItem>
-              </PreviewList>
-            </PreviewSection>
-            <PreviewSection style={{ backgroundColor: editedSections.attendees ? '#d4edda' : 'transparent' }}>
-              <PreviewLabel>Attendees:</PreviewLabel>
-              <PreviewList>
-                {attendees.map((attendee, index) => (
-                  <PreviewItem key={index}>{attendee}</PreviewItem>
-                ))}
               </PreviewList>
             </PreviewSection>
             <PreviewSection style={{ backgroundColor: editedSections.meetingPurpose ? '#d4edda' : 'transparent' }}>
@@ -637,14 +613,11 @@ function Review() {
             </PreviewSection>
           </EmailPreview>
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            {/* <RegenerateButton onClick={() => navigate('/loading', { state: { email_list, meetingInformation, attendees, language, agenda, meetingSummary, deliverables, assignments } })}>
-              Regenerate LLM
-            </RegenerateButton> */}
             <RegenerateButton onClick={handleSubmit}>
               Regenerate LLM
             </RegenerateButton>
             <LanguageButton onClick={handleChangeLanguage}>
-              Change Language
+              Add Language
             </LanguageButton>
             <ConfirmButton onClick={sendEmail}>
               Confirm and Send to Email
