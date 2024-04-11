@@ -32,12 +32,15 @@ def delete_folder():
         address='https://h2ogpte.genai.h2o.ai',
         api_key= H2O_API_KEY,
     )
-    doc_id_list = session["doc_id_list"]
-    h2o_collection_id = session["collection_id"]
-    chat_session_id = session["chat_session_id"]
+
+    print("in delete folder here is the request.form")
+    print(request.form)
+    doc_id_list = request.form.get("doc_id_list")
+    h2o_collection_id = request.form.get("collection_id")
+    chat_session_id = request.form.get("chat_session_id")
     print(doc_id_list,h2o_collection_id, chat_session_id)
-    h2o_client.delete_chat_sessions([chat_session_id,])
-    h2o_client.delete_documents(doc_id_list)
-    h2o_client.delete_collections([h2o_collection_id,])
-    h2o_client.delete_upload(doc_id_list)
+    # h2o_client.delete_chat_sessions([chat_session_id,])
+    # h2o_client.delete_documents(doc_id_list)
+    # h2o_client.delete_collections([h2o_collection_id,])
+    # h2o_client.delete_upload(doc_id_list)
     return jsonify(result)
