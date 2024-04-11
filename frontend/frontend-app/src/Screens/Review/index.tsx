@@ -245,7 +245,7 @@ function Review() {
       'Actionables': actionablesData,
       'language_preferences': language,
       'email_list': email_list.split(', '),
-      'Requested by': meetingInformation.requestedBy,
+      'requested_by': meetingInformation.requestedBy,
       'doc_id_list': docIdList,
       'collection_id': collectionId,
       'chat_session_id': chatSessionId,
