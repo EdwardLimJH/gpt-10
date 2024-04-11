@@ -30,20 +30,29 @@ send_email_bp = Blueprint('send_email', __name__)
 @send_email_bp.route('/send_email', methods=['POST'])
 def send_email():
     print("Session info at send_email/")
-    print(session)
     json_response = request.json
+    print("request.json") # contains the collection_id,chat_session_id, doc_id_list
+    print(json_response)
     if not json_response:
         return "Bad request, JSON data is missing", 400
     # email_body = json_response.get("email_body")
     # email_title = json_response.get("email_title")
+    print("Try to parse json_response to see wtff is going on")
+    for k in json_response:
+        print(f"key=  {k}, vaalue = {json_response.get(k)}")
+    doc_id_list = json_response["doc_id_list"]
+    h2o_collection_id = json_response['collection_id'] 
+    chat_session_id = json_response["chat_session_id"]
+    print(f"doc_id = {doc_id_list}")
+    print(f"collection_id = {h2o_collection_id}")
+    print(f"chat_session_id = {chat_session_id}")
+
     email_body = string_like_JSON_to_txt(json_response)
     email_title = "Temporary placeholder"
     print(email_body)
     # to_email_list = session.get("email_list")
     # language_preferences = session["language_preferences"]
-    print("Hiii im at sendemail")
-    form_data = request.form
-    print(form_data)
+
     # handle translation here
     emails_dict = {"english":email_body}
     # language_preferences = session["language_preferences"]
@@ -53,19 +62,24 @@ def send_email():
         if language.lower() not in emails_dict:
             print(language)
             # post request to /translate_chat with language & email_body
-            request_dict = {'message':email_body, "language":language}
-            response = requests.post('http://localhost:5000/translate_chat', data=request_dict, cookies=request.cookies)
+            request_dict = {'message':email_body, "language":language, "chat_session_id":chat_session_id }
+            response = requests.post('http://localhost:5000/translate_chat', data=request_dict,)
             response_dict = response.json()
             emails_dict[language.lower()] = response_dict.get("translated_email")
     
+    for language, translated_minutes in emails_dict.items():
+        with open(f"./temp/{language}.txt", "w",encoding="utf-8") as f:
+            f.write(translated_minutes)
+
     for k,v in emails_dict.items():
         print("="*35)
         print("Language:",k)
         print("="*35)
         print(v)
     
-    email_body = "".join(emails_dict.values())
-
+    # email_body = "".join(emails_dict.values())
+    email_body = emails_dict.get("english")
+    
     smtp_server = 'smtp-mail.outlook.com' 
     smtp_port = 587
     smtp_username = 'gpt10.4213.1@outlook.com' # dotenv() to load in main.py?
@@ -82,19 +96,28 @@ def send_email():
     # Ensure it's a list, if it comes as a string, convert it to a list
     if isinstance(to_email_list, str):
         to_email_list = to_email_list.split(', ')
-    # meeting_date = "5/3/2024"
-    # subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
-    # subject = email_title
-    # msg = MIMEMultipart()
-    # msg['From'] = from_email
-    # msg['To'] = ", ".join(to_email_list) # send to multiple users
-    # msg['Subject'] = subject
-    # msg.attach(MIMEText(email_body))
 
-    # with smtplib.SMTP(smtp_server, smtp_port) as smtp:
-    #     smtp.starttls()
-    #     smtp.login(smtp_username, smtp_password)
-    #     smtp.send_message(msg)
-    requests.delete("http://localhost:5000/delete_folder", cookies=request.cookies)
+    meeting_date = "5/3/2024"
+    subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
+    subject = email_title
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = ", ".join(to_email_list) # send to multiple users
+    msg['Subject'] = subject
+    msg.attach(MIMEText(email_body))
+    
+    for language in emails_dict:
+        with open(f'./temp/{language}.txt', 'rb') as f:
+            attachment = MIMEApplication(f.read(), _subtype='txt')
+            attachment.add_header('Content-Disposition', 'attachment', filename=f'{language}_Minutes.txt')
+            msg.attach(attachment)
+    with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+        smtp.starttls()
+        smtp.login(smtp_username, smtp_password)
+        smtp.send_message(msg)
+
+    requests.delete("http://localhost:5000/delete_folder", data={"collection_id":h2o_collection_id, 
+                                                                 "doc_id_list":doc_id_list, 
+                                                                 "chat_session_id":chat_session_id})
     return "Email sent successfully", 200
 
