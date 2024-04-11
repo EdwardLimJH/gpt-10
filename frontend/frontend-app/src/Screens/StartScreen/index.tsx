@@ -66,61 +66,7 @@ function StartScreen() {
   const [attachment, setAttachment] = useState<File | null>(null);
   const [language, setLanguage] = useState<string>('English');
   const [email_list, setEmailAddresses] = useState<string>('');
-
-//   const handleSubmit = async () => { // changed to async
-//     if (!attachment || !emailAddresses) {
-//       alert("Please provide an attachment and at least one email address.");
-//       return;
-//     }
-
-
-//     console.log({
-//       attachment,
-//       language,
-//       emailAddresses,
-//     });
-//     navigate('/loading', { state: { attachment, language, emailAddresses } });
-
-// };
-
-// React front-end (part of: StartScreen.js)
-// use ajax instead of async 
-// sent to llm response
-// const handleSubmit = async () => {
-//   if (!attachment || !emailAddresses) {
-//     alert("Please provide an attachment and at least one email address.");
-//     return;
-//   }
-
-//   const formData = new FormData();
-//   formData.append('file', attachment);  // Append the file
-//   formData.append('language', language);  // Append the selected language
-//   formData.append('email_list', emailAddresses);  // Append the email addresses
-
-
-
-//   try {
-//     const response = await fetch('http://localhost:5000/get_LLM_response', { 
-//       method: 'POST',
-//       body: formData,
-//       // Note: when sending FormData, the 'Content-Type' header
-//       // should not be set, allowing the browser to set it with the
-//       // correct boundary. Do not manually set the 'Content-Type'.
-//     });
-
-//     if (response.ok) {
-//       const result = await response.json();
-//       console.log(result.message);  // You can do something with the response message
-//       // Handle success scenario
-//       navigate('/loading', { state: { attachment, language, emailAddresses } });
-//     } else {
-//       throw new Error('Failed to upload');
-//     }
-//   } catch (error) {
-//     console.error('Error caught:', error);
-//     // alert('An error occurred: ' + error.message);
-//   }
-// };
+  const [meetingRequester, setMeetingRequester] = useState<string>('');
 
 const handleSubmit = () => {
   if (!attachment || !email_list) {
@@ -151,11 +97,11 @@ const handleSubmit = () => {
       const meetingSummary = result['Meeting Summary'];
       const actionables = result.Actionables;
       const doc_id_list = result.doc_id_list;
-      const collection_id = result.collection;
+      const collection_id = result.collection_id;
       const chat_session_id = result.chat_session_id;
       
       // Navigate to the review page when the request is successful
-      navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list, doc_id_list, collection_id, chat_session_id } });
+      navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list, doc_id_list, collection_id, chat_session_id, meetingRequester } });
     } else {
       console.error('Error caught:', xhr.statusText);
     }
@@ -191,12 +137,12 @@ const handleSubmit = () => {
     <Container>
       <Title>Meeting Minutes Submission</Title>
       <Input type="file" accept=".ppt,.pptx,.pdf,.txt,.mp3,.wav" onChange={handleAttachmentChange} />
-      <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
-        <option value="English">English</option>
-        <option value="Chinese">Chinese</option>
-        <option value="French">French</option>
-        {/* Add more languages as options here */}
-      </Select>
+      <Input 
+        type="text" 
+        value={meetingRequester} 
+        onChange={(e) => setMeetingRequester(e.target.value)} 
+        placeholder="Meeting Requester"
+      />
       <Input type="text" value={email_list} onChange={(e) => setEmailAddresses(e.target.value)} placeholder="e.g., example1@mail.com, example2@mail.com" />
       <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
     </Container>

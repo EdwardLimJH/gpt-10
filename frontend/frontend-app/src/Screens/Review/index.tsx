@@ -15,13 +15,13 @@ interface ReviewProps {
   language?: string;
   email_list?: string;
   attachment?: File;
-  // result?: string;
   agenda?: string;
   meetingSummary?: string;
   actionables?: Actionable[]; // Ensure this matches the JSON structure
   doc_id_list?: string[];
   collection_id?: string;
   chat_session_id?: string;
+  meetingRequester?: string;
 }
 
 // Styled Components
@@ -193,13 +193,14 @@ function Review() {
   const [email_list, setEmailAddresses] = useState(locationState.email_list ?? '');
   const [attachment, setAttachment] = useState<File | null>(locationState.attachment ?? null);
   const [docIdList, setDocIdList] = useState<string[]>(locationState.doc_id_list ?? []);
-  const [collectionId, setCollectionId] = useState<string>(locationState.collection_id ?? '');
+  const [collectionId, setCollectionId] = useState<string>(locationState.collection_id ?? 'dsf');
   const [chatSessionId, setChatSessionId] = useState<string>(locationState.chat_session_id ?? '');
-  
+  const [meetingRequester, setMeetingRequester] = useState<string>(locationState.meetingRequester ?? '');
+
 
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
-    requestedBy: 'Please fill this in',
+    requestedBy: meetingRequester,
   });
 
   useEffect(() => {
@@ -208,12 +209,9 @@ function Review() {
       const lastModifiedDate = new Date(attachment.lastModified);
 
       // Format the date as you need it for your application
-      // Example: '19/3/2024 10:00-12:00'
       const formattedDate = `${lastModifiedDate.getDate()}/${
         lastModifiedDate.getMonth() + 1
       }/${lastModifiedDate.getFullYear()} ${lastModifiedDate.getHours()}:${lastModifiedDate.getMinutes()}`;
-
-      // Update the meetingInformation state
       setMeetingInformation((prevInfo) => ({
         ...prevInfo,
         dateAndTime: formattedDate,
@@ -221,24 +219,11 @@ function Review() {
     }
   }, [attachment]);
   const [language, setLanguages] = useState<string[]>(locationState.language ? [locationState.language] : []);
-
-
-  // const [agenda, setAgenda] = useState(locationState.agenda ? locationState.agenda.split(", ") : []);
   const [agenda, setAgenda] = useState<string[]>(locationState.agenda?.split(", ") || []);
-
   const [meetingSummary, setDesiredOutcome] = useState<string>(locationState.meetingSummary ?? '');
 
-  // const [desiredOutcome, setDesiredOutcome] = useState('To outline the key features and functionalities of the chatbot, and to assign tasks to team members for its development');
-  const [deliverables, setDeliverables] = useState([
-    'Develop a chatbot for a software company',
-    'Include the following features:',
-    'Summarize meetings',
-    'Generate meeting minutes',
-    'Provide translations'
-  ]);
-
   const [assignments, setAssignments] = useState<string[]>(() => {
-    // If actionables is defined, map over it to create an array of strings in the required format
+    // If actionables is defined
     return locationState.actionables
       ? locationState.actionables.map(a => `${a.Assigned}: ${a.Action} (${a.Priority}, ${a.Deadline})`)
       : []; // Default to an empty array if actionables is undefined
@@ -250,8 +235,7 @@ function Review() {
       alert("Please provide at least one email address and select a language.");
       return;
     }
-  
-    // Extract actionables from locationState with correct typing
+
     const actionablesData: Actionable[] = locationState.actionables ?? [];
   
     // Prepare the data to be sent, including language_preferences
@@ -259,43 +243,34 @@ function Review() {
       'Agenda': agenda.join(", "),
       'Meeting Summary': meetingSummary,
       'Actionables': actionablesData,
-      'language_preferences': language, // assuming language is a string, if it's an array just assign it
-      'email_list': email_list.split(', '), // assuming email_list is a comma-separated string
-      'Requested by': meetingInformation.requestedBy, // Include the Requested by information
+      'language_preferences': language,
+      'email_list': email_list.split(', '),
+      'Requested by': meetingInformation.requestedBy,
       'doc_id_list': docIdList,
       'collection_id': collectionId,
       'chat_session_id': chatSessionId,
     };
-  
-    // Convert object to string for sending as JSON in AJAX request
+
     const jsonData = JSON.stringify(jsonPayload);
-  
-    // Navigate to the loading page immediately
+    console.log(jsonPayload);
     navigate('/loading', { state: { attachment, language, email_list } });
   
-    // Make the AJAX request to the server
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:5000/send_email', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
   
     xhr.onload = () => {
       if (xhr.status === 200) {
-        // Navigate to a confirmation page or show a success message
         console.log('Email sent successfully');
         navigate('/confirmation');
       } else {
-        // Handle any errors here
         console.error('Error caught:', xhr.statusText);
-        // Optionally, navigate back to the review page or show error feedback
       }
     };
   
     xhr.onerror = () => {
       console.error('An error occurred during the transaction');
-      // Optionally, navigate back to the review page or show error feedback
     };
-  
-    // Send the request with the payload
     xhr.send(jsonData);
   };
   
@@ -305,27 +280,23 @@ function Review() {
       return;
     }
   
-    // You would need to retrieve and set the state for agenda, meetingSummary, 
-    // actionables, and meetingInformation somewhere in your code.
-  
     // Create the JSON payload to send
     const jsonPayload = {
-      'file': attachment, // This assumes that the server can handle a file in JSON, which is unusual
+      'file': attachment, 
       'language': Array.isArray(language) ? language : [language], // Ensure language is an array
-      'email_list': email_list.split(', '), // Split the emails into an array
-      'agenda': agenda, // Set this state from your component
-      'meetingSummary': meetingSummary, // Set this state from your component
-      'actionables': assignments, // This should be the array of actionable items
-      'doc_id_list': docIdList, // Set this state from your component
-      'collection_id': collectionId, // Set this state from your component
-      'chat_session_id': chatSessionId, // Set this state from your component
+      'email_list': email_list.split(', '),
+      'agenda': agenda,
+      'meetingSummary': meetingSummary,
+      'actionables': assignments,
+      'doc_id_list': docIdList,
+      'collection_id': collectionId,
+      'chat_session_id': chatSessionId,
     };
   
     const jsonData = JSON.stringify(jsonPayload);
   
     navigate('/loading', { state: { attachment, language, email_list } });
-  
-    // AJAX request setup
+
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:5000/meeting_chat', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -334,8 +305,13 @@ function Review() {
       if (xhr.status === 200) {
         console.log('Chat processed successfully');
         const response = JSON.parse(xhr.responseText);
-        // Here you would handle the response and extract the information needed to navigate or update state
-        navigate('/review', { state: { ...response, attachment, language, email_list } });
+        const agenda = response.Agenda;
+        const meetingSummary = response['Meeting Summary'];
+        const actionables = response.Actionables;
+        
+        // Navigate to the review page when the request is successful
+        navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list,
+           doc_id_list: docIdList, collection_id: collectionId, chat_session_id: chatSessionId, meetingRequester: meetingInformation.requestedBy } });
       } else {
         console.error('Error caught:', xhr.statusText);
         // Handle any errors here
@@ -350,64 +326,6 @@ function Review() {
     xhr.send(jsonData); // Send the JSON payload
   };
     
-
-  // const handleSubmit = () => {
-  //   if (!attachment || !email_list) {
-  //     alert("Please provide an attachment and at least one email address.");
-  //     return;
-  //   }
-  
-  //   const formData = new FormData();
-  //   formData.append('file', attachment); // Append the file
-  //   // Assuming 'language' is an array of selected languages
-  //   language.forEach((lang) => formData.append('language', lang)); 
-  //   formData.append('email_list', email_list); // Append the email addresses
-  
-  //   // Navigate to the loading page immediately
-  //   navigate('/loading', { state: { attachment, language, email_list } });
-  
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.open('POST', 'http://localhost:5000/get_LLM_response', true);
-  
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) {
-  //       // Assume xhr.responseText contains the JSON string
-  //       const result = JSON.parse(xhr.responseText);
-  //       console.log(result.message);
-        
-  //       // Directly use the result object which is now a JavaScript object
-  //       // No need to parse again as in previous wrong code
-  //       const agenda = result.Agenda;
-  //       const meetingSummary = result['Meeting Summary'];
-  //       const actionables = result.Actionables;
-        
-  //       // Navigate to the review page when the request is successful
-  //       navigate('/review', { 
-  //         state: { 
-  //           agenda, 
-  //           meetingSummary, 
-  //           actionables, 
-  //           attachment, 
-  //           language, 
-  //           email_list, 
-  //           // Assuming docIdList, collectionId, and chatSessionId are also part of the state
-  //           // They need to be defined and set in your component for this to work
-  //           docIdList, 
-  //           collectionId, 
-  //           chatSessionId 
-  //         } 
-  //       });
-  //     } else {
-  //       console.error('Error caught:', xhr.statusText);
-  //     }
-  //   };
-  
-  //   xhr.onerror = () => {
-  //     console.error('An error occurred during the transaction');
-  //   };
-  
-  //   xhr.send(formData);
-  // };
   
   // Function to handle edit mode toggle
   const toggleEdit = (section: string) => {
@@ -429,10 +347,6 @@ function Review() {
   setDesiredOutcome(e.target.value);
   };
   
-  const handleDeliverablesChange = (index: number, value: string) => {
-  setDeliverables(prevDeliverables => prevDeliverables.map((item, i) => i === index ? value : item));
-  };
-  
   const handleAssignmentsChange = (index: number, value: string) => {
     setAssignments((prevAssignments) => prevAssignments.map((item, i) => i === index ? value : item));
   };
@@ -441,22 +355,6 @@ function Review() {
     setEmailAddresses(e.target.value);
   };
 
-  const handleAttachmentChange = (attachment: File | null) => {
-    setAttachment(attachment);
-  };
-  
-  const handleDocIdListChange = (docIdList: string[]) => {
-    setDocIdList(docIdList);
-  };
-  
-  const handleCollectionIdChange = (collectionId: string) => {
-    setCollectionId(collectionId);
-  };
-  
-  const handleChatSessionIdChange = (chatSessionId: string) => {
-    setChatSessionId(chatSessionId);
-  };
-  
 
 // Improved addLanguage function with proper TypeScript typing
 const addLanguage = (newLanguages: string[]) => {
@@ -610,16 +508,12 @@ const handleChangeLanguage = () => {
             </InformationContainer>
           </Section>
           
-          {/* Action Items Section (Deliverables & Assignments) */}
+          {/* Action Items Section (Assignments) */}
           <Section>
           <h2>Action Items</h2>
           <InformationContainer>
             {editMode.actionItems ? (
               <>
-                <h3>Deliverables</h3>
-                {deliverables.map((item, index) => (
-                  renderEditableField(item, (e) => handleDeliverablesChange(index, e.target.value), `deliverable-${index}`)
-                ))}
                 <h3>Assignments</h3>
                 {assignments.map((item, index) => (
                   renderEditableField(item, (e) => handleAssignmentsChange(index, e.target.value), `assignment-${index}`)
@@ -631,14 +525,6 @@ const handleChangeLanguage = () => {
               </>
             ) : (
               <>
-                <h3>Deliverables</h3>
-                <List>
-                  {deliverables.map((item, index) => (
-                    <ListItem key={`deliverable-${index}`}>
-                      <CustomBullet />{item}
-                    </ListItem>
-                  ))}
-                </List>
                 <h3>Assignments</h3>
                 <List>
                   {assignments.map((item, index) => (
@@ -692,11 +578,6 @@ const handleChangeLanguage = () => {
             <PreviewSection  style={{ backgroundColor: editedSections.actionItems ? '#d4edda' : 'transparent' }}>
               <PreviewLabel>Action Items:</PreviewLabel>
               <PreviewList>
-                {deliverables.map((item, index) => (
-                  <PreviewItem key={`deliverable-${index}`}>{item}</PreviewItem>
-                ))}
-              </PreviewList>
-              <PreviewList>
                 {assignments.map((item, index) => (
                   <PreviewItem key={`assignment-${index}`}>{item}</PreviewItem>
                 ))}
@@ -721,5 +602,3 @@ const handleChangeLanguage = () => {
 }
 
 export default Review;
-
-// TODO: regenerate, send EmailPreview, language
