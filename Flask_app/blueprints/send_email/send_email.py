@@ -13,7 +13,7 @@ def string_like_JSON_to_txt(data):
     agenda = data.get('Agenda', '')
     meeting_summary = data.get('Meeting Summary', '')
     actionables = data.get('Actionables', [])
-    requested_by = data.get('Requested by', '[Your Name]')  # Default to '[Your Name]' if not provided
+    requested_by = data.get('requested_by', '[Your Name]')  # Default to '[Your Name]' if not provided
 
     # Format the post-meeting email
     email_subject = f"Post-Meeting Summary: {agenda}"
@@ -46,9 +46,10 @@ def send_email():
     print(f"doc_id = {doc_id_list}")
     print(f"collection_id = {h2o_collection_id}")
     print(f"chat_session_id = {chat_session_id}")
+    email_date = json_response.get('meeting_date', "").split(" ")[0]
 
     email_body = string_like_JSON_to_txt(json_response)
-    email_title = "Temporary placeholder"
+    email_title = f"{email_date} Meeting Minutes"
     print(email_body)
     # to_email_list = session.get("email_list")
     # language_preferences = session["language_preferences"]
@@ -97,8 +98,6 @@ def send_email():
     if isinstance(to_email_list, str):
         to_email_list = to_email_list.split(', ')
 
-    meeting_date = "5/3/2024"
-    subject = f"{meeting_date} Meeting Minutes"  # meeting_date either user input or LLM search through document.
     subject = email_title
     msg = MIMEMultipart()
     msg['From'] = from_email
@@ -109,8 +108,9 @@ def send_email():
     for language in emails_dict:
         with open(f'./temp/{language}.txt', 'rb') as f:
             attachment = MIMEApplication(f.read(), _subtype='txt')
-            attachment.add_header('Content-Disposition', 'attachment', filename=f'{language}_Minutes.txt')
+            attachment.add_header('Content-Disposition', 'attachment', filename=f'{email_date} Minutes_{language.capitalize()}.txt')
             msg.attach(attachment)
+
     with smtplib.SMTP(smtp_server, smtp_port) as smtp:
         smtp.starttls()
         smtp.login(smtp_username, smtp_password)
