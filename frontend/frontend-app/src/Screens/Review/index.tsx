@@ -249,6 +249,7 @@ function Review() {
       'doc_id_list': docIdList,
       'collection_id': collectionId,
       'chat_session_id': chatSessionId,
+      'meeting_date': meetingInformation.dateAndTime, 
     };
 
     const jsonData = JSON.stringify(jsonPayload);
