@@ -298,7 +298,7 @@ function Review() {
     navigate('/loading', { state: { attachment, language, email_list } });
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:5000/meeting_chat', true);
+    xhr.open('POST', 'http://localhost:5000/meeting_chat', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
   
     xhr.onload = () => {
