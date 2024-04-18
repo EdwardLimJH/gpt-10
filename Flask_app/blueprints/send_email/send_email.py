@@ -58,8 +58,10 @@ def send_email():
     emails_dict = {"english":email_body}
     # language_preferences = session["language_preferences"]
     language_preferences = json_response.get("language_preferences", ["english"])
-
+    print(language_preferences)
     for language in language_preferences:
+        if type(language) == list:
+            language = language[0]
         if language.lower() not in emails_dict:
             print(language)
             # post request to /translate_chat with language & email_body
