@@ -4,10 +4,10 @@ from h2ogpte import H2OGPTE
 
 H2O_API_KEY = os.getenv("H2O_API_KEY")
 
-delete_folder_bp = Blueprint('delete_folder', __name__)
+cleanup_bp = Blueprint('cleanup', __name__)
 
-@delete_folder_bp.route('/delete_folder', methods=['DELETE'])
-def delete_folder():
+@cleanup_bp.route('/cleanup', methods=['DELETE'])
+def cleanup():
     directory_path = './temp/'
     try:
         # Iterate over all files and subdirectories in the directory
@@ -33,14 +33,12 @@ def delete_folder():
         api_key= H2O_API_KEY,
     )
 
-    print("in delete folder here is the request.form")
-    print(request.form)
     doc_id_list = request.form.get("doc_id_list")
     h2o_collection_id = request.form.get("collection_id")
     chat_session_id = request.form.get("chat_session_id")
-    print(doc_id_list,h2o_collection_id, chat_session_id)
-    # h2o_client.delete_chat_sessions([chat_session_id,])
-    # h2o_client.delete_documents(doc_id_list)
-    # h2o_client.delete_collections([h2o_collection_id,])
-    # h2o_client.delete_upload(doc_id_list)
+    print("Deleting H2O chat session, collections, documents")
+    h2o_client.delete_chat_sessions([chat_session_id,])
+    h2o_client.delete_documents(doc_id_list)
+    h2o_client.delete_collections([h2o_collection_id,])
+    h2o_client.delete_upload(doc_id_list)
     return jsonify(result)

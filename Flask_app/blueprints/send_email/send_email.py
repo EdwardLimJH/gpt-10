@@ -118,7 +118,7 @@ def send_email():
         smtp.login(smtp_username, smtp_password)
         smtp.send_message(msg)
 
-    requests.delete("http://localhost:5000/delete_folder", data={"collection_id":h2o_collection_id, 
+    requests.delete("http://localhost:5000/cleanup", data={"collection_id":h2o_collection_id, 
                                                                  "doc_id_list":doc_id_list, 
                                                                  "chat_session_id":chat_session_id})
     return "Email sent successfully", 200
