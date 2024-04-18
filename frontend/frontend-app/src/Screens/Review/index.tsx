@@ -181,6 +181,10 @@ const LanguageButton = styled(ConfirmButton)`
   }
 `;
 
+const LanguageSection = styled(Section)`
+  background-color: #e3f2fd;
+`;
+
 
 
 function Review() {
@@ -284,7 +288,7 @@ function Review() {
     // Create the JSON payload to send
     const jsonPayload = {
       'file': attachment, 
-      'language': Array.isArray(language) ? language : [language], // Ensure language is an array
+      'language': ["English"], // Ensure language is an array
       'email_list': email_list.split(', '),
       'agenda': agenda,
       'meetingSummary': meetingSummary,
@@ -311,7 +315,7 @@ function Review() {
         const actionables = response.Actionables;
         
         // Navigate to the review page when the request is successful
-        navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language, email_list,
+        navigate('/review', { state: { agenda, meetingSummary, actionables, attachment, language: "English", email_list,
            doc_id_list: docIdList, collection_id: collectionId, chat_session_id: chatSessionId, meetingRequester: meetingInformation.requestedBy } });
       } else {
         console.error('Error caught:', xhr.statusText);
@@ -508,6 +512,16 @@ const handleChangeLanguage = () => {
             )}
             </InformationContainer>
           </Section>
+          <section>
+              <LanguageSection>
+            <h2>Available Languages</h2>
+            <List>
+              {language.map((language, index) => (
+                <ListItem key={index}>{language}</ListItem>
+              ))}
+            </List>
+          </LanguageSection>
+          </section>
           
           {/* Action Items Section (Assignments) */}
           <Section>

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
+import Images from "./images/photo.jpg";
+import Sample_Output from "./images/photo_2024-04-18_15-50-39.jpg";
+import Japanese from "./images/japanese.png";
 
 const Container = styled.div`
   max-width: 600px;
@@ -11,6 +14,13 @@ const Container = styled.div`
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 5px;
+  display: block;
 `;
 
 const Title = styled.h3`
@@ -59,6 +69,30 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
+
+const HowItWorksHeader = styled.h2`
+  font-size: 24px;
+  color: #fff;
+  margin-top: 40px; /* Adjust as necessary for your layout */
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const HowItWorksImage = styled.img`
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Centers image in the container */
+`;
+
+const Footnote = styled.p`
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 20px; // Adjust the margin as needed
+  padding-right: 20px;
+`;
+
 
 function StartScreen() {
   const navigate = useNavigate();
@@ -123,31 +157,64 @@ const handleSubmit = () => {
 
   return (
     <>
-    <br></br>
-    <Container>
-      
-      <Title>Welcome!</Title>
-      <Description>Our Meeting Assistant is designed to ease post-meeting processes by creating summaries, 
-        identifying action items, and emphasizing crucial discussion points automatically. 
-        This tool is crafted to bolster teamwork and increase efficiency during team sessions or 
-        professional meet-ups. Automatically, it dispatches insightful summaries to all attendees via email.
+      <Container>
+        <Title>Welcome!</Title>
+        <Description>
+          Send in your meeting transcript and we will generate post meeting minutes for you.
+          <ul>
+            <li>Identifies action items and highlights key discussion points.</li>
+            <li>Sends summaries to all attendees via email automatically.</li>
+            <li>Translates minutes to your desired languages.</li>
+            <li>Enhances teamwork and efficiency in team sessions or professional meetings.</li>
+          </ul>
+          <Footnote>*refer below for sample output</Footnote>
         </Description>
-    </Container>
-    <br></br>
-    <Container>
-      <Title>Meeting Minutes Submission</Title>
-      <Input type="file" accept=".ppt,.pptx,.pdf,.txt,.mp3,.wav" onChange={handleAttachmentChange} />
-      <Input 
-        type="text" 
-        value={meetingRequester} 
-        onChange={(e) => setMeetingRequester(e.target.value)} 
-        placeholder="Meeting Requester"
-      />
-      <Input type="text" value={email_list} onChange={(e) => setEmailAddresses(e.target.value)} placeholder="e.g., example1@mail.com, example2@mail.com" />
-      <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
-    </Container>
+      </Container>
+      <br />
+      <Container>
+        <Title>Meeting Transcription Submission</Title>
+        <Label htmlFor="file-upload">Add Meeting Transcript here:</Label>
+        <Input
+          id="file-upload"
+          type="file"
+          accept=".ppt,.pptx,.pdf,.txt,.mp3,.wav"
+          onChange={handleAttachmentChange}
+        />
+        <Label htmlFor="meeting-requester">Meeting Requester Name:</Label>
+        <Input
+          id="meeting-requester"
+          type="text"
+          value={meetingRequester}
+          onChange={(e) => setMeetingRequester(e.target.value)}
+          placeholder="Meeting Requester"
+        />
+        <Label htmlFor="email-list">Emails of participants:</Label>
+        <Input
+          id="email-list"
+          type="text"
+          value={email_list}
+          onChange={(e) => setEmailAddresses(e.target.value)}
+          placeholder="e.g., example1@mail.com, example2@mail.com"
+        />
+        <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
+      </Container>
+      <Container>
+        <HowItWorksHeader>How It Works</HowItWorksHeader>
+        <HowItWorksImage src={ Images } alt='How it works diagram' />
+      </Container>
+      <Container>
+        <HowItWorksHeader>Sample of Output</HowItWorksHeader>
+        <HowItWorksImage src={ Sample_Output } alt='Output Sameple' />
+      </Container>
+      <Container>
+        <HowItWorksHeader>Sample Translated Meeting Minutes</HowItWorksHeader>
+        <HowItWorksImage src={ Japanese } alt='Sample Translated Meeting Minutes' />
+      </Container>
     </>
   );
 }
 
+
+
 export default StartScreen;
+
