@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
-import Images from "./images/meeting_assistant_workflow_nolegend.png";
+import Images from "./images/updated_meeting_workflow.png";
 import Sample_Output from "./images/photo_2024-04-18_15-50-39.jpg";
 import Japanese from "./images/japanese.png";
 
@@ -194,7 +194,7 @@ const handleSubmit = () => {
           onChange={(e) => setEmailAddresses(e.target.value)}
           placeholder="e.g., example1@mail.com, example2@mail.com"
         />
-        <Button onClick={handleSubmit}>Submit Meeting Minutes</Button>
+        <Button onClick={handleSubmit}>Submit Meeting Transcript</Button>
       </Container>
       <Container>
         <HowItWorksHeader>How It Works</HowItWorksHeader>
