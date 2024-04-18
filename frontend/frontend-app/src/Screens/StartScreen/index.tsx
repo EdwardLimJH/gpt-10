@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
-import Images from "./images/photo.jpg";
+import Images from "./images/meeting_assistant_workflow_nolegend.png";
 import Sample_Output from "./images/photo_2024-04-18_15-50-39.jpg";
 import Japanese from "./images/japanese.png";
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -72,7 +72,6 @@ const Button = styled.button`
 
 const HowItWorksHeader = styled.h2`
   font-size: 24px;
-  color: #fff;
   margin-top: 40px; /* Adjust as necessary for your layout */
   margin-bottom: 20px;
   text-align: center;
@@ -88,9 +87,9 @@ const HowItWorksImage = styled.img`
 const Footnote = styled.p`
   font-size: 12px;
   color: #666;
-  text-align: right;
+  text-align: left;
   margin-top: 20px; // Adjust the margin as needed
-  padding-right: 20px;
+  padding-left: 20px;
 `;
 
 
@@ -167,7 +166,7 @@ const handleSubmit = () => {
             <li>Translates minutes to your desired languages.</li>
             <li>Enhances teamwork and efficiency in team sessions or professional meetings.</li>
           </ul>
-          <Footnote>*refer below for sample output</Footnote>
+          <Footnote>*Refer below for sample output</Footnote>
         </Description>
       </Container>
       <br />
