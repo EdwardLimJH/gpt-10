@@ -144,7 +144,7 @@ const CustomBullet = styled.span`
 `;
 
 const ConfirmButton = styled.button`
-  background-color: #43A6C6;
+  background-color: #4F7942;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -153,7 +153,7 @@ const ConfirmButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: #357d99;
+    background-color: #355E3B;
   }
 `;
 
@@ -514,7 +514,7 @@ const handleChangeLanguage = () => {
           </Section>
           <section>
               <LanguageSection>
-            <h2>Available Languages</h2>
+            <h2>Selected Languages</h2>
             <List>
               {language.map((language, index) => (
                 <ListItem key={index}>{language}</ListItem>
