@@ -18,7 +18,6 @@ const Container = styled.div`
 
 const Label = styled.label`
   font-size: 16px;
-  color: #fff;
   margin-bottom: 5px;
   display: block;
 `;
