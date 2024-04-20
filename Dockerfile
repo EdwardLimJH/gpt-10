@@ -1,7 +1,8 @@
+# This Dockerfile is used to build a Docker image for a Flask and React application.
+# It starts with a base image that includes Python 3.12 and Node.js 18.
 FROM nikolaik/python-nodejs:python3.12-nodejs18-slim
 
-## Add Python script, requirements file and templates folder to /app 
-## directory on the image:
+# Create working directory
 WORKDIR /app
 
 COPY Flask_app ./Flask_app
