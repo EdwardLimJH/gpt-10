@@ -79,8 +79,10 @@ def cleanup():
     )
 
     doc_id_list = request.form.get("doc_id_list")
+    print(doc_id_list)
     h2o_collection_id = request.form.get("collection_id")
+    print()
     chat_session_id = request.form.get("chat_session_id")
     print("Deleting H2O chat session, collections, documents")
-    result = teardown_h2o([chat_session_id], [doc_id_list], [h2o_collection_id])
+    result = teardown_h2o([chat_session_id], doc_id_list, [h2o_collection_id])
     return jsonify(result)
