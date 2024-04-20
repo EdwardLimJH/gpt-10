@@ -1,6 +1,5 @@
 #!/bin/bash
 # Start the Flask application
-# cd /app/Flask_app  
 cd Flask_app/ 
 python main.py &
 
