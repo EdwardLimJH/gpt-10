@@ -10,8 +10,7 @@ COPY entrypoint.sh /usr/local/bin/
 
 # Install backend packages
 RUN pip3 install --upgrade pip
-# RUN pip3 install -r Flask_app/requirements.txt
-RUN pip3 install -r Flask_app/requirements_min.txt
+RUN pip3 install -r Flask_app/requirements.txt
 # Install frontend requirements
 RUN cd frontend/frontend-app && \
 yarn
