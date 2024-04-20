@@ -72,16 +72,9 @@ def cleanup():
         A JSON response containing the result of the cleanup operation.
     """
     result = delete_directory("./temp/")
-    # cleanup h2o.ai stuff
-    h2o_client = H2OGPTE(
-        address='https://h2ogpte.genai.h2o.ai',
-        api_key= H2O_API_KEY,
-    )
-
+    # cleanup h2o.ai collection, chat session, and documents
     doc_id_list = request.form.get("doc_id_list")
-    print(doc_id_list)
     h2o_collection_id = request.form.get("collection_id")
-    print()
     chat_session_id = request.form.get("chat_session_id")
     print("Deleting H2O chat session, collections, documents")
     result = teardown_h2o([chat_session_id], doc_id_list, [h2o_collection_id])
