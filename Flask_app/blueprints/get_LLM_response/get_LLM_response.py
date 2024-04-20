@@ -1,10 +1,14 @@
-from flask import Blueprint, request, session
-import json
+from flask import Blueprint, request, session, url_for, redirect, jsonify
+from utils import rag_chat, extract_json_string
 import os
+import json
 from h2ogpte import H2OGPTE
-from blueprints.get_LLM_response.prompts import SYSTEM_PROMPT, MAIN_PROMPT, generate_sentiment_prompt
+import requests
+from io import BufferedReader
+from blueprints.get_LLM_response.prompts import MEETING_SYSTEM_PROMPT, MAIN_PROMPT, generate_sentiment_prompt
 
-H2O_API_KEY = os.getenv("H2O_API_KEY")  
+H2O_API_KEY = os.getenv("H2O_API_KEY")
+
 
 def _temp_process_data(data):
     print(f"form data = {data}")
@@ -21,7 +25,7 @@ def _create_collection():
     )
     # Create a new collection
     collection_id = client.create_collection(
-        name='Temp_Meeting_Collection_filetempsave',
+        name='Temp_Meeting_Collection_test_redirect1',
         description='Information related to the Meeting hosted',
     ) 
     return (collection_id, client)
@@ -38,41 +42,9 @@ def _upload_to_collection(files, collection_id, client):
             doc_id_list.append(doc_id)
     print(doc_id_list)
     client.ingest_uploads(collection_id, doc_id_list)
+    return doc_id_list
 
-def rag_chat(client, chat_session_id, main_prompt, system_prompt):
-    with client.connect(chat_session_id) as session:
-        answer = session.query(
-            message=main_prompt,
-            system_prompt=system_prompt,
-            rag_config={
-            "rag_type": "rag", # https://h2oai.github.io/h2ogpte/getting_started.html#advanced-controls-for-document-q-a
-            },
-            llm="h2oai/h2ogpt-4096-llama2-70b-chat",
-        )
-        return answer
-
-def prettify_sentiment_reply(sentiment_reply):
-    # Sentiment_reply is a json string
-    # Extract only json portion of sentiment_reply
-    raw_reply = sentiment_reply.content
-    first_brace_pos = raw_reply.find("{")
-    last_brace_pos = raw_reply.rfind("}")
-    print(raw_reply[first_brace_pos:last_brace_pos+1])
-    data = json.loads(raw_reply[first_brace_pos:last_brace_pos+1])
-    print(data)
-    # Extract information from the parsed data
-    agenda = data.get('Agenda', '')
-    meeting_summary = data.get('Meeting Summary', '')
-    actionables = data.get('Actionables', [])
-
-    # Format the post-meeting email
-    email_subject = f"Post-Meeting Summary: {agenda}" # not sure if this is used later?
-    email_body = f"Dear Team,\n\nHere's a summary of our recent meeting:\n\nAgenda: {agenda}\n\nMeeting Summary:\n{meeting_summary}\n\nActionables:\n"
-    for action in actionables:
-        email_body += f"- {action['Action']} (Assigned to: {action['Assigned']}, Deadline: {action['Deadline']}, Priority: {action['Priority']})\n"
-
-    email_body += "\nPlease let me know if anything needs clarification or if there are additional action items to add.\n\nBest regards,\n[Your Name]"
-    return email_body
+  
 
 get_LLM_response_bp = Blueprint('get_LLM_response', __name__)
 
@@ -82,30 +54,75 @@ def get_LLM_response():
     form_data = request.form
     print(form_data)
     file_data = request.files.getlist('file')
+    # file_data = request.files.to_dict()
     print(file_data)
+
     h2o_collection_id, h2o_client = _create_collection()
     print("Tryna upload to collection")
-    _upload_to_collection(file_data, h2o_collection_id, h2o_client)
+    doc_id_list = _upload_to_collection(file_data, h2o_collection_id, h2o_client)
     print("done uploading")
     processed_data = _temp_process_data(form_data)
-    session["language_preferences"] = processed_data["language_preferences"]
-    session["email_list"] = processed_data["email_list"]
     
-    print("Starting chat")
     chat_session_id = h2o_client.create_chat_session(h2o_collection_id)
-    print("Getting meeting summary")
-    meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, SYSTEM_PROMPT)
-    print(meeting_summary_response)
-    print("GEtting sentiment prompt")
-    sentiment_prompt = generate_sentiment_prompt(meeting_summary_response.content)
-    sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, SYSTEM_PROMPT)
-    print(sentiment_reply)
-    # email_body = prettify_sentiment_reply(sentiment_reply) # Need more testing for this
-    email_body = sentiment_reply.content
-    print(email_body)
 
-    llm_response = {
-        "english": email_body,
-        "chinese": "会议记录准备好了",
-    } # Placeholder
-    return json.dumps(llm_response)
+    # resp = """
+    # {
+    #     "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
+    #     "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
+    #     "Actionables": [
+    #         {
+    #             "Action": "Complete design proposal",
+    #             "Deadline": "Wednesday",
+    #             "Assigned": "Ryan_Edward",
+    #             "Priority": "High"
+    #         },
+    #         {
+    #             "Action": "Confirm meeting with design specialist",
+    #             "Deadline": "Thursday",
+    #             "Assigned": "Ben_CH",
+    #             "Priority": "Medium"
+    #         },
+    #         {
+    #             "Action": "Resolve integration issue",
+    #             "Deadline": "Friday",
+    #             "Assigned": "Chan Yi Ru Micole",
+    #             "Priority": "High"
+    #         },
+    #         {
+    #             "Action": "Share progress document",
+    #             "Deadline": "After the meeting",
+    #             "Assigned": "Ryan_Edward",
+    #             "Priority": "Low"
+    #         },
+    #         {
+    #             "Action": "Send out meeting details",
+    #             "Deadline": "Thursday",
+    #             "Assigned": "Ben_CH",
+    #             "Priority": "Medium"
+    #         }
+    #     ]
+    # }
+    # """
+
+    # resp_dic = json.loads(resp)
+    # resp_dic["doc_id_list"] = doc_id_list
+    # resp_dic["collection_id"] = h2o_collection_id
+    # resp_dic["chat_session_id"] = chat_session_id
+    # print(resp_dic)
+    # return json.dumps(resp_dic)
+    print("Getting initial meeting response")
+    meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)
+
+    print("Getting sentiment response")
+    sentiment_prompt = generate_sentiment_prompt(meeting_summary_response.content)
+    print(sentiment_prompt)
+    sentiment_reply = rag_chat(h2o_client, chat_session_id, sentiment_prompt, MEETING_SYSTEM_PROMPT)
+
+    json_string = extract_json_string(sentiment_reply.content) 
+    response_dic = json.loads(json_string)
+    response_dic["doc_id_list"] = doc_id_list
+    response_dic["collection_id"] = h2o_collection_id
+    response_dic["chat_session_id"] = chat_session_id
+    return json.dumps(response_dic)
+
+    
