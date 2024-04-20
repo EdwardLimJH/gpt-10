@@ -1,72 +1,46 @@
-from flask import Blueprint, request, session, redirect, url_for, jsonify
-import json
 import os
-from utils import rag_chat, extract_json_string
+import json
 from h2ogpte import H2OGPTE
+from flask import Blueprint, request
+from utils import rag_chat, extract_json_string
 from blueprints.get_LLM_response.prompts import MEETING_SYSTEM_PROMPT, MAIN_PROMPT, generate_sentiment_prompt
 
 H2O_API_KEY = os.getenv("H2O_API_KEY")
 
 
-
 meeting_chat_bp = Blueprint('meeting_chat', __name__)
 
-# @meeting_chat_bp.route('/meeting_chat', methods=['GET'])
 @meeting_chat_bp.route('/meeting_chat', methods=['POST'])
 def meeting_chat():
-    print("Hi im at meeting_chat")
-    print("request.args")
-    print(request.args)
-    print("request.json")
-    print(request.json)
+    """
+    Endpoint for handling meeting chat requests.
+
+    This function receives a POST request with a JSON payload containing the following parameters:
+    - chat_session_id: The ID of the chat session.
+    - doc_id_list: A list of document IDs.
+    - collection_id: The ID of the document collection.
+
+    The function performs the following steps:
+    1. Initializes an H2OGPTE client.
+    2. Retrieves the meeting summary response using the RAG chat model.
+    3. Generates a sentiment prompt based on the meeting summary response.
+    4. Retrieves the sentiment response using the RAG chat model.
+    5. Extracts the JSON string from the sentiment response.
+    6. Parses the JSON string into a dictionary.
+    7. Adds the doc_id_list, collection_id, and chat_session_id to the response dictionary.
+    8. Returns the response dictionary as a JSON string.
+
+    Returns:
+    A JSON string containing the response dictionary.
+    """
+
+    print("Currently at meeting_chat")
     h2o_client = H2OGPTE(
         address='https://h2ogpte.genai.h2o.ai',
         api_key= H2O_API_KEY,
     )
     chat_session_id = request.json.get("chat_session_id")
-    # chat_session_id = session["chat_session_id"]
     print("Getting initial meeting response")
-    '''
-    # resp = """
-    # {
-    #     "Agenda": "Reviewing progress on the project, discussing roadblocks, and planning next steps",
-    #     "Meeting Summary": "The meeting discussed the current status of the project, reviewed the design proposal, and finalized the budget allocation. The team also discussed potential roadblocks and found solutions, and scheduled a follow-up discussion. The meeting concluded with a summary of actionables and their deadlines.",
-    #     "Actionables": [
-    #         {
-    #             "Action": "Complete design proposal",
-    #             "Deadline": "Wednesday",
-    #             "Assigned": "Ryan_Edward",
-    #             "Priority": "High"
-    #         },
-    #         {
-    #             "Action": "Confirm meeting with design specialist",
-    #             "Deadline": "Thursday",
-    #             "Assigned": "Ben_CH",
-    #             "Priority": "Medium"
-    #         },
-    #         {
-    #             "Action": "Resolve integration issue",
-    #             "Deadline": "Friday",
-    #             "Assigned": "Chan Yi Ru Micole",
-    #             "Priority": "High"
-    #         },
-    #         {
-    #             "Action": "Share progress document",
-    #             "Deadline": "After the meeting",
-    #             "Assigned": "Ryan_Edward",
-    #             "Priority": "Low"
-    #         },
-    #         {
-    #             "Action": "Send out meeting details",
-    #             "Deadline": "Thursday",
-    #             "Assigned": "Ben_CH",
-    #             "Priority": "Medium"
-    #         }
-    #     ]
-    # }
-    # """
-    # return jsonify(json.loads(resp))
-    '''
     meeting_summary_response = rag_chat(h2o_client, chat_session_id, MAIN_PROMPT, MEETING_SYSTEM_PROMPT)
 
     print("Getting sentiment response")
@@ -80,4 +54,3 @@ def meeting_chat():
     response_dic["collection_id"] = request.json.get("collection_id")
     response_dic["chat_session_id"] = chat_session_id
     return json.dumps(response_dic)
-    # return jsonify(json.loads(json_string))
