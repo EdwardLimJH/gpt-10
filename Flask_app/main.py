@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
-from blueprints.get_LLM_response.get_LLM_response import get_LLM_response_bp
-from blueprints.send_email.send_email import send_email_bp
-from blueprints.cleanup.cleanup import cleanup_bp
-from blueprints.meeting_chat.meeting_chat import meeting_chat_bp
-from blueprints.translate.translate import translate_chat_bp
 from dotenv import load_dotenv
+from blueprints.cleanup.cleanup import cleanup_bp
+from blueprints.send_email.send_email import send_email_bp
+from blueprints.translate.translate import translate_chat_bp
+from blueprints.meeting_chat.meeting_chat import meeting_chat_bp
+from blueprints.get_LLM_response.get_LLM_response import get_LLM_response_bp
+
 
 app = Flask(__name__)
 CORS(app)
