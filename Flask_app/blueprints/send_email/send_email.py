@@ -4,6 +4,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+import os
+
+EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 
 def string_like_JSON_to_txt(data):
@@ -85,12 +89,10 @@ def send_email():
     
     smtp_server = 'smtp-mail.outlook.com' 
     smtp_port = 587
-    smtp_username = 'gpt10.4213.1@outlook.com' # dotenv() to load in main.py?
-    smtp_password = 'gpt10email'
+    smtp_username = EMAIL_USERNAME
+    smtp_password = EMAIL_PASSWORD
 
-    from_email = 'gpt10.4213.1@outlook.com'
-    # Assume emails are in session["email_list"]
-    # to_email_list = session.get("email_list") # get email list from session, # Ensure not None
+    from_email = EMAIL_USERNAME
 
     to_email_list = json_response.get("email_list", [])
     if not to_email_list:
