@@ -127,9 +127,10 @@ Introducing our post-meeting summarizer and multi-lingual assistant, designed to
 4. Install the necessary dependencies:
     - For the Flask app, navigate to the Flask_app directory `cd Flask_app` and run `pip install -r requirements.txt`.
     - For the frontend, navigate to the frontend/frontend-app directory `cd frontend/frontend-app` and run `yarn`.
-5. Start the Flask app by running `python main.py` in the Flask_app directory.
-6. In a new terminal, start the frontend by navigating to the frontend/frontend-app directory and running `yarn start`.
-7. Open your web browser and visit `http://localhost:3000` to use the application.
+5. Create `.env` file. cd into the Flask_app directory `cd Flask_app` and create a `.env` file to store environment variables. A sample `.env` file has been provided at `.env_sample`. If you face errors creating a `.env` file, you may create text file containing the same contents as what you would put in the `.env`. Then edit the code in `Flask_app/main.py` and change `load_dotenv()` to `load_dotenv(path_to_alternative_env_file)` and save the code.
+6. Start the Flask app by running `python main.py` in the Flask_app directory.
+7. In a new terminal, start the frontend by navigating to the frontend/frontend-app directory and running `yarn start`.
+8. Open your web browser and visit `http://localhost:3000` to use the application.
 
 
 <br>
