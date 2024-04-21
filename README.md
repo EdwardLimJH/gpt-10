@@ -58,6 +58,10 @@ Introducing our post-meeting summarizer and multi-lingual assistant, designed to
     └── sampleEmail.png
     └── sampleTranslate.png
     └── workflow.png
+└── 📁Prompt
+    └── 📁Data
+    └── Prompt_experimentation.ipynb
+    └── requirements.txt
 └── Dockerfile
 └── entrypoint.sh
 └── README.md
@@ -99,6 +103,8 @@ Introducing our post-meeting summarizer and multi-lingual assistant, designed to
                 - 📁icons: This folder contains the icons for the Utils.
     - README: README for the frontend.
 - 📁Images: This folder contains images of our application and outputs.
+- 📁Prompt: This folder contains the code ww ran while experimenting different prompts
+    - 📁Data: This folder contains sample data that to test the prompts.
 - Dockerfile: This file is used to create a Docker image for the application.
 - entrypoint.sh: This script is executed at the start of the Docker container. It starts up both the backend and frontend.
 - README.md: This is the main README file for the project. It provides an overview of the project and instructions on how to use the application.
