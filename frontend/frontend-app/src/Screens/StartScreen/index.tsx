@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as MeetingAssistantIcon } from './icons/meeting-assistant-icon.svg';
 import Images from "./images/updated_meeting_workflow.png";
 import Sample_Output from "./images/photo_2024-04-18_15-50-39.jpg";
 import Japanese from "./images/japanese.png";
 
+// Styled Components
 const Container = styled.div`
   max-width: 1500px;
   margin: 0 auto;
@@ -91,27 +91,31 @@ const Footnote = styled.p`
   padding-left: 20px;
 `;
 
-
+// Define the main functional component for the StartScreen using hooks for state and navigation
 function StartScreen() {
   const navigate = useNavigate();
-  const location = useLocation(); // this hook is used to access the state passed from navigate function
+  const location = useLocation();
+
+  // State variables to manage form inputs and attachments
   const [attachment, setAttachment] = useState<File | null>(null);
   const [language, setLanguage] = useState<string>('English');
   const [email_list, setEmailAddresses] = useState<string>('');
   const [meetingRequester, setMeetingRequester] = useState<string>('');
 
-const handleSubmit = () => {
-  if (!attachment || !email_list) {
-    alert("Please provide an attachment and at least one email address.");
-    return;
+  // Function to handle form submission
+  const handleSubmit = () => {
+    if (!attachment || !email_list) {
+      alert("Please provide an attachment and at least one email address.");
+      return;
   }
 
+  // Create a FormData object and append form fields and files
   const formData = new FormData();
-  formData.append('file', attachment); // Append the file
-  formData.append('language', language); // Append the selected language
-  formData.append('email_list', email_list); // Append the email addresses
+  formData.append('file', attachment); 
+  formData.append('language', language); 
+  formData.append('email_list', email_list);
 
-  // Navigate to the loading page immediately
+  // Perform navigation and asynchronous POST request to submit the form data
   navigate('/loading', { state: { attachment, language, email_list } });
 
   const xhr = new XMLHttpRequest();
@@ -119,12 +123,9 @@ const handleSubmit = () => {
 
   xhr.onload = () => {
     if (xhr.status === 200) {
-      // Assume the responseText is a JSON string and parse it
       const result = JSON.parse(xhr.responseText);
       console.log(result.message);
       
-      // No need to parse result again if it's already a JavaScript object
-      // Directly use the result object to extract data
       const agenda = result.Agenda;
       const meetingSummary = result['Meeting Summary'];
       const actionables = result.Actionables;
@@ -146,13 +147,14 @@ const handleSubmit = () => {
   xhr.send(formData);
 };
 
-
+  // Function to handle changes in the file input field
   const handleAttachmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setAttachment(event.target.files[0]);
     }
   };
 
+  //Rendering
   return (
     <>
       <Container>
