@@ -1,14 +1,26 @@
-from flask import Blueprint, request, session
-import requests
+import os
 import smtplib
-from email.mime.multipart import MIMEMultipart
+import requests
 from email.mime.text import MIMEText
+from flask import Blueprint, request
+from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
 
+EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+
+
 def string_like_JSON_to_txt(data):
-    """Input: dictionary 
-    output: Email body string"""
+    """Converts a dictionary-like JSON object to a formatted email body string.
+
+    Args:
+        data (dict): The dictionary-like JSON object containing the data.
+
+    Returns:
+        str: The formatted email body string.
+
+    """
     # Extract information from the parsed data
     agenda = data.get('Agenda', '')
     meeting_summary = data.get('Meeting Summary', '')
@@ -29,17 +41,26 @@ send_email_bp = Blueprint('send_email', __name__)
 
 @send_email_bp.route('/send_email', methods=['POST'])
 def send_email():
+    """
+    Sends an email with meeting minutes and attachments.
+
+    This function receives a JSON payload containing the necessary information to send an email.
+    It extracts the required data from the payload, translates the meeting minutes if necessary,
+    and sends the email using the Outlook SMTP server.
+
+    Returns:
+        str: A success message if the email is sent successfully.
+
+    Raises:
+        KeyError: If the required data is missing from the JSON payload.
+    """
     print("Session info at send_email/")
     json_response = request.json
     print("request.json") # contains the collection_id,chat_session_id, doc_id_list
     print(json_response)
     if not json_response:
         return "Bad request, JSON data is missing", 400
-    # email_body = json_response.get("email_body")
-    # email_title = json_response.get("email_title")
-    print("Try to parse json_response to see wtff is going on")
-    for k in json_response:
-        print(f"key=  {k}, vaalue = {json_response.get(k)}")
+
     doc_id_list = json_response["doc_id_list"]
     h2o_collection_id = json_response['collection_id'] 
     chat_session_id = json_response["chat_session_id"]
@@ -51,12 +72,9 @@ def send_email():
     email_body = string_like_JSON_to_txt(json_response)
     email_title = f"{email_date} Meeting Minutes"
     print(email_body)
-    # to_email_list = session.get("email_list")
-    # language_preferences = session["language_preferences"]
 
     # handle translation here
     emails_dict = {"english":email_body}
-    # language_preferences = session["language_preferences"]
     language_preferences = json_response.get("language_preferences", ["english"])
     print(language_preferences)
     for language in language_preferences:
@@ -71,26 +89,19 @@ def send_email():
             emails_dict[language.lower()] = response_dict.get("translated_email")
     
     for language, translated_minutes in emails_dict.items():
+        # Temporarily save the translated minutes to a file
         with open(f"./temp/{language}.txt", "w",encoding="utf-8") as f:
             f.write(translated_minutes)
 
-    for k,v in emails_dict.items():
-        print("="*35)
-        print("Language:",k)
-        print("="*35)
-        print(v)
-    
-    # email_body = "".join(emails_dict.values())
     email_body = emails_dict.get("english")
     
+    # Outlook SMTP server configuration
     smtp_server = 'smtp-mail.outlook.com' 
     smtp_port = 587
-    smtp_username = 'gpt10.4213.1@outlook.com' # dotenv() to load in main.py?
-    smtp_password = 'gpt10email'
+    smtp_username = EMAIL_USERNAME
+    smtp_password = EMAIL_PASSWORD
 
-    from_email = 'gpt10.4213.1@outlook.com'
-    # Assume emails are in session["email_list"]
-    # to_email_list = session.get("email_list") # get email list from session, # Ensure not None
+    from_email = EMAIL_USERNAME
 
     to_email_list = json_response.get("email_list", [])
     if not to_email_list:
