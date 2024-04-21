@@ -1,0 +1,76 @@
+[Eugene_YJ] 09:00:00
+Good morning, everyone. Let's start the meeting. Today's agenda includes reviewing our progress on the project, discussing any roadblocks, and planning our next steps. Does that sound good to everyone?
+
+[Ryan_Edward] 09:00:15
+Sounds good to me.
+
+[Ben_CH] 09:00:20
+Agreed.
+
+[Chan Yi Ru Micole] 09:00:25
+Yes, let's proceed.
+
+[Eugene_YJ] 09:00:30
+Great. First item on the agenda is reviewing the current status of the project. Ryan, could you give us an update on the tasks you've been working on?
+
+[Ryan_Edward] 09:00:45
+Sure, I've completed the research phase and have started drafting the initial design proposal. I'll share the progress document with everyone after the meeting.
+
+[Eugene_YJ] 09:01:00
+Thanks, Ryan. Ben, how about you? Any updates on your end?
+
+[Ben_CH] 09:01:10
+I've finalized the budget allocation for the project and submitted it for approval. We should hear back by the end of the week.
+
+[Eugene_YJ] 09:01:25
+Good to know. Micole, have you encountered any challenges or need assistance with your tasks?
+
+[Chan Yi Ru Micole] 09:01:35
+I'm facing a minor issue with the software integration, but I believe I can resolve it with a bit more testing.
+
+[Eugene_YJ] 09:01:50
+Alright, let's schedule a follow-up discussion if needed. Now, let's move on to the next agenda item: discussing potential roadblocks and finding solutions. Does anyone foresee any challenges that need immediate attention?
+
+[Ryan_Edward] 09:02:10
+I think we need to ensure that our design aligns with the latest industry standards. We might need to consult with our design specialist for guidance.
+
+[Eugene_YJ] 09:02:30
+Good point, Ryan. Let's arrange a meeting with the design specialist this week. Ben, please coordinate that.
+
+[Ben_CH] 09:02:45
+I'll take care of scheduling the meeting and sharing the agenda with everyone.
+
+[Eugene_YJ] 09:03:00
+Thank you, Ben. Micole, anything from your end that might impact our timeline?
+
+[Chan Yi Ru Micole] 09:03:15
+Not at the moment, but I'll keep everyone updated if I encounter any major issues.
+
+[Eugene_YJ] 09:03:30
+Great. Now, let's finalize our action plan for the upcoming week. Ryan, complete the design proposal and share it by Wednesday. Ben, confirm the meeting with the design specialist by Thursday. Micole, continue testing and aim to resolve the integration issue by Friday.
+
+[Ryan_Edward] 09:03:55
+Got it, I'll have the proposal ready by Wednesday.
+
+[Ben_CH] 09:04:05
+I'll confirm the meeting and send out the details by Thursday.
+
+[Chan Yi Ru Micole] 09:04:15
+I'll prioritize the testing and aim to resolve the issue by Friday.
+
+[Eugene_YJ] 09:04:30
+Excellent. Let's ensure we stay on track with these deadlines. Anything else to discuss before we wrap up?
+
+[Ryan_Edward] 09:04:45
+No, I think we've covered everything for today.
+
+[Ben_CH] 09:04:50
+Agreed.
+
+[Chan Yi Ru Micole] 09:04:55
+All good from my side.
+
+[Eugene_YJ] 09:05:00
+Alright then, let's conclude the meeting here. Thank you, everyone, for your contributions. Let's make this week a productive one. Have a great day ahead!
+
+[Meeting Ends]
