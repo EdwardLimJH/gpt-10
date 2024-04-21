@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+// Styled component for the loading page
 const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -15,6 +16,7 @@ const LoadingText = styled.p`
   color: #333;
 `;
 
+// React functional component for the loading page
 function LoadingPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -24,15 +26,9 @@ function LoadingPage() {
       navigate('/');
       return;
     }
-
-    // // Simulate a loading process
-    // const timer = setTimeout(() => {
-    //   navigate('/review', { state });
-    // }, 2000); // Adjust the time as necessary
-
-    // return () => clearTimeout(timer);
   }, [navigate, state]);
 
+  // Render method to display the loading text
   return (
     <LoadingContainer>
       <LoadingText>Loading...</LoadingText>
