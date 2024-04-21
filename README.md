@@ -87,6 +87,8 @@ Introducing our post-meeting summarizer and multi-lingual assistant, designed to
     - README.md : README for the backend
     - requirements.txt
     - utils.py: This file contains utility functions used across the application.
+    - .env_sample : This is a sample of what the actual .env file should contain. 
+    - .env : This .env file is not provided. It should minimally contain the contents of .env_sample for the code to run smoothly. Refer below for steps on creating a .env file.
 - 📁frontend: This is the frontend of the application. It contains the React app.
     - 📁frontend-app: This folder contains the React application.
         - 📁.yarn: This folder contains Yarn related files.
@@ -133,7 +135,7 @@ Introducing our post-meeting summarizer and multi-lingual assistant, designed to
 4. Install the necessary dependencies:
     - For the Flask app, navigate to the Flask_app directory `cd Flask_app` and run `pip install -r requirements.txt`.
     - For the frontend, navigate to the frontend/frontend-app directory `cd frontend/frontend-app` and run `yarn`.
-5. Create `.env` file. cd into the Flask_app directory `cd Flask_app` and create a `.env` file to store environment variables. A sample `.env` file has been provided at `.env_sample`. If you face errors creating a `.env` file, you may create text file containing the same contents as what you would put in the `.env`. Then edit the code in `Flask_app/main.py` and change `load_dotenv()` to `load_dotenv(path_to_alternative_env_file)` and save the code.
+5. Create `.env` file in the `Flask_app/` directory. cd into the Flask_app directory `cd Flask_app` and create a `.env` file to store environment variables. A sample `.env` file has been provided at `.env_sample`. If you face errors creating a `.env` file, you may create text file containing the same contents as what you would put in the `.env`. Then edit the code in `Flask_app/main.py` and change `load_dotenv()` to `load_dotenv(path_to_alternative_env_file)` and save the code.
 6. Start the Flask app by running `python main.py` in the Flask_app directory.
 7. In a new terminal, start the frontend by navigating to the frontend/frontend-app directory and running `yarn start`.
 8. Open your web browser and visit `http://localhost:3000` to use the application.
