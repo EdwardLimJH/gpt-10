@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
-// Define a TypeScript interface for the component props
+// Interface definitions for component props
 interface Actionable {
   Action: string;
   Deadline: string;
@@ -17,7 +16,7 @@ interface ReviewProps {
   attachment?: File;
   agenda?: string;
   meetingSummary?: string;
-  actionables?: Actionable[]; // Ensure this matches the JSON structure
+  actionables?: Actionable[];
   doc_id_list?: string[];
   collection_id?: string;
   chat_session_id?: string;
@@ -185,14 +184,14 @@ const LanguageSection = styled(Section)`
   background-color: #e3f2fd;
 `;
 
-
-
+// Main React component for handling the review process
 function Review() {
 
   const location = useLocation();
   const navigate = useNavigate();
   const locationState = location.state as ReviewProps;
 
+  // State hooks for managing form data and UI state
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
   const [email_list, setEmailAddresses] = useState(locationState.email_list ?? '');
   const [attachment, setAttachment] = useState<File | null>(locationState.attachment ?? null);
@@ -201,18 +200,16 @@ function Review() {
   const [chatSessionId, setChatSessionId] = useState<string>(locationState.chat_session_id ?? '');
   const [meetingRequester, setMeetingRequester] = useState<string>(locationState.meetingRequester ?? '');
 
-
+  // Derived state for meeting information
   const [meetingInformation, setMeetingInformation] = useState({
     dateAndTime: '19/3/2024 10:00-12:00',
     requestedBy: meetingRequester,
   });
 
+  // Effect for updating meeting date and time when attachment changes
   useEffect(() => {
     if (attachment) {
-      // Convert lastModified to a Date object
       const lastModifiedDate = new Date(attachment.lastModified);
-
-      // Format the date as you need it for your application
       const formattedDate = `${lastModifiedDate.getDate()}/${
         lastModifiedDate.getMonth() + 1
       }/${lastModifiedDate.getFullYear()} ${lastModifiedDate.getHours()}:${lastModifiedDate.getMinutes()}`;
@@ -222,6 +219,7 @@ function Review() {
       }));
     }
   }, [attachment]);
+
   const [language, setLanguages] = useState<string[]>(locationState.language ? [locationState.language] : []);
   const [agenda, setAgenda] = useState<string[]>(locationState.agenda?.split(", ") || []);
   const [meetingSummary, setDesiredOutcome] = useState<string>(locationState.meetingSummary ?? '');
@@ -233,8 +231,8 @@ function Review() {
       : []; // Default to an empty array if actionables is undefined
   });
 
+  // Function to send an email after collecting all required data
   const sendEmail = () => {
-    // Validate that necessary information is available
     if (!email_list || !language) {
       alert("Please provide at least one email address and select a language.");
       return;
@@ -279,6 +277,7 @@ function Review() {
     xhr.send(jsonData);
   };
   
+  // Function to handle submission, creating a payload and navigating upon success
   const handleSubmit = () => {
     if (!attachment || !email_list) {
       alert("Please provide an attachment and at least one email address.");
@@ -319,27 +318,24 @@ function Review() {
            doc_id_list: docIdList, collection_id: collectionId, chat_session_id: chatSessionId, meetingRequester: meetingInformation.requestedBy } });
       } else {
         console.error('Error caught:', xhr.statusText);
-        // Handle any errors here
       }
     };
   
     xhr.onerror = () => {
       console.error('An error occurred during the transaction');
-      // Handle the error
     };
   
-    xhr.send(jsonData); // Send the JSON payload
+    xhr.send(jsonData);
   };
     
   
-  // Function to handle edit mode toggle
+  // Handlers for toggling edit mode and managing field changes
   const toggleEdit = (section: string) => {
     setEditMode(prevState => ({ ...prevState, [section]: !prevState[section] }));
   };
 
   const [editedSections, setEditedSections] = useState<{ [key: string]: boolean }>({});
 
-  // Handlers for changes in the editable fields
   const handleMeetingInfoChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setMeetingInformation(prevState => ({ ...prevState, [field]: e.target.value }));
   };
@@ -360,21 +356,16 @@ function Review() {
     setEmailAddresses(e.target.value);
   };
 
-
-// Improved addLanguage function with proper TypeScript typing
 const addLanguage = (newLanguages: string[]) => {
   setLanguages((prevLanguages) => {
-    // Combine the previous and new languages, and remove duplicates
     const updatedLanguages = new Set([...prevLanguages, ...newLanguages]);
     return Array.from(updatedLanguages);
   });
 };
 
 const handleChangeLanguage = () => {
-  // Prompt the user to enter new languages, separated by commas
   const userInput = prompt('Enter new languages (e.g., English, Spanish), separated by commas:');
   if (userInput) {
-    // Split the string by commas, trim whitespace, and filter out any empty strings
     const newLanguages = userInput.split(',')
                                   .map(lang => lang.trim())
                                   .filter(lang => lang !== '');
@@ -390,7 +381,6 @@ const handleChangeLanguage = () => {
       [section]: true // Mark the section as edited
     }));
   
-    // Set a timeout to reset the highlight state for this section after 10 seconds
     setTimeout(() => {
       setEditedSections(prevState => ({
         ...prevState,
@@ -418,7 +408,7 @@ const handleChangeLanguage = () => {
 
 
   
-  
+  // Render method that organizes the layout of the review page
   return (
     <PageContainer>
       <Column style={{ flex: 5 }}>
